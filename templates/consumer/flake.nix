@@ -2,7 +2,7 @@
   description = "Consumer of rx.nix flakeModules";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    nixpkgs.url = "github:karpfediem/nixpkgs?ref=update-mgmt-1.0.0";
     flake-parts.url = "github:hercules-ci/flake-parts";
 
     rxnix.url = "github:karpfediem/rx.nix";
@@ -30,12 +30,16 @@
               rx.enable = true;
 
               # pick exactly one file
-              rx.include.files."/etc/hosts".enable = true;
+              #rx.include.files."/etc/hosts".enable = true;
 
               # (optional) override something so you can see it flow through
-              rx.include.files."/etc/hosts".mode = "0644";
+              #rx.include.files."/etc/hosts".mode = "0644";
 
-              rx.files."/tmp/hello".text = "Hello from rx module\n";
+              rx.files."/tmp/hello" = {
+                text = "Hello from rx module\n";
+                owner = "carp";
+                group = "users";
+              };
             })
             ./configuration.nix
           ];
