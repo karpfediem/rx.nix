@@ -39,7 +39,7 @@ in {
         wantedBy = [ "multi-user.target" ];
         serviceConfig = {
           Type = "simple";
-          ExecStart = "${cfg.package}/bin/mgmt run lang ${cfg.profilePath}/mgmt.mcl --no-network";
+          ExecStart = "${cfg.package}/bin/mgmt run lang ${cfg.profilePath}/deploy/metadata.yaml --no-network";
           Restart = "always";
           RestartSec = 2;
           NoNewPrivileges = true;
@@ -57,7 +57,7 @@ in {
         wantedBy = [ "default.target" ];
         serviceConfig = {
           Type = "simple";
-          ExecStart = "${cfg.package}/bin/mgmt run lang ${cfg.profilePath}/mgmt.mcl --no-network";
+          ExecStart = "${cfg.package}/bin/mgmt run lang ${cfg.profilePath}/deploy/metadata.yaml --no-network";
           Restart = "always";
           RestartSec = 2;
           NoNewPrivileges = true;

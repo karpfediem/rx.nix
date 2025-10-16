@@ -16,8 +16,8 @@ if [ -z "$GEN" ]; then
 fi
 
 PROFILE="/nix/var/nix/profiles/mgmt/current"
-sudo mkdir -p "$(dirname "$PROFILE")"
-sudo ln -sfn "$GEN" "$PROFILE"
+sudo nix profile upgrade \
+  --profile "$PROFILE" "$GEN" \
 
 # Prefer a systemd service if available; otherwise run mgmt inline.
 restart_unit() {
@@ -45,6 +45,6 @@ fi
 # Fallback: run mgmt directly with absolute MCL path
 echo "No mgmt-apply.service found; running mgmt directly..." >&2
 set -x
-exec ${mgmtBin} run lang "$GEN/mgmt.mcl" --no-network
+exec ${mgmtBin} run lang "$GEN/deploy/metadata.yaml" --no-network
 ''
 

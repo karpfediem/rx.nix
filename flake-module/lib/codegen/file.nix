@@ -3,11 +3,11 @@
 let
   srcLine =
     if f ? "__content" then
-    # Content is inlined via payload artifact built alongside mgmt.mcl.
+    # Content is inlined via payload artifact.
     # We always reference files from the generation payload dir.
-      ''  source  => "payload/${f.src}",''
+      ''  content  => deploy.readfile("/files/nix/${esc f.src}"),''
     else if f ? "__source" then
-      ''  source  => "payload/${f.src}",''
+      ''  source  => "${esc f.src}",''
     else
     # Should not happen because IR guarantees exactly one content source.
       ''  # ERROR: missing source/content'';
