@@ -7,7 +7,7 @@
 # - Discovery reads the *consumer* flake's nixosConfigurations via `self`.
 # - We select /etc files *only* via the whitelist selector (select-files.nix).
 # - We never traverse all of config.environment.etc; we touch a key only
-#   after it has been selected, so unselected items (e.g. binfmt) are never evaluated.
+#   after it has been selected, so unselected items are never evaluated.
 
 let
   inherit (lib) mapAttrs filterAttrs;
@@ -34,12 +34,19 @@ in
 system:
 let
   hosts = discoverHosts system;
+  inherit (lib.lists) unique;
 in
 mapAttrs (_host: nixosCfg:
   let
-    policies  = collectPolicies nixosCfg;
-    etcOrigin = etcOriginsOf nixosCfg;
-    filesAttr = selectFiles { inherit nixosCfg policies; etcOrigins = etcOrigin; };
+    policies   = collectPolicies nixosCfg;
+    etcOrigin  = etcOriginsOf nixosCfg;
+    filesAttr  = selectFiles { inherit nixosCfg policies; etcOrigins = etcOrigin; };
+
+    mclPrelude = {
+      imports = [ "deploy" ] ++ unique nixosCfg.config.rx.mcl.imports or [ ];
+      vars    = nixosCfg.config.rx.mcl.vars    or { };
+      raw     = nixosCfg.config.rx.mcl.raw     or [ ];
+    };
   in
-    projectIR filesAttr
+    (projectIR filesAttr) // { inherit mclPrelude; }
 ) hosts

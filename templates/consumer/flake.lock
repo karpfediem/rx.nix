@@ -97,11 +97,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1760553937,
-        "narHash": "sha256-m4EmrmDfA2+csNMffa0bF+a8ZirOFHxQJII1bnbJkgU=",
+        "lastModified": 1760566115,
+        "narHash": "sha256-P852WvdyGuqCMwKAcsRHS562INhceeUrtBuIFKcmAj8=",
         "owner": "karpfediem",
         "repo": "rx.nix",
-        "rev": "0610403877b9a165bc1ed9407533679c987bcd13",
+        "rev": "0f5d37a626a6b6123aee6ad298dc09e974ccb58c",
         "type": "github"
       },
       "original": {

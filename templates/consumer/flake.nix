@@ -35,11 +35,36 @@
               # (optional) override something so you can see it flow through
               #rx.include.files."/etc/hosts".mode = "0644";
 
+              rx.files."/tmp/test" = {
+                source = "/etc/hosts";
+                owner = "carp";
+                group = "users";
+              };
+
               rx.files."/tmp/hello" = {
                 text = "Hello from rx module\n";
                 owner = "carp";
                 group = "users";
               };
+
+              rx.mcl.imports = [ "datetime" "golang" ];
+              rx.mcl.vars.d = "datetime.now()";
+              rx.mcl.raw = [
+                ''
+                  file "/tmp/mgmt/datetime" {
+                    state => $const.res.file.state.exists,
+                    owner   => "carp",
+                    group   => "users",
+                    content => golang.template("Hello! It is now: {{ datetime_print . }}\n", $d),
+                  }
+
+                  file "/tmp/mgmt/" {
+                    owner   => "carp",
+                    group   => "users",
+                    state => $const.res.file.state.exists,
+                  }
+                ''
+              ];
             })
             ./configuration.nix
           ];

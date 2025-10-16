@@ -13,7 +13,7 @@ in
     };
 
     # Optional global let-bindings ($name = <expr>)
-    lets = mkOption {
+    vars = mkOption {
       type = types.attrsOf types.str;
       default = { };
       example = { d = "datetime.now()"; };
@@ -21,7 +21,7 @@ in
     };
 
     # Free-form MCL blocks to append (rendered verbatim)
-    snippets = mkOption {
+    raw = mkOption {
       type = types.listOf types.lines;
       default = [ ];
       example = [
@@ -34,7 +34,7 @@ in
       ];
       description = ''
         Raw MCL code prepended to the generated file. Rendered exactly as given.
-        Use together with `rx.mcl.imports` and `rx.mcl.lets` to enable FRP examples.
+        Use together with `rx.mcl.imports` and `rx.mcl.vars` to enable FRP examples.
       '';
     };
   };
