@@ -14,7 +14,12 @@
         nixosModules.default = import ./nixos;
       in
       {
-        systems = ["x86_64-linux"];
+        systems = [ "x86_64-linux" ];
+
+        perSystem = { config, pkgs, ... }: rec {
+          packages.options-generator = pkgs.callPackage ./options-generator/default.nix { };
+          packages.generated-options = pkgs.callPackage ./options-generator/generated-options.nix { inherit (packages) options-generator; };
+        };
 
         flake = {
           inherit flakeModules;
