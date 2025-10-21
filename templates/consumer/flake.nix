@@ -35,13 +35,13 @@
               # (optional) override something so you can see it flow through
               #rx.include.files."/etc/hosts".mode = "0644";
 
-              rx.files."/tmp/test" = {
+              rx.res.file."/tmp/test" = {
                 source = "/etc/hosts";
                 owner = "carp";
                 group = "users";
               };
 
-              rx.files."/tmp/hello" = {
+              rx.res.file."/tmp/hello" = {
                 text = "Hello from rx module\n";
                 owner = "carp";
                 group = "users";
