@@ -17,6 +17,7 @@ read on boot. We usually use entries in the /etc/sysctl.d/ directory.
 By convention, they end in .conf and start with a numeric prefix and
 a dash. For example: /etc/sysctl.d/10-dmesg.conf for example. If this
 is omitted, the filename will be chosen automatically.'';
+          default = null;
         };
         persist = mkOption {
           type = types.nullOr (types.bool);
@@ -25,6 +26,7 @@ it will persist across reboots. It defaults to true. Keep in mind,
 that if this is not used, but `Runtime` is true, then the value will
 be restored anyways if `mgmt` runs on boot, which may be what you
 want anyways.'';
+          default = null;
         };
         runtime = mkOption {
           type = types.nullOr (types.bool);
@@ -32,6 +34,7 @@ want anyways.'';
 defaults to true. If this is not set, then the value must be set in a
 file and the machine will have to reboot for the setting to take
 effect.'';
+          default = null;
         };
         value = mkOption {
           type = types.nullOr (types.str);
@@ -41,6 +44,7 @@ same format that the kernel parses it as to avoid automation
 /proc/sys/ path entry with `echo foo >` and then reading it back out
 and seeing what the "parsed" correct format is. You must not include
 the trailing newline which is present in the readback for all values.'';
+          default = null;
         };
       };
     }));

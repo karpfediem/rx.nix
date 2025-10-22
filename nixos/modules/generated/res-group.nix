@@ -11,10 +11,12 @@ in
         gid = mkOption {
           type = types.nullOr (types.str);
           description = ''GID is the group'''s gid.'';
+          default = null;
         };
         state = mkOption {
           type = types.nullOr (types.str);
           description = ''State is `exists` or `absent`.'';
+          default = null;
         };
       };
     }));

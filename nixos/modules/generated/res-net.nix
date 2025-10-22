@@ -16,10 +16,12 @@ example. It supports flipping the state if you ask for it to be reversible.'';
           type = types.nullOr (types.listOf types.str);
           description = ''Addrs is the list of addresses to set on the interface. They must
 each be in CIDR notation such as: 192.0.2.42/24 for example.'';
+          default = null;
         };
         gateway = mkOption {
           type = types.nullOr (types.str);
           description = ''Gateway represents the default route to set for the interface.'';
+          default = null;
         };
         ip_forward = mkOption {
           type = types.nullOr (types.bool);
@@ -27,11 +29,13 @@ each be in CIDR notation such as: 192.0.2.42/24 for example.'';
 packets onward when this is set. It default to unspecified, which
 downstream (in the systemd-networkd configuration) defaults to false.
 XXX: this could also be "ipv4" or "ipv6", add those as a second option?'';
+          default = null;
         };
         state = mkOption {
           type = types.nullOr (types.str);
           description = ''State is the desired state of the interface. It can be "up", "down",
 or the empty string to leave that unspecified.'';
+          default = null;
         };
       };
     }));

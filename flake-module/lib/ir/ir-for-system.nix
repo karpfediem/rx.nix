@@ -2,23 +2,9 @@
 
 # Build the intermediate representation (IR) map for a single CPU system:
 #   system -> { host = { files = [ ... ] ; } ; ... }
-#
-# IMPORTANT:
-# - Discovery reads the *consumer* flake's nixosConfigurations via `self`.
-# - We select /etc files *only* via the whitelist selector (select-files.nix).
-# - We never traverse all of config.environment.etc; we touch a key only
-#   after it has been selected, so unselected items are never evaluated.
 
 let
   inherit (lib) mapAttrs filterAttrs;
-
-  # Selection pipeline pieces
-  # collectPolicies = import ./convert/policy/collect-policies.nix { inherit lib; };
-  # etcOriginsOf    = import ./convert/origins/etc-origins.nix     { inherit lib; };
-  # selectFiles     = import ./convert/select/select-files.nix     { inherit lib; };
-
-  # IR projector (validates “exactly one of text | source | (generator+value)”)
-  projectIR = import ./project-ir.nix { inherit lib; };
 
   discoverHosts = system:
     let all = (self.nixosConfigurations or { });
@@ -43,18 +29,17 @@ in
 mapAttrs
   (_host: nixosCfg:
   let
-    # policies   = collectPolicies nixosCfg;
-    # etcOrigin  = etcOriginsOf nixosCfg;
-    # selectedFilesIR  = projectIR (selectFiles { inherit nixosCfg policies; etcOrigins = etcOrigin; });
-
-    mclPrelude = {
-      imports = [ "deploy" ] ++ unique nixosCfg.config.rx.mcl.imports or [ ];
-      vars = nixosCfg.config.rx.mcl.vars    or { };
-      raw = nixosCfg.config.rx.mcl.raw     or [ ];
-      res = nixosCfg.config.rx.res or { };
-    };
+      cfg = nixosCfg.config;
+      mclImports = (cfg.rx.mcl.imports or []);
+      mclVars    = (cfg.rx.mcl.vars    or {});
+      mclRaw     = (cfg.rx.mcl.raw     or []);
+      rxRes      = (cfg.rx.res         or {});
   in
-  { inherit mclPrelude; }
-    #// selectedFilesIR
+    {
+      imports = unique (["deploy"] ++ mclImports);
+      vars    = mclVars;
+      raw     = mclRaw;
+      res     = rxRes;
+    }
   )
   hosts

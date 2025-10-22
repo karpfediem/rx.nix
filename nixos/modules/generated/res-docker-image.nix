@@ -13,10 +13,12 @@ docker image in any supported format (url, image, or image:tag).'';
           type = types.nullOr (types.str);
           description = ''APIVersion allows you to override the host'''s default client API
 version.'';
+          default = null;
         };
         state = mkOption {
           type = types.nullOr (types.str);
           description = ''State of the image must be exists or absent.'';
+          default = null;
         };
       };
     }));

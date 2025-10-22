@@ -16,22 +16,27 @@ Key is specified explicitly, then we won'''t use anything from the Name.'';
         address = mkOption {
           type = types.nullOr (types.str);
           description = ''Address is the address of the Consul server. Default: 127.0.0.1:8500.'';
+          default = null;
         };
         key = mkOption {
           type = types.nullOr (types.str);
           description = ''Key is the name of the key. Defaults to the name of the resource.'';
+          default = null;
         };
         scheme = mkOption {
           type = types.nullOr (types.str);
           description = ''Scheme is the URI scheme for the Consul server. Default: http.'';
+          default = null;
         };
         token = mkOption {
           type = types.nullOr (types.str);
           description = ''Token is used to provide an ACL token to use for this resource.'';
+          default = null;
         };
         value = mkOption {
           type = types.nullOr (types.str);
           description = ''Value is the value for the key.'';
+          default = null;
         };
       };
     }));

@@ -474,7 +474,6 @@ func strconvUnquote(s string) (string, error) {
 var nonAlnum = regexp.MustCompile(`[^a-zA-Z0-9]+`)
 
 func sanitizeName(s string) string {
-	s = strings.ToLower(s)
 	s = nonAlnum.ReplaceAllString(s, "-")
 	s = strings.Trim(s, "-")
 	if s == "" {
@@ -509,8 +508,9 @@ func writeResourceNix(path string, r ResourceInfo) error {
 		} else {
 			fmt.Fprintf(&b, "          description = \"\";\n")
 		}
-		// No default here: optionality is expressed by types.nullOr; leaving it unset
-		// keeps the option truly optional for downstream merges.
+		// Always place default of null
+		// All the options are expressed by types.nullOr
+		fmt.Fprintf(&b, "          default = null;\n")
 		fmt.Fprintf(&b, "        };\n")
 	}
 
@@ -532,9 +532,6 @@ func sanitizeIdent(s string) string {
 }
 
 func escapeNix(s string) string {
-	// First, escape any existing double single quotes (rare edge case)
-	s = strings.ReplaceAll(s, "''", "''''")
-	// Then escape single quotes to Nix's doubled prefix
 	s = strings.ReplaceAll(s, "'", "'''")
 	s = strings.ReplaceAll(s, "${", "''${")
 	return s

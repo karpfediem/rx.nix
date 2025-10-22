@@ -19,6 +19,7 @@ it will set the value to be the exact one if they are not identical already.'';
           type = types.nullOr (types.str);
           description = ''Key represents the key to set. If it is not specified, the Name value
 is used instead.'';
+          default = null;
         };
         mapped = mkOption {
           type = types.nullOr (types.bool);
@@ -32,20 +33,24 @@ pulling values out of a pool that each node sets. The `world`
 functions like `getval`, require this to be false, since they'''re
 pulling values directly out of the same namespace that is shared by
 all nodes.'';
+          default = null;
         };
         skipcmpstyle = mkOption {
           type = types.nullOr (types.str);
           description = ''SkipCmpStyle is the type of compare function used when determining if
 the value is greater when using the SkipLessThan parameter.'';
+          default = null;
         };
         skiplessthan = mkOption {
           type = types.nullOr (types.bool);
           description = ''SkipLessThan causes the value to be updated as long as it is greater.'';
+          default = null;
         };
         value = mkOption {
           type = types.nullOr (types.str);
           description = ''Value represents the string value to set. If this value is nil or,
 undefined, then this will delete that key.'';
+          default = null;
         };
       };
     }));

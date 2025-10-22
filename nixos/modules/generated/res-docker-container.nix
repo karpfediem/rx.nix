@@ -12,33 +12,40 @@ in
           type = types.nullOr (types.str);
           description = ''APIVersion allows you to override the host'''s default client API
 version.'';
+          default = null;
         };
         cmd = mkOption {
           type = types.nullOr (types.listOf types.str);
           description = ''Cmd is a command, or list of commands to run on the container.'';
+          default = null;
         };
         env = mkOption {
           type = types.nullOr (types.listOf types.str);
           description = ''Env is a list of environment variables. E.g. ["VAR=val",].'';
+          default = null;
         };
         force = mkOption {
           type = types.nullOr (types.bool);
           description = ''Force, if true, this will destroy and redeploy the container if the
 image is incorrect.'';
+          default = null;
         };
         image = mkOption {
           type = types.nullOr (types.str);
           description = ''Image is a docker image, or image:tag.'';
+          default = null;
         };
         ports = mkOption {
           type = types.nullOr (types.attrsOf types.str);
           description = ''Ports is a map of port bindings. E.g. {"tcp" => {8080 => 80},}. The
 key is the host port, and the val is the inner service port to
 forward to.'';
+          default = null;
         };
         state = mkOption {
           type = types.nullOr (types.str);
           description = ''State of the container must be running, stopped, or removed.'';
+          default = null;
         };
       };
     }));

@@ -12,6 +12,7 @@ interval seconds.'';
         interval = mkOption {
           type = types.nullOr (types.int);
           description = ''Interval between runs in seconds.'';
+          default = null;
         };
       };
     }));

@@ -24,11 +24,13 @@ TODO: Add autoedges between the Interface and any identically named NetRes.'';
           description = ''Address is the listen address to use for the dhcp server. It is
 common to use `:67` (the standard) to listen on UDP port 67 on all
 addresses.'';
+          default = null;
         };
         dns = mkOption {
           type = types.nullOr (types.listOf types.str);
           description = ''DNS represents a list of DNS servers to offer to the DHCP client.
 XXX: Is it mandatory? https://github.com/insomniacslk/dhcp/issues/359'';
+          default = null;
         };
         interface = mkOption {
           type = types.nullOr (types.str);
@@ -36,6 +38,7 @@ XXX: Is it mandatory? https://github.com/insomniacslk/dhcp/issues/359'';
 case. You may leave this field blank to not run any specific binding.
 XXX: You need to actually specify an interface here at the moment. :(
 BUG: https://github.com/insomniacslk/dhcp/issues/372'';
+          default = null;
         };
         leasetime = mkOption {
           type = types.nullOr (types.str);
@@ -44,6 +47,7 @@ by the golang time.ParseDuration function, for example "60s" or "10m"
 or "1h42m13s". If it is unspecified, then a default will be used. If
 the empty string is specified, then no lease time will be set in the
 DHCP protocol, and your DHCP server might not work as you intend.'';
+          default = null;
         };
         nbp = mkOption {
           type = types.nullOr (types.str);
@@ -57,11 +61,13 @@ you can use this feature in conjunction with the NBPPath parameter.
 For DHCPv4, the scheme must be "tftp". This values is used as the
 default for all dhcp:host resources. You can specify this here, and
 the NBPPath per-resource and they will successfully combine.'';
+          default = null;
         };
         routers = mkOption {
           type = types.nullOr (types.listOf types.str);
           description = ''Routers represents a list of routers to offer to the DHCP client. It
 is most common to only specify one unless you know what you'''re doing.'';
+          default = null;
         };
         serverid = mkOption {
           type = types.nullOr (types.str);
@@ -76,6 +82,7 @@ Please note that if you attempt to automatically determine this from
 the specified interface, then this only happens at runtime when the
 first DHCP request needs this or during CheckApply, either of which
 could fail if for some reason it is not available.'';
+          default = null;
         };
       };
     }));

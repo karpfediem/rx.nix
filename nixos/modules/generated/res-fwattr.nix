@@ -27,6 +27,7 @@ version of BootOrder on thinklmi had type "enumeration" and
 "possible_values" of: `HDD0;HDD1;HDD2;...` but took a "current_value"
 of `HDD0:HDD1:HDD2:...` which would be illogical. Newer versions just
 have type "string".'';
+          default = null;
         };
         driver = mkOption {
           type = types.nullOr (types.str);
@@ -36,11 +37,13 @@ include "thinklmi" (lenovo), "dell-wmi-sysman" (dell) and more. If
 you do not specify this, then we will attempt to determine it
 automatically, however if zero or more than one option exists, then
 this will error.'';
+          default = null;
         };
         key = mkOption {
           type = types.nullOr (types.str);
           description = ''Key is the name of the field to modify. If this is not set we use the
 Name field. This is case sensitive.'';
+          default = null;
         };
         skip = mkOption {
           type = types.nullOr (types.bool);
@@ -52,6 +55,7 @@ can add a more general "configuration set" of values to all of your
 machine, without having to match them precisely, and this won'''t cause
 errors if one of them has an old version of a BIOS without that
 feature.'';
+          default = null;
         };
         value = mkOption {
           type = types.nullOr (types.str);
@@ -61,6 +65,7 @@ same format that the kernel offers it as to avoid automation
 /sys/class/firmware-attributes/<driver>/<key>/current_value path with
 `echo foo >` and seeing if it works without erroring. You must not
 include the trailing newline which is present all values.'';
+          default = null;
         };
       };
     }));

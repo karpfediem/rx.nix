@@ -21,6 +21,7 @@ sent via send/recv and received by the same mechanism as well. The
 received value overwrites this value for the lifetime of the
 resource. It is interface{} because it can hold any type. It has
 pointer because it is only set if an actual value exists.'';
+          default = null;
         };
       };
     }));

@@ -17,16 +17,19 @@ associated with this resource available for serving from that tftp server.'';
           description = ''Data is the file content that should be used as the source for this
 file resource. It must not be combined with the path field.
 TODO: should this be []byte instead?'';
+          default = null;
         };
         filename = mkOption {
           type = types.nullOr (types.str);
           description = ''Filename is the name of the file this data should appear as on the
 tftp server.'';
+          default = null;
         };
         path = mkOption {
           type = types.nullOr (types.str);
           description = ''Path is the absolute path to a file that should be used as the source
 for this file resource. It must not be combined with the data field.'';
+          default = null;
         };
         server = mkOption {
           type = types.nullOr (types.str);
@@ -35,6 +38,7 @@ it is omitted, and there is only a single tftp resource, then it will
 be grouped into it automatically. If there is more than one main tftp
 resource being used, then the grouping behaviour is *undefined* when
 this is not specified, and it is not recommended to leave this blank!'';
+          default = null;
         };
       };
     }));

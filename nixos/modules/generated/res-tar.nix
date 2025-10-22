@@ -22,6 +22,7 @@ header format is stored for each individual file. The available
 values are: const.res.tar.format.unknown, const.res.tar.format.ustar,
 const.res.tar.format.pax, and const.res.tar.format.gnu which have
 values of 0, 2, 4, and 8 respectively.'';
+          default = null;
         };
         inputs = mkOption {
           type = types.nullOr (types.listOf types.str);
@@ -32,6 +33,7 @@ slash and files must not for standard behaviour. As a special
 exception, if you omit the trailing slash on a directory path, then
 this will include that directory name as a prefix. This is similar to
 how rsync chooses if it copies in the base directory or not.'';
+          default = null;
         };
         path = mkOption {
           type = types.nullOr (types.str);
@@ -39,6 +41,7 @@ how rsync chooses if it copies in the base directory or not.'';
 destination path for the compressed file being created. It must be an
 absolute path, and as a result must start with a slash. Since it is a
 file, it must not end with a slash.'';
+          default = null;
         };
       };
     }));

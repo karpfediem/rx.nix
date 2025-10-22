@@ -21,6 +21,7 @@ we use this parameter. If you forget to specify both of these, then
 you will compress zero-length data!
 TODO: If this is also empty should we just error at Validate?
 FIXME: Do we need []byte here? Do we need a binary type?'';
+          default = null;
         };
         input = mkOption {
           type = types.nullOr (types.str);
@@ -28,6 +29,7 @@ FIXME: Do we need []byte here? Do we need a binary type?'';
 absolute path, and as a result must start with a slash. Since it is a
 file, it must not end with a slash. If this is specified, we use it,
 otherwise we use the Content parameter.'';
+          default = null;
         };
         level = mkOption {
           type = types.nullOr (types.int);
@@ -37,6 +39,7 @@ const.res.gzip.level.no_compression, const.res.gzip.level.best_speed,
 const.res.gzip.level.best_compression,
 const.res.gzip.level.default_compression, and
 const.res.gzip.level.huffman_only.'';
+          default = null;
         };
         path = mkOption {
           type = types.nullOr (types.str);
@@ -44,6 +47,7 @@ const.res.gzip.level.huffman_only.'';
 destination path for the compressed file being created. It must be an
 absolute path, and as a result must start with a slash. Since it is a
 file, it must not end with a slash.'';
+          default = null;
         };
       };
     }));

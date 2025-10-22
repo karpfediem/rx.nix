@@ -13,27 +13,33 @@ accordingly. The mount point is set according to the resource'''s name.'';
         device = mkOption {
           type = types.nullOr (types.str);
           description = ''Device is the location of the device or image.'';
+          default = null;
         };
         freq = mkOption {
           type = types.nullOr (types.int);
           description = ''Freq is the dump frequency.'';
+          default = null;
         };
         options = mkOption {
           type = types.nullOr (types.attrsOf types.str);
           description = ''Options are mount options.'';
+          default = null;
         };
         passno = mkOption {
           type = types.nullOr (types.int);
           description = ''PassNo is the verification order.'';
+          default = null;
         };
         state = mkOption {
           type = types.nullOr (types.str);
           description = ''State must be exists or absent. If absent, remaining fields are
 ignored.'';
+          default = null;
         };
         type = mkOption {
           type = types.nullOr (types.str);
           description = ''Type of the filesystem.'';
+          default = null;
         };
       };
     }));

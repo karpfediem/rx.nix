@@ -12,6 +12,7 @@ in
           type = types.nullOr (types.str);
           description = ''State specifies the desired state for this resource. This must be
 either `running` or `stopped`.'';
+          default = null;
         };
       };
     }));

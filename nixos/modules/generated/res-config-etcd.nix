@@ -13,6 +13,7 @@ in
           description = ''AllowSizeShutdown is a required safety flag that you must set to true
 if you want to allow causing a cluster shutdown by setting
 IdealClusterSize to zero.'';
+          default = null;
         };
         idealclustersize = mkOption {
           type = types.nullOr (types.int);
@@ -20,6 +21,7 @@ IdealClusterSize to zero.'';
 set this to zero, it will cause a cluster wide shutdown if
 AllowSizeShutdown is true. If it'''s not true, then it will cause a
 validation error.'';
+          default = null;
         };
       };
     }));

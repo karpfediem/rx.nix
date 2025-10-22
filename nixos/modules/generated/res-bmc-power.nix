@@ -22,29 +22,35 @@ concept than the "bmclib" driver vs provider distinction. Here we
 just statically pick what we'''re using without any magic. If not
 specified, we parse this from the Name scheme. If this ends with an
 extra "s" then we use https instead of http.'';
+          default = null;
         };
         hostname = mkOption {
           type = types.nullOr (types.str);
           description = ''Hostname to connect to. If not specified, we parse this from the
 Name.'';
+          default = null;
         };
         insecure_password = mkOption {
           type = types.nullOr (types.bool);
           description = ''InsecurePassword can be set to true to allow a password in the Name.'';
+          default = null;
         };
         password = mkOption {
           type = types.nullOr (types.str);
           description = ''Password to use to connect. We do NOT parse this from the Name unless
 you set InsecurePassword to true.
 XXX: Use mgmt magic credentials in the future.'';
+          default = null;
         };
         port = mkOption {
           type = types.nullOr (types.int);
           description = ''Port to connect to. If not specified, we parse this from the Name.'';
+          default = null;
         };
         state = mkOption {
           type = types.nullOr (types.str);
           description = ''State of machine power. Can be "on" or "off".'';
+          default = null;
         };
         username = mkOption {
           type = types.nullOr (types.str);
@@ -53,6 +59,7 @@ Name.
 TODO: If the Username field is not set, should we parse from the
 Name? It'''s not really part of the BMC unique identifier so maybe we
 shouldn'''t use that.'';
+          default = null;
         };
       };
     }));

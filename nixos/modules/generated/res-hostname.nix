@@ -18,17 +18,20 @@ that it'''s possible. This is the fallback value for all the three
 fields below. If only this Hostname field is specified, this will set
 all tree fields (PrettyHostname, StaticHostname, TransientHostname)
 to this value.'';
+          default = null;
         };
         pretty_hostname = mkOption {
           type = types.nullOr (types.str);
           description = ''PrettyHostname is a free-form UTF8 host name for presentation to the
 user.'';
+          default = null;
         };
         static_hostname = mkOption {
           type = types.nullOr (types.str);
           description = ''StaticHostname is the one configured in /etc/hostname or a similar
 file. It is chosen by the local user. It is not always in sync with
 the current host name as returned by the gethostname() system call.'';
+          default = null;
         };
         transient_hostname = mkOption {
           type = types.nullOr (types.str);
@@ -36,6 +39,7 @@ the current host name as returned by the gethostname() system call.'';
 sethostbyname(). It can be different from the static hostname in case
 DHCP or mDNS have been configured to change the name based on network
 information.'';
+          default = null;
         };
       };
     }));

@@ -47,6 +47,7 @@ always returns an error when CheckApply requests a rebuild.
 NOTE: Soft updates related to power and rescue mode are always allowed,
 because they are only required for explicit changes to resource fields.
 TODO: add AllowReboot if any indirect poweroffs are ever implemented.'';
+          default = null;
         };
         apitoken = mkOption {
           type = types.nullOr (types.str);
@@ -56,6 +57,7 @@ project, so a leaked token will be vulnerable to abuse. Read it from
 a local file or the mgmt deploy, or provide it directly as a string.
 NOTE: It must be generated manually via https://console.hetzner.cloud/.
 NOTE: This token is usually a 64 character alphanumeric string.'';
+          default = null;
         };
         datacenter = mkOption {
           type = types.nullOr (types.str);
@@ -64,6 +66,7 @@ up-to-date list of options must be requested from the Hetzner API, but
 hcloud-go-getopts (url) provides a static reference. The datacenter
 options include "nbg1-dc3", "fsn1-dc14", "hel1-dc2" etc.
 https://github.com/JefMasereel/hcloud-go-getopts/'';
+          default = null;
         };
         image = mkOption {
           type = types.nullOr (types.str);
@@ -72,6 +75,7 @@ up-to-date list of options must be requested from the Hetzner API, but
 hcloud-go-getopts (url) provides a static reference. The image type
 options include "centos-7", "ubuntu-18.04", "debian-10" etc.
 https://github.com/JefMasereel/hcloud-go-getopts/'';
+          default = null;
         };
         serverrescuekeys = mkOption {
           type = types.nullOr (types.listOf types.str);
@@ -83,6 +87,7 @@ An error is thrown if a given keyname is not recognized by the client.
 NOTE: live changes to this keylist while rescue mode is already enabled
 are not (yet) detected or applied by CheckApply.
 TODO: improve ssh key handling at checkApplyRescueMode and serverRebuild.'';
+          default = null;
         };
         serverrescuemode = mkOption {
           type = types.nullOr (types.str);
@@ -93,6 +98,7 @@ Other input values will not pass Validate and result in an error.
 NOTE: rescue mode can not be enabled if the server is absent.
 NOTE: Rescue mode can be used to log into the server over SSH and access
 the disks when the normal OS has trouble booting on its own.'';
+          default = null;
         };
         servertype = mkOption {
           type = types.nullOr (types.str);
@@ -105,6 +111,7 @@ examples are usually very cheap, but never free. Price and availability
 can also be dependent on the selected datacenter.
 https://github.com/JefMasereel/hcloud-go-getopts/
 TODO: set some kind of cost-based protection policy?'';
+          default = null;
         };
         state = mkOption {
           type = types.nullOr (types.str);
@@ -118,11 +125,13 @@ HetznerStateOff ("off") tells the server it must be powered off.
 NOTE: any other inputs will not pass Validate and result in an error.
 NOTE: setting the state of a live server to "absent" will delete all data
 and services that are located on that instance! Use with caution.'';
+          default = null;
         };
         userdata = mkOption {
           type = types.nullOr (types.str);
           description = ''UserData can be used to run commands on the server instance at creation.
 https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html.'';
+          default = null;
         };
         waitinterval = mkOption {
           type = types.nullOr (types.int);
@@ -134,12 +143,14 @@ that keeps the total request rate under 3600 requests per hour. Take
 these factors into account: polling rate "Meta:poll", number of active
 resources under the same Hetzner project, and the expected rate of param
 updates. This will help to prevent rate limit errors.'';
+          default = null;
         };
         waittimeout = mkOption {
           type = types.nullOr (types.int);
           description = ''WaitTimeout will cancel wait loops if they do not exit cleanly before
 the expected time in seconds, in order to detect defective loops and
 avoid unnecessary consumption of computational resources.'';
+          default = null;
         };
       };
     }));

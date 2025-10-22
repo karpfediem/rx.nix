@@ -19,6 +19,7 @@ combined as well.'';
           description = ''Address is the listen address to use for the tftp server. It is
 common to use `:69` (the standard) to listen on UDP port 69 on all
 addresses.'';
+          default = null;
         };
         root = mkOption {
           type = types.nullOr (types.str);
@@ -26,10 +27,12 @@ addresses.'';
 not specified, then it is not used. Any tftp file resources will have
 precedence over anything in here, in case the same path exists twice.
 TODO: should we have a flag to determine the precedence rules here?'';
+          default = null;
         };
         timeout = mkOption {
           type = types.nullOr (types.int);
           description = ''Timeout is the timeout in seconds to use for server connections.'';
+          default = null;
         };
       };
     }));

@@ -20,6 +20,7 @@ it with `env => sys.env()` in your exec resource.'';
 passing the full command and args as a single string to Cmd. It can
 only be used when a Shell is *not* specified. The advantage of this
 is that you don'''t have to worry about escape characters.'';
+          default = null;
         };
         cmd = mkOption {
           type = types.nullOr (types.str);
@@ -33,6 +34,7 @@ file that contains two single quotes, and it will likely error since
 the dir path doesn'''t exist. In general, it'''s best to use the `Args`
 field instead of including them here.
 XXX: if not using shell, don'''t allow args here, force them to args!'';
+          default = null;
         };
         creates = mkOption {
           type = types.nullOr (types.str);
@@ -41,6 +43,7 @@ main cmd. If this path exists, then the cmd will not run. More
 precisely we attempt to `stat` the file, so it must succeed for a
 skip. This also adds a watch on this path which re-checks things when
 it changes.'';
+          default = null;
         };
         cwd = mkOption {
           type = types.nullOr (types.str);
@@ -50,6 +53,7 @@ not the process being run here.) Keep in mind that if you'''re running
 this command as a user that does not have perms to the current
 directory, you may wish to set this to `/` to avoid hitting an error
 such as: `could not change directory to "/root": Permission denied`.'';
+          default = null;
         };
         donecmd = mkOption {
           type = types.nullOr (types.str);
@@ -57,14 +61,17 @@ such as: `could not change directory to "/root": Permission denied`.'';
 successfully. This is a useful pattern to avoid the shelling out to
 bash simply to do `$cmd && echo done > /tmp/donefile`. If this
 command errors, it behaves as if the normal Cmd had errored.'';
+          default = null;
         };
         donecwd = mkOption {
           type = types.nullOr (types.str);
           description = ''DoneCwd is the Cwd for the DoneCmd. See the docs for Cwd.'';
+          default = null;
         };
         doneshell = mkOption {
           type = types.nullOr (types.str);
           description = ''DoneShell is the Shell for the DoneCmd. See the docs for Shell.'';
+          default = null;
         };
         env = mkOption {
           type = types.nullOr (types.attrsOf types.str);
@@ -72,11 +79,13 @@ command errors, it behaves as if the normal Cmd had errored.'';
 execution. These are taken using a map of format of VAR_KEY -> value.
 Omitting this value or setting it to an empty array will cause the
 program to be run with an empty environment.'';
+          default = null;
         };
         group = mkOption {
           type = types.nullOr (types.str);
           description = ''Group is the (optional) group to use to execute the command. It is
 used for any command being run.'';
+          default = null;
         };
         ifcmd = mkOption {
           type = types.nullOr (types.str);
@@ -84,10 +93,12 @@ used for any command being run.'';
 this command succeeds, then Cmd *will not* be blocked from running.
 If this command returns a non-zero result, then the Cmd will not be
 run. Any error scenario or timeout will cause the resource to error.'';
+          default = null;
         };
         ifcwd = mkOption {
           type = types.nullOr (types.str);
           description = ''IfCwd is the Cwd for the IfCmd. See the docs for Cwd.'';
+          default = null;
         };
         ifequals = mkOption {
           type = types.nullOr (types.str);
@@ -96,10 +107,12 @@ output matches this string, then it will guard against the Cmd
 running. This can be the empty string. Remember to take into account
 if the output includes a trailing newline or not. (Hint: it usually
 does!)'';
+          default = null;
         };
         ifshell = mkOption {
           type = types.nullOr (types.str);
           description = ''IfShell is the Shell for the IfCmd. See the docs for Shell.'';
+          default = null;
         };
         nifcmd = mkOption {
           type = types.nullOr (types.str);
@@ -108,14 +121,17 @@ this command succeeds, then Cmd *will* be blocked from running. If
 this command returns a non-zero result, then the Cmd will be allowed
 to run if not blocked by anything else. This is the opposite of the
 IfCmd.'';
+          default = null;
         };
         nifcwd = mkOption {
           type = types.nullOr (types.str);
           description = ''NIfCwd is the Cwd for the NIfCmd. See the docs for Cwd.'';
+          default = null;
         };
         nifshell = mkOption {
           type = types.nullOr (types.str);
           description = ''NIfShell is the Shell for the NIfCmd. See the docs for Shell.'';
+          default = null;
         };
         send_output = mkOption {
           type = types.nullOr (types.str);
@@ -128,14 +144,17 @@ and there are none in the cache, and instead are relying on a runtime
 mechanism to help us out. This can commonly occur if you wish to make
 incremental progress when locally testing some code using Send/Recv,
 but you are combining it with --tmp-prefix for other reasons.'';
+          default = null;
         };
         send_stderr = mkOption {
           type = types.nullOr (types.str);
           description = ''SendStderr is like SendOutput but for stderr alone. See those docs.'';
+          default = null;
         };
         send_stdout = mkOption {
           type = types.nullOr (types.str);
           description = ''SendStdout is like SendOutput but for stdout alone. See those docs.'';
+          default = null;
         };
         shell = mkOption {
           type = types.nullOr (types.str);
@@ -143,34 +162,41 @@ but you are combining it with --tmp-prefix for other reasons.'';
 this, then you can'''t use the Args parameter. Note that unless you
 use absolute paths, or set the PATH variable, the shell might not be
 able to find the program you'''re trying to run.'';
+          default = null;
         };
         timeout = mkOption {
           type = types.nullOr (types.int);
           description = ''Timeout is the number of seconds to wait before sending a Kill to the
 running command. If the Kill is received before the process exits,
 then this be treated as an error.'';
+          default = null;
         };
         user = mkOption {
           type = types.nullOr (types.str);
           description = ''User is the (optional) user to use to execute the command. It is used
 for any command being run.'';
+          default = null;
         };
         watchcmd = mkOption {
           type = types.nullOr (types.str);
           description = ''WatchCmd is the command to run to detect event changes. Each line of
 output from this command is treated as an event.'';
+          default = null;
         };
         watchcwd = mkOption {
           type = types.nullOr (types.str);
           description = ''WatchCwd is the Cwd for the WatchCmd. See the docs for Cwd.'';
+          default = null;
         };
         watchfiles = mkOption {
           type = types.nullOr (types.listOf types.str);
           description = ''WatchFiles is a list of files that will be kept track of.'';
+          default = null;
         };
         watchshell = mkOption {
           type = types.nullOr (types.str);
           description = ''WatchShell is the Shell for the WatchCmd. See the docs for Shell.'';
+          default = null;
         };
       };
     }));

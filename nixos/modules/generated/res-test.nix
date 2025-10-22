@@ -11,154 +11,192 @@ in
         alwaysgroup = mkOption {
           type = types.nullOr (types.bool);
           description = ''set to true to cause auto grouping'';
+          default = null;
         };
         anotherstr = mkOption {
           type = types.nullOr (types.str);
           description = "";
+          default = null;
         };
         bool = mkOption {
           type = types.nullOr (types.bool);
           description = "";
+          default = null;
         };
         boolptr = mkOption {
           type = types.nullOr (types.bool);
           description = "";
+          default = null;
         };
         byte = mkOption {
           type = types.nullOr (types.str);
           description = ''alias for uint8'';
+          default = null;
         };
         comment = mkOption {
           type = types.nullOr (types.str);
           description = "";
+          default = null;
         };
         comparefail = mkOption {
           type = types.nullOr (types.bool);
           description = ''will compare fail?'';
+          default = null;
         };
         complex128 = mkOption {
           type = types.nullOr (types.str);
           description = "";
+          default = null;
         };
         complex64 = mkOption {
           type = types.nullOr (types.str);
           description = "";
+          default = null;
         };
         expectrecv = mkOption {
           type = types.nullOr (types.str);
           description = ''what keys should we expect from send/recv?'';
+          default = null;
         };
         float32 = mkOption {
           type = types.nullOr (types.float);
           description = "";
+          default = null;
         };
         float64 = mkOption {
           type = types.nullOr (types.float);
           description = "";
+          default = null;
         };
         func1 = mkOption {
           type = types.nullOr (types.str);
           description = ''Func1 passes the value 42 to the input and returns a string.'';
+          default = null;
         };
         int = mkOption {
           type = types.nullOr (types.int);
           description = "";
+          default = null;
         };
         int16 = mkOption {
           type = types.nullOr (types.int);
           description = "";
+          default = null;
         };
         int32 = mkOption {
           type = types.nullOr (types.int);
           description = "";
+          default = null;
         };
         int64 = mkOption {
           type = types.nullOr (types.int);
           description = "";
+          default = null;
         };
         int64ptr = mkOption {
           type = types.nullOr (types.str);
           description = "";
+          default = null;
         };
         int8 = mkOption {
           type = types.nullOr (types.int);
           description = "";
+          default = null;
         };
         int8ptr = mkOption {
           type = types.nullOr (types.str);
           description = "";
+          default = null;
         };
         int8ptrptrptr = mkOption {
           type = types.nullOr (types.str);
           description = ''Int8PtrPtrPtr probably makes no sense, but is legal.'';
+          default = null;
         };
         interface = mkOption {
           type = types.nullOr (types.str);
           description = "";
+          default = null;
         };
         mapintfloat = mkOption {
           type = types.nullOr (types.attrsOf types.str);
           description = "";
+          default = null;
         };
         mixedstruct = mkOption {
           type = types.nullOr (types.str);
           description = "";
+          default = null;
         };
         onlyshow = mkOption {
           type = types.nullOr (types.listOf types.str);
           description = ''what values do we show?'';
+          default = null;
         };
         rune = mkOption {
           type = types.nullOr (types.str);
           description = ''alias for int32, represents a Unicode code point'';
+          default = null;
         };
         sendvalue = mkOption {
           type = types.nullOr (types.str);
           description = ''what value should we send?'';
+          default = null;
         };
         slicestring = mkOption {
           type = types.nullOr (types.listOf types.str);
           description = "";
+          default = null;
         };
         str = mkOption {
           type = types.nullOr (types.str);
           description = ''can'''t name it String because of String()'';
+          default = null;
         };
         stringptr = mkOption {
           type = types.nullOr (types.str);
           description = ''TODO: tag name?'';
+          default = null;
         };
         uint = mkOption {
           type = types.nullOr (types.int);
           description = "";
+          default = null;
         };
         uint16 = mkOption {
           type = types.nullOr (types.int);
           description = "";
+          default = null;
         };
         uint32 = mkOption {
           type = types.nullOr (types.int);
           description = "";
+          default = null;
         };
         uint64 = mkOption {
           type = types.nullOr (types.int);
           description = "";
+          default = null;
         };
         uint8 = mkOption {
           type = types.nullOr (types.int);
           description = "";
+          default = null;
         };
         uint8ptr = mkOption {
           type = types.nullOr (types.str);
           description = "";
+          default = null;
         };
         validatebool = mkOption {
           type = types.nullOr (types.bool);
           description = ''set to true to cause a validate error'';
+          default = null;
         };
         validateerror = mkOption {
           type = types.nullOr (types.str);
           description = ''set to cause a validate error'';
+          default = null;
         };
       };
     }));

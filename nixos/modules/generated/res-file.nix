@@ -12,23 +12,27 @@ a slash.'';
         basename = mkOption {
           type = types.nullOr (types.str);
           description = ''Basename is used to override the path basename. (The file portion.)'';
+          default = null;
         };
         content = mkOption {
           type = types.nullOr (types.str);
           description = ''Content specifies the file contents to use. If this is nil, they are
 left undefined. It cannot be combined with the Source or Fragments
 parameters.'';
+          default = null;
         };
         dirname = mkOption {
           type = types.nullOr (types.str);
           description = ''Dirname is used to override the path dirname. (The directory
 portion.)'';
+          default = null;
         };
         force = mkOption {
           type = types.nullOr (types.bool);
           description = ''Force must be set if we want to perform an unusual operation, such as
 changing a file into a directory or vice-versa. This is also required
 when changing a file or directory into a symlink or vice-versa.'';
+          default = null;
         };
         fragments = mkOption {
           type = types.nullOr (types.listOf types.str);
@@ -44,27 +48,32 @@ is reversed, the reversed file is one that has `Content` set instead.
 Automatic edges will be added from these fragments. This currently
 isn'''t recursive in that if a fragment is a directory, this only
 searches one level deep at the moment.'';
+          default = null;
         };
         group = mkOption {
           type = types.nullOr (types.str);
           description = ''Group specifies the file group. You can specify either the string
 name, or a string representation of the group integer gid.'';
+          default = null;
         };
         mode = mkOption {
           type = types.nullOr (types.str);
           description = ''Mode is the mode of the file as a string representation of the octal
 form or symbolic form.'';
+          default = null;
         };
         owner = mkOption {
           type = types.nullOr (types.str);
           description = ''Owner specifies the file owner. You can specify either the string
 name, or a string representation of the owner integer uid.'';
+          default = null;
         };
         path = mkOption {
           type = types.nullOr (types.str);
           description = ''Path, which defaults to the name if not specified, represents the
 destination path for the file or directory being managed. It must be
 an absolute path, and as a result must start with a slash.'';
+          default = null;
         };
         purge = mkOption {
           type = types.nullOr (types.bool);
@@ -72,6 +81,7 @@ an absolute path, and as a result must start with a slash.'';
 directory will be removed. As a result, this file resource must be a
 directory. This isn'''t particularly meaningful if you don'''t also set
 Recurse to true. This doesn'''t work with Content or Fragments.'';
+          default = null;
         };
         recurse = mkOption {
           type = types.nullOr (types.bool);
@@ -81,6 +91,7 @@ should be recursive or not. When making a directory, this is required
 if you'''d need the parent directories to be made as well. (Analogous
 to the `mkdir -p` option.)
 FIXME: There are some unimplemented cases where we should look at it.'';
+          default = null;
         };
         source = mkOption {
           type = types.nullOr (types.str);
@@ -100,6 +111,7 @@ directory, then a directory will be created. If left undefined, and
 combined with the Purge option too, then any unmanaged file in this
 dir will be removed. Lastly, if the Symlink parameter is true, then
 this specifies the source that the symbolic symlink points to.'';
+          default = null;
         };
         state = mkOption {
           type = types.nullOr (types.str);
@@ -109,6 +121,7 @@ to create or remove a file if it might be logical for another
 param to require that. Instead it will error. This means that this
 field is not implied by specifying some content or a mode. This is
 also used when determining how we manage a symlink.'';
+          default = null;
         };
         symlink = mkOption {
           type = types.nullOr (types.bool);
@@ -116,6 +129,7 @@ also used when determining how we manage a symlink.'';
 source contents. Those do not have to point to an actual file or
 directory. The source in that case can be either an absolute or
 relative path.'';
+          default = null;
         };
       };
     }));

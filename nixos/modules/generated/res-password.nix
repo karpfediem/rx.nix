@@ -15,15 +15,18 @@ carry on casually without erroring the resource if the "check"
 facility fails. This can happen when loading a saved password from
 disk which is not of the expected length. In this case, we'''d discard
 the old saved password and create a new one without erroring.'';
+          default = null;
         };
         length = mkOption {
           type = types.nullOr (types.int);
           description = ''Length is the number of characters to return.
 FIXME: is uint16 too big?'';
+          default = null;
         };
         saved = mkOption {
           type = types.nullOr (types.bool);
           description = ''Saved caches the password in the clear locally.'';
+          default = null;
         };
       };
     }));

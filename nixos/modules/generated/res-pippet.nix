@@ -16,12 +16,14 @@ process that receives resources through a pipe (hence the name).'';
           description = ''Params is expected to be a hash in YAML format, pairing resource
 parameter names with their respective values, e.g. { ensure: present
 }'';
+          default = null;
         };
         title = mkOption {
           type = types.nullOr (types.str);
           description = ''Title is used by Puppet as the resource title. Puppet will often
 assign special meaning to the title, e.g. use it as the path for a
 file resource, or the name of a package.'';
+          default = null;
         };
         type = mkOption {
           type = types.nullOr (types.str);
@@ -30,6 +32,7 @@ file resource, or the name of a package.'';
 from a module. The Puppet installation local to the mgmt agent
 machine must be able recognize it. It has to be a native type though,
 as opposed to defined types from your Puppet manifest code.'';
+          default = null;
         };
       };
     }));

@@ -21,15 +21,18 @@ the nftables monitor facility.'';
           description = ''Ports are the list of port/protocol combinations to manage to the
 desired state. These are strings of port number (slash) protocol like
 `4280/tcp` and `38/udp`.'';
+          default = null;
         };
         services = mkOption {
           type = types.nullOr (types.listOf types.str);
           description = ''Services are the list of services to manage to the desired state.
 These are single lower case strings like `dhcp`, and `tftp`.'';
+          default = null;
         };
         state = mkOption {
           type = types.nullOr (types.str);
           description = ''State is the desired state.'';
+          default = null;
         };
         zone = mkOption {
           type = types.nullOr (types.str);
@@ -37,6 +40,7 @@ These are single lower case strings like `dhcp`, and `tftp`.'';
 attempt to get the default zone automatically. In this situation, it
 is possible that this default changes over time if it is acted upon
 by external tools that use firewalld.'';
+          default = null;
         };
       };
     }));

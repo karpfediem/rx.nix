@@ -22,6 +22,7 @@ in cidr notation, then the `mask` field must not be used. Otherwise
 it must be used. In both situations the cidr or mask must be
 consistent with the `to` field. If this field is used, you must not
 use the `network` field.'';
+          default = null;
         };
         mask = mkOption {
           type = types.nullOr (types.str);
@@ -30,6 +31,7 @@ This field must only be used if both `from` and `to` are specified,
 and if neither of them specify a cidr suffix. If neither do, then the
 mask here can be in either dotted format or, preferably, in cidr
 format by starting with a slash.'';
+          default = null;
         };
         nbp = mkOption {
           type = types.nullOr (types.str);
@@ -41,6 +43,7 @@ specify a file that doesn'''t begin with a leading slash. If you wish
 to specify a "root less" file (common for legacy tftp setups) then
 you can use this feature in conjunction with the NBPPath parameter.
 For DHCPv4, the scheme must be "tftp".'';
+          default = null;
         };
         nbp_path = mkOption {
           type = types.nullOr (types.str);
@@ -48,6 +51,7 @@ For DHCPv4, the scheme must be "tftp".'';
 default it is taken from parsing a URL in NBP, but this can override
 that. This is useful if you require a path that doesn'''t start with a
 slash. This is sometimes desirable for legacy tftp setups.'';
+          default = null;
         };
         network = mkOption {
           type = types.nullOr (types.str);
@@ -57,6 +61,7 @@ should have a network field here of 192.168.42.0/24. You can either
 specify this field or `from` and `to`, but not a different
 combination. If you don'''t specify any of these fields, then the
 resource name will be parsed as if it was used here.'';
+          default = null;
         };
         persist = mkOption {
           type = types.nullOr (types.bool);
@@ -70,6 +75,7 @@ TODO: Consider adding a new param to erase the persisted record
 database if any field param changes, as opposed to just looking at
 the name field alone.
 XXX: This is currently not implemented.'';
+          default = null;
         };
         server = mkOption {
           type = types.nullOr (types.str);
@@ -78,11 +84,13 @@ it is omitted, and there is only a single dhcp resource, then it will
 be grouped into it automatically. If there is more than one main dhcp
 resource being used, then the grouping behaviour is *undefined* when
 this is not specified, and it is not recommended to leave this blank!'';
+          default = null;
         };
         skip = mkOption {
           type = types.nullOr (types.listOf types.str);
           description = ''Skip is a list ip'''s in either cidr or standalone representation which
 will be skipped and not allocated.'';
+          default = null;
         };
         to = mkOption {
           type = types.nullOr (types.str);
@@ -91,6 +99,7 @@ cidr notation, then the `mask` field must not be used. Otherwise it
 must be used. In both situations the cidr or mask must be consistent
 with the `from` field. If this field is used, you must not use the
 `network` field.'';
+          default = null;
         };
       };
     }));

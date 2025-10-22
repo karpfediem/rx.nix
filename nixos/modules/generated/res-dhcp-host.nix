@@ -14,11 +14,13 @@ in
 because it specifies the netmask to be used in the DHCPv4 protocol.
 For example, you might specify 192.0.2.42/24 which represents a mask
 of 255.255.255.0 that will be sent.'';
+          default = null;
         };
         mac = mkOption {
           type = types.nullOr (types.str);
           description = ''Mac is the mac address of the host in lower case and separated with
 colons.'';
+          default = null;
         };
         nbp = mkOption {
           type = types.nullOr (types.str);
@@ -30,6 +32,7 @@ specify a file that doesn'''t begin with a leading slash. If you wish
 to specify a "root less" file (common for legacy tftp setups) then
 you can use this feature in conjunction with the NBPPath parameter.
 For DHCPv4, the scheme must be "tftp".'';
+          default = null;
         };
         nbp_path = mkOption {
           type = types.nullOr (types.str);
@@ -37,6 +40,7 @@ For DHCPv4, the scheme must be "tftp".'';
 default it is taken from parsing a URL in NBP, but this can override
 that. This is useful if you require a path that doesn'''t start with a
 slash. This is sometimes desirable for legacy tftp setups.'';
+          default = null;
         };
         server = mkOption {
           type = types.nullOr (types.str);
@@ -45,6 +49,7 @@ it is omitted, and there is only a single dhcp resource, then it will
 be grouped into it automatically. If there is more than one main dhcp
 resource being used, then the grouping behaviour is *undefined* when
 this is not specified, and it is not recommended to leave this blank!'';
+          default = null;
         };
       };
     }));

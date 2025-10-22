@@ -11,6 +11,7 @@ in
         comment = mkOption {
           type = types.nullOr (types.str);
           description = ''Comment is a useless comment field that you can use however you like.'';
+          default = null;
         };
       };
     }));

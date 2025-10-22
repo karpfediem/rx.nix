@@ -25,6 +25,7 @@ header format is stored for each individual file. The available
 values are: const.res.tar.format.unknown, const.res.tar.format.ustar,
 const.res.tar.format.pax, and const.res.tar.format.gnu which have
 values of 0, 2, 4, and 8 respectively.'';
+          default = null;
         };
         path = mkOption {
           type = types.nullOr (types.str);
@@ -32,6 +33,7 @@ values of 0, 2, 4, and 8 respectively.'';
 destination path for the compressed file being created. It must be an
 absolute path, and as a result must start with a slash. Since it is a
 file, it must not end with a slash.'';
+          default = null;
         };
       };
     }));
