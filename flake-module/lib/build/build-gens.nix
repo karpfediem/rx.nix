@@ -2,12 +2,12 @@
 pkgs: irByHost:
 let
   mclFromIr    = import ./codegen/mcl-from-ir.nix { inherit lib; };
-  writeDeploy  = import ./codegen/write-deploy.nix { inherit lib; };
-  writeSwitch = import ./build/write-switch.nix { mgmtBin = "${pkgs.mgmt}/bin/mgmt"; };
+  mkDeploy  = import ./mkDeploy.nix { inherit lib; };
+  writeSwitch = import ./write-switch.nix { mgmtBin = "${pkgs.mgmt}/bin/mgmt"; };
 in
 lib.mapAttrs (host: filesIR:
   let
-    deploy = writeDeploy {
+    deploy = mkDeploy {
       inherit pkgs filesIR;
       name    = host;
       mclText = mclFromIr filesIR;

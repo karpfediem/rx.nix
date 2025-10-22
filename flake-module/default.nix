@@ -20,7 +20,6 @@ in
     irByHost = irForSystem system;
     gens     = buildGens pkgs irByHost;
 
-    # NEW: expose selected paths and raw rx view per host
     selectedPaths =
       lib.mapAttrs (_host: ir: map (f: f.path) (ir.files or [])) irByHost;
 

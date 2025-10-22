@@ -1,5 +1,4 @@
-# write-deploy.nix
-# Build the mgmt deploy directory from IR + MCL text.
+# Build the mgmt deploy directory from IR
 { lib }:
 { pkgs, name, filesIR, mclText }:
 
@@ -9,6 +8,7 @@ pkgs.stdenvNoCC.mkDerivation {
   nativeBuildInputs = [ pkgs.jq ];
   preferLocalBuild = true;
   allowSubstitutes = false;
+  # TODO replace with builder outside nix that consumes IR to build the MCL deploy
   buildCommand = ''
     set -euo pipefail
     mkdir -p "$out/deploy/files"

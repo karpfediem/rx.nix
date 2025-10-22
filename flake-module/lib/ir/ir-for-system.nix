@@ -13,22 +13,26 @@ let
   inherit (lib) mapAttrs filterAttrs;
 
   # Selection pipeline pieces
-  collectPolicies = import ./policy/collect-policies.nix { inherit lib; };
-  etcOriginsOf    = import ./origins/etc-origins.nix     { inherit lib; };
-  selectFiles     = import ./select/select-files.nix     { inherit lib; };
+  # collectPolicies = import ./convert/policy/collect-policies.nix { inherit lib; };
+  # etcOriginsOf    = import ./convert/origins/etc-origins.nix     { inherit lib; };
+  # selectFiles     = import ./convert/select/select-files.nix     { inherit lib; };
 
   # IR projector (validates “exactly one of text | source | (generator+value)”)
   projectIR = import ./project-ir.nix { inherit lib; };
 
   discoverHosts = system:
-    let all = (self.nixosConfigurations or {});
-    in filterAttrs (_: cfg:
-      let hostSys =
-        cfg.pkgs.stdenv.hostPlatform.system
-        or cfg.pkgs.system
-        or null;
-      in hostSys == system
-    ) all;
+    let all = (self.nixosConfigurations or { });
+    in filterAttrs
+      (_: cfg:
+        let
+          hostSys =
+            cfg.pkgs.stdenv.hostPlatform.system
+              or cfg.pkgs.system
+              or null;
+        in
+        hostSys == system
+      )
+      all;
 
 in
 system:
@@ -36,17 +40,21 @@ let
   hosts = discoverHosts system;
   inherit (lib.lists) unique;
 in
-mapAttrs (_host: nixosCfg:
+mapAttrs
+  (_host: nixosCfg:
   let
-    policies   = collectPolicies nixosCfg;
-    etcOrigin  = etcOriginsOf nixosCfg;
-    filesAttr  = selectFiles { inherit nixosCfg policies; etcOrigins = etcOrigin; };
+    # policies   = collectPolicies nixosCfg;
+    # etcOrigin  = etcOriginsOf nixosCfg;
+    # selectedFilesIR  = projectIR (selectFiles { inherit nixosCfg policies; etcOrigins = etcOrigin; });
 
     mclPrelude = {
       imports = [ "deploy" ] ++ unique nixosCfg.config.rx.mcl.imports or [ ];
-      vars    = nixosCfg.config.rx.mcl.vars    or { };
-      raw     = nixosCfg.config.rx.mcl.raw     or [ ];
+      vars = nixosCfg.config.rx.mcl.vars    or { };
+      raw = nixosCfg.config.rx.mcl.raw     or [ ];
+      res = nixosCfg.config.rx.res or { };
     };
   in
-    (projectIR filesAttr) // { inherit mclPrelude; }
-) hosts
+  { inherit mclPrelude; }
+    #// selectedFilesIR
+  )
+  hosts
