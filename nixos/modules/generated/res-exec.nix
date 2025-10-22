@@ -96,7 +96,6 @@ output matches this string, then it will guard against the Cmd
 running. This can be the empty string. Remember to take into account
 if the output includes a trailing newline or not. (Hint: it usually
 does!)'';
-          default = null;
         };
         ifshell = mkOption {
           type = types.str;
@@ -129,17 +128,14 @@ and there are none in the cache, and instead are relying on a runtime
 mechanism to help us out. This can commonly occur if you wish to make
 incremental progress when locally testing some code using Send/Recv,
 but you are combining it with --tmp-prefix for other reasons.'';
-          default = null;
         };
         send_stderr = mkOption {
           type = lib.types.nullOr (types.str);
           description = ''SendStderr is like SendOutput but for stderr alone. See those docs.'';
-          default = null;
         };
         send_stdout = mkOption {
           type = lib.types.nullOr (types.str);
           description = ''SendStdout is like SendOutput but for stdout alone. See those docs.'';
-          default = null;
         };
         shell = mkOption {
           type = types.str;

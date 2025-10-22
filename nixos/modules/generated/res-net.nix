@@ -27,7 +27,6 @@ each be in CIDR notation such as: 192.0.2.42/24 for example.'';
 packets onward when this is set. It default to unspecified, which
 downstream (in the systemd-networkd configuration) defaults to false.
 XXX: this could also be "ipv4" or "ipv6", add those as a second option?'';
-          default = null;
         };
         state = mkOption {
           type = types.str;

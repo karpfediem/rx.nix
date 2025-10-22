@@ -44,7 +44,6 @@ by the golang time.ParseDuration function, for example "60s" or "10m"
 or "1h42m13s". If it is unspecified, then a default will be used. If
 the empty string is specified, then no lease time will be set in the
 DHCP protocol, and your DHCP server might not work as you intend.'';
-          default = null;
         };
         nbp = mkOption {
           type = types.str;
@@ -77,7 +76,6 @@ Please note that if you attempt to automatically determine this from
 the specified interface, then this only happens at runtime when the
 first DHCP request needs this or during CheckApply, either of which
 could fail if for some reason it is not available.'';
-          default = null;
         };
       };
     }));

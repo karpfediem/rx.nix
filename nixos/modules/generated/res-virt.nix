@@ -14,7 +14,6 @@ TODO: some values inside here should be enum'''s!'';
         auth = mkOption {
           type = lib.types.nullOr (types.str);
           description = ''Auth points to the libvirt credentials to use if any are necessary.'';
-          default = null;
         };
         boot = mkOption {
           type = types.listOf types.str;

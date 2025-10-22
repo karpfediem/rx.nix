@@ -17,12 +17,10 @@ resources of the same UID. See the --non-unique flag in `useradd`.'';
         gid = mkOption {
           type = lib.types.nullOr (types.str);
           description = ''GID of the user'''s primary group.'';
-          default = null;
         };
         group = mkOption {
           type = lib.types.nullOr (types.str);
           description = ''Group is the name of the user'''s primary group.'';
-          default = null;
         };
         groups = mkOption {
           type = types.listOf types.str;
@@ -31,14 +29,12 @@ resources of the same UID. See the --non-unique flag in `useradd`.'';
         homedir = mkOption {
           type = lib.types.nullOr (types.str);
           description = ''HomeDir is the path to the user'''s home directory.'';
-          default = null;
         };
         shell = mkOption {
           type = lib.types.nullOr (types.str);
           description = ''Shell is the users login shell. Many options may exist in the
 `/etc/shells` file. If you set this, you most likely want to pick
 `/bin/bash` or `/usr/sbin/nologin`.'';
-          default = null;
         };
         state = mkOption {
           type = types.str;
@@ -48,7 +44,6 @@ resources of the same UID. See the --non-unique flag in `useradd`.'';
           type = lib.types.nullOr (types.str);
           description = ''UID specifies the usually unique user ID. It must be unique unless
 AllowDuplicateUID is true.'';
-          default = null;
         };
       };
     }));

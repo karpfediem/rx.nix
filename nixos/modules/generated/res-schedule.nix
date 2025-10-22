@@ -16,7 +16,6 @@ undefined which options if any will get chosen.'';
           type = lib.types.nullOr (types.str);
           description = ''Max is the max number of hosts to elect. If this is unspecified, then
 a default of 1 is used.'';
-          default = null;
         };
         namespace = mkOption {
           type = types.str;
@@ -31,20 +30,17 @@ expire, and the scheduler will react instantly and remove that host
 entry from the list. If this is true, or if the host closes without a
 clean shutdown, it will take the TTL number of seconds to remove the
 entry.'';
-          default = null;
         };
         strategy = mkOption {
           type = lib.types.nullOr (types.str);
           description = ''Strategy is the scheduling strategy to use. If this value is nil or,
 undefined, then a default will be chosen automatically.'';
-          default = null;
         };
         ttl = mkOption {
           type = lib.types.nullOr (types.str);
           description = ''TTL is the time to live for added scheduling "votes". If this value
 is nil or, undefined, then a default value is used. See the `Reuse`
 entry for more information.'';
-          default = null;
         };
       };
     }));

@@ -46,7 +46,6 @@ the value is greater when using the SkipLessThan parameter.'';
           type = lib.types.nullOr (types.str);
           description = ''Value represents the string value to set. If this value is nil or,
 undefined, then this will delete that key.'';
-          default = null;
         };
       };
     }));

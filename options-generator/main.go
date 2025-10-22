@@ -509,9 +509,8 @@ func writeResourceNix(path string, r ResourceInfo) error {
 		} else {
 			fmt.Fprintf(&b, "          description = \"\";\n")
 		}
-		if f.Optional {
-			fmt.Fprintf(&b, "          default = null;\n")
-		}
+		// No default here: optionality is expressed by types.nullOr; leaving it unset
+		// keeps the option truly optional for downstream merges.
 		fmt.Fprintf(&b, "        };\n")
 	}
 

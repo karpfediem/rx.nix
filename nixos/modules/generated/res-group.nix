@@ -11,7 +11,6 @@ in
         gid = mkOption {
           type = lib.types.nullOr (types.str);
           description = ''GID is the group'''s gid.'';
-          default = null;
         };
         state = mkOption {
           type = types.str;

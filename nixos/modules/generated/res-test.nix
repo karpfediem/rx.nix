@@ -23,7 +23,6 @@ in
         boolptr = mkOption {
           type = lib.types.nullOr (types.bool);
           description = "";
-          default = null;
         };
         byte = mkOption {
           type = types.str;
@@ -48,7 +47,6 @@ in
         expectrecv = mkOption {
           type = lib.types.nullOr (types.str);
           description = ''what keys should we expect from send/recv?'';
-          default = null;
         };
         float32 = mkOption {
           type = types.float;
@@ -81,7 +79,6 @@ in
         int64ptr = mkOption {
           type = lib.types.nullOr (types.str);
           description = "";
-          default = null;
         };
         int8 = mkOption {
           type = types.int;
@@ -90,12 +87,10 @@ in
         int8ptr = mkOption {
           type = lib.types.nullOr (types.str);
           description = "";
-          default = null;
         };
         int8ptrptrptr = mkOption {
           type = lib.types.nullOr (types.str);
           description = ''Int8PtrPtrPtr probably makes no sense, but is legal.'';
-          default = null;
         };
         interface = mkOption {
           type = types.str;
@@ -132,7 +127,6 @@ in
         stringptr = mkOption {
           type = lib.types.nullOr (types.str);
           description = ''TODO: tag name?'';
-          default = null;
         };
         uint = mkOption {
           type = types.int;
@@ -157,7 +151,6 @@ in
         uint8ptr = mkOption {
           type = lib.types.nullOr (types.str);
           description = "";
-          default = null;
         };
         validatebool = mkOption {
           type = types.bool;

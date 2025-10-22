@@ -28,7 +28,6 @@ FIXME: Do we need []byte here? Do we need a binary type?'';
 absolute path, and as a result must start with a slash. Since it is a
 file, it must not end with a slash. If this is specified, we use it,
 otherwise we use the Content parameter.'';
-          default = null;
         };
         level = mkOption {
           type = types.int;

@@ -18,7 +18,6 @@ a slash.'';
           description = ''Content specifies the file contents to use. If this is nil, they are
 left undefined. It cannot be combined with the Source or Fragments
 parameters.'';
-          default = null;
         };
         dirname = mkOption {
           type = types.str;
