@@ -10,16 +10,16 @@ Currently only allows you to change simple files (e.g sshd_config).'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         file = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''File is the path to the file targeted by this resource.'';
         };
         lens = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Lens is the lens used by this resource. If specified, mgmt
 will lower the augeas overhead by only loading that lens.'';
         };
         sets = mkOption {
-          type = types.listOf types.str;
+          type = types.nullOr (types.listOf types.str);
           description = ''Sets is a list of changes that will be applied to the file, in the
 form of ["path", "value"]. mgmt will run augeas.Get() before
 augeas.Set(), to prevent changing the file when it is not needed.'';

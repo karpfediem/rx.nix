@@ -540,12 +540,11 @@ func escapeNix(s string) string {
 	return s
 }
 
-func nixTypeForGo(goType string, optional bool) string {
-	// Minimal mapping; refine later for maps/lists where possible
+func nixTypeForGo(goType string, _ bool) string {
+	// Base type for the non-null case
 	base := func() string {
 		switch {
 		case strings.HasPrefix(goType, "[]"):
-			// list
 			inner := strings.TrimPrefix(goType, "[]")
 			return fmt.Sprintf("types.listOf %s", nixPrim(inner))
 		case strings.HasPrefix(goType, "map["):
@@ -554,10 +553,12 @@ func nixTypeForGo(goType string, optional bool) string {
 			return nixPrim(goType)
 		}
 	}()
-	if optional {
-		return fmt.Sprintf("lib.types.nullOr (%s)", base)
-	}
-	return base
+
+	// Make every field nullable in the generated Nix options.
+	// The resulting modules are checked at runtime with custom validation logic.
+	// This keeps our nix code much leaner.
+	// We might still check this during generation of the MCL code by using the same validation function of mgmt.
+	return fmt.Sprintf("types.nullOr (%s)", base)
 }
 
 func nixPrim(goType string) string {

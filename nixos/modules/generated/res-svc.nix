@@ -9,18 +9,18 @@ in
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         session = mkOption {
-          type = types.bool;
+          type = types.nullOr (types.bool);
           description = ''Session specifies if this is for a system service (false) or a user
 session specific service (true).
 user session (true) or system?'';
         };
         startup = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Startup specifies what should happen on startup. Values can be:
 enabled, disabled, and undefined (empty string).'';
         };
         state = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''State is the desired state for this resource. Valid values include:
 running, stopped, and undefined (empty string).'';
         };

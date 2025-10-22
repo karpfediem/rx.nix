@@ -18,7 +18,7 @@ error. Of course we can never know if the user edited these elsewhere.'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         check = mkOption {
-          type = types.bool;
+          type = types.nullOr (types.bool);
           description = ''Check (which defaults to true) turns off the validation that runs
 before we attempt to change a setting. This should only be used in
 rare exceptions where you have an old/buggy version of firmware that
@@ -29,7 +29,7 @@ of `HDD0:HDD1:HDD2:...` which would be illogical. Newer versions just
 have type "string".'';
         };
         driver = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Driver is the interface that is supported. Available options can be
 found in the /sys/class/firmware-attributes/ directory. Common values
 include "thinklmi" (lenovo), "dell-wmi-sysman" (dell) and more. If
@@ -38,12 +38,12 @@ automatically, however if zero or more than one option exists, then
 this will error.'';
         };
         key = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Key is the name of the field to modify. If this is not set we use the
 Name field. This is case sensitive.'';
         };
         skip = mkOption {
-          type = types.bool;
+          type = types.nullOr (types.bool);
           description = ''Skip let'''s you turn this resource into a "noop" if the key doesn'''t
 exist. This should ideally not be used because a typo would
 effectively make this resource ineffective. As a result, if you use
@@ -54,7 +54,7 @@ errors if one of them has an old version of a BIOS without that
 feature.'';
         };
         value = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Value is the string value to set. Make sure you specify it in the
 same format that the kernel offers it as to avoid automation
 "flapping" or errors. You can test this by writing a value to the

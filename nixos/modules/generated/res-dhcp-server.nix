@@ -20,25 +20,25 @@ TODO: Add autoedges between the Interface and any identically named NetRes.'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         address = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Address is the listen address to use for the dhcp server. It is
 common to use `:67` (the standard) to listen on UDP port 67 on all
 addresses.'';
         };
         dns = mkOption {
-          type = types.listOf types.str;
+          type = types.nullOr (types.listOf types.str);
           description = ''DNS represents a list of DNS servers to offer to the DHCP client.
 XXX: Is it mandatory? https://github.com/insomniacslk/dhcp/issues/359'';
         };
         interface = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Interface is interface to bind to. For example `eth0` for the common
 case. You may leave this field blank to not run any specific binding.
 XXX: You need to actually specify an interface here at the moment. :(
 BUG: https://github.com/insomniacslk/dhcp/issues/372'';
         };
         leasetime = mkOption {
-          type = lib.types.nullOr (types.str);
+          type = types.nullOr (types.str);
           description = ''LeaseTime is the default lease duration in a format that is parseable
 by the golang time.ParseDuration function, for example "60s" or "10m"
 or "1h42m13s". If it is unspecified, then a default will be used. If
@@ -46,7 +46,7 @@ the empty string is specified, then no lease time will be set in the
 DHCP protocol, and your DHCP server might not work as you intend.'';
         };
         nbp = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''NBP is the network boot program URL. This is used for the tftp server
 name and the boot file name. For example, you might use:
 tftp://192.0.2.13/pxelinux.0 for a common bios, pxe boot setup. Note
@@ -59,12 +59,12 @@ default for all dhcp:host resources. You can specify this here, and
 the NBPPath per-resource and they will successfully combine.'';
         };
         routers = mkOption {
-          type = types.listOf types.str;
+          type = types.nullOr (types.listOf types.str);
           description = ''Routers represents a list of routers to offer to the DHCP client. It
 is most common to only specify one unless you know what you'''re doing.'';
         };
         serverid = mkOption {
-          type = lib.types.nullOr (types.str);
+          type = types.nullOr (types.str);
           description = ''ServerID is a unique IPv4 identifier for this server as specified in
 the DHCPv4 protocol. It is almost always the IP address of the DHCP
 server. If you don'''t specify this, then we will attempt to determine

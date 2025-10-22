@@ -14,23 +14,23 @@ Key is specified explicitly, then we won'''t use anything from the Name.'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         address = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Address is the address of the Consul server. Default: 127.0.0.1:8500.'';
         };
         key = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Key is the name of the key. Defaults to the name of the resource.'';
         };
         scheme = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Scheme is the URI scheme for the Consul server. Default: http.'';
         };
         token = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Token is used to provide an ACL token to use for this resource.'';
         };
         value = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Value is the value for the key.'';
         };
       };

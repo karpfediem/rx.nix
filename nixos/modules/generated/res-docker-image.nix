@@ -10,12 +10,12 @@ docker image in any supported format (url, image, or image:tag).'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         apiversion = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''APIVersion allows you to override the host'''s default client API
 version.'';
         };
         state = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''State of the image must be exists or absent.'';
         };
       };

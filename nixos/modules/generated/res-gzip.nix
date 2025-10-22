@@ -15,7 +15,7 @@ TODO: support send/recv to send the output instead of writing to a file?'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         content = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Content is the raw data to compress. If Input is not specified, then
 we use this parameter. If you forget to specify both of these, then
 you will compress zero-length data!
@@ -23,14 +23,14 @@ TODO: If this is also empty should we just error at Validate?
 FIXME: Do we need []byte here? Do we need a binary type?'';
         };
         input = mkOption {
-          type = lib.types.nullOr (types.str);
+          type = types.nullOr (types.str);
           description = ''Input represents the input file to be compressed. It must be an
 absolute path, and as a result must start with a slash. Since it is a
 file, it must not end with a slash. If this is specified, we use it,
 otherwise we use the Content parameter.'';
         };
         level = mkOption {
-          type = types.int;
+          type = types.nullOr (types.int);
           description = ''Level is the compression level to use. If you change this, then the
 file will get recompressed. The available values are:
 const.res.gzip.level.no_compression, const.res.gzip.level.best_speed,
@@ -39,7 +39,7 @@ const.res.gzip.level.default_compression, and
 const.res.gzip.level.huffman_only.'';
         };
         path = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Path, which defaults to the name if not specified, represents the
 destination path for the compressed file being created. It must be an
 absolute path, and as a result must start with a slash. Since it is a

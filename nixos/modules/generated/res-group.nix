@@ -9,11 +9,11 @@ in
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         gid = mkOption {
-          type = lib.types.nullOr (types.str);
+          type = types.nullOr (types.str);
           description = ''GID is the group'''s gid.'';
         };
         state = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''State is `exists` or `absent`.'';
         };
       };

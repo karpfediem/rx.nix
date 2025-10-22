@@ -15,14 +15,14 @@ it with `env => sys.env()` in your exec resource.'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         args = mkOption {
-          type = types.listOf types.str;
+          type = types.nullOr (types.listOf types.str);
           description = ''Args is a list of args to pass to Cmd. This can be used *instead* of
 passing the full command and args as a single string to Cmd. It can
 only be used when a Shell is *not* specified. The advantage of this
 is that you don'''t have to worry about escape characters.'';
         };
         cmd = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Cmd is the command to run. If this is not specified, we use the name.
 Remember that if you'''re not using `Shell` (the default) then adding
 single quotes around args make them part of the actual values. IOW,
@@ -35,7 +35,7 @@ field instead of including them here.
 XXX: if not using shell, don'''t allow args here, force them to args!'';
         };
         creates = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Creates is the absolute file path to check for before running the
 main cmd. If this path exists, then the cmd will not run. More
 precisely we attempt to `stat` the file, so it must succeed for a
@@ -43,7 +43,7 @@ skip. This also adds a watch on this path which re-checks things when
 it changes.'';
         };
         cwd = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Cwd is the dir to run the command in. If empty, then this will use
 the working directory of the calling process. (This process is mgmt,
 not the process being run here.) Keep in mind that if you'''re running
@@ -52,45 +52,45 @@ directory, you may wish to set this to `/` to avoid hitting an error
 such as: `could not change directory to "/root": Permission denied`.'';
         };
         donecmd = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''DoneCmd is the command that runs after the regular Cmd runs
 successfully. This is a useful pattern to avoid the shelling out to
 bash simply to do `$cmd && echo done > /tmp/donefile`. If this
 command errors, it behaves as if the normal Cmd had errored.'';
         };
         donecwd = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''DoneCwd is the Cwd for the DoneCmd. See the docs for Cwd.'';
         };
         doneshell = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''DoneShell is the Shell for the DoneCmd. See the docs for Shell.'';
         };
         env = mkOption {
-          type = types.attrsOf types.str;
+          type = types.nullOr (types.attrsOf types.str);
           description = ''Env allows the user to specify environment variables for script
 execution. These are taken using a map of format of VAR_KEY -> value.
 Omitting this value or setting it to an empty array will cause the
 program to be run with an empty environment.'';
         };
         group = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Group is the (optional) group to use to execute the command. It is
 used for any command being run.'';
         };
         ifcmd = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''IfCmd is the command that runs to guard against running the Cmd. If
 this command succeeds, then Cmd *will not* be blocked from running.
 If this command returns a non-zero result, then the Cmd will not be
 run. Any error scenario or timeout will cause the resource to error.'';
         };
         ifcwd = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''IfCwd is the Cwd for the IfCmd. See the docs for Cwd.'';
         };
         ifequals = mkOption {
-          type = lib.types.nullOr (types.str);
+          type = types.nullOr (types.str);
           description = ''IfEquals specifies that if the ifcmd returns zero, and that the
 output matches this string, then it will guard against the Cmd
 running. This can be the empty string. Remember to take into account
@@ -98,11 +98,11 @@ if the output includes a trailing newline or not. (Hint: it usually
 does!)'';
         };
         ifshell = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''IfShell is the Shell for the IfCmd. See the docs for Shell.'';
         };
         nifcmd = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''NIfCmd is the command that runs to guard against running the Cmd. If
 this command succeeds, then Cmd *will* be blocked from running. If
 this command returns a non-zero result, then the Cmd will be allowed
@@ -110,15 +110,15 @@ to run if not blocked by anything else. This is the opposite of the
 IfCmd.'';
         };
         nifcwd = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''NIfCwd is the Cwd for the NIfCmd. See the docs for Cwd.'';
         };
         nifshell = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''NIfShell is the Shell for the NIfCmd. See the docs for Shell.'';
         };
         send_output = mkOption {
-          type = lib.types.nullOr (types.str);
+          type = types.nullOr (types.str);
           description = ''SendOutput is a value which can be sent for the Send/Recv Output
 field if no value is available in the cache. This is used in very
 specialized scenarios (particularly prototyping and unclean
@@ -130,46 +130,46 @@ incremental progress when locally testing some code using Send/Recv,
 but you are combining it with --tmp-prefix for other reasons.'';
         };
         send_stderr = mkOption {
-          type = lib.types.nullOr (types.str);
+          type = types.nullOr (types.str);
           description = ''SendStderr is like SendOutput but for stderr alone. See those docs.'';
         };
         send_stdout = mkOption {
-          type = lib.types.nullOr (types.str);
+          type = types.nullOr (types.str);
           description = ''SendStdout is like SendOutput but for stdout alone. See those docs.'';
         };
         shell = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Shell is the (optional) shell to use to run the cmd. If you specify
 this, then you can'''t use the Args parameter. Note that unless you
 use absolute paths, or set the PATH variable, the shell might not be
 able to find the program you'''re trying to run.'';
         };
         timeout = mkOption {
-          type = types.int;
+          type = types.nullOr (types.int);
           description = ''Timeout is the number of seconds to wait before sending a Kill to the
 running command. If the Kill is received before the process exits,
 then this be treated as an error.'';
         };
         user = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''User is the (optional) user to use to execute the command. It is used
 for any command being run.'';
         };
         watchcmd = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''WatchCmd is the command to run to detect event changes. Each line of
 output from this command is treated as an event.'';
         };
         watchcwd = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''WatchCwd is the Cwd for the WatchCmd. See the docs for Cwd.'';
         };
         watchfiles = mkOption {
-          type = types.listOf types.str;
+          type = types.nullOr (types.listOf types.str);
           description = ''WatchFiles is a list of files that will be kept track of.'';
         };
         watchshell = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''WatchShell is the Shell for the WatchCmd. See the docs for Shell.'';
         };
       };

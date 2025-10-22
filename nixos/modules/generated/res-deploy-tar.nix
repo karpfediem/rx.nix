@@ -18,7 +18,7 @@ file resource to store those contents on disk with whatever mode we want...'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         format = mkOption {
-          type = types.int;
+          type = types.nullOr (types.int);
           description = ''Format is the header format to use. If you change this, then the
 file will get rearchived. The strange thing is that it seems the
 header format is stored for each individual file. The available
@@ -27,7 +27,7 @@ const.res.tar.format.pax, and const.res.tar.format.gnu which have
 values of 0, 2, 4, and 8 respectively.'';
         };
         path = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Path, which defaults to the name if not specified, represents the
 destination path for the compressed file being created. It must be an
 absolute path, and as a result must start with a slash. Since it is a

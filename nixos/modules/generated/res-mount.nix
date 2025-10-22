@@ -11,28 +11,28 @@ accordingly. The mount point is set according to the resource'''s name.'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         device = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Device is the location of the device or image.'';
         };
         freq = mkOption {
-          type = types.int;
+          type = types.nullOr (types.int);
           description = ''Freq is the dump frequency.'';
         };
         options = mkOption {
-          type = types.attrsOf types.str;
+          type = types.nullOr (types.attrsOf types.str);
           description = ''Options are mount options.'';
         };
         passno = mkOption {
-          type = types.int;
+          type = types.nullOr (types.int);
           description = ''PassNo is the verification order.'';
         };
         state = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''State must be exists or absent. If absent, remaining fields are
 ignored.'';
         };
         type = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Type of the filesystem.'';
         };
       };

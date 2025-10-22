@@ -9,19 +9,19 @@ in
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         ip = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''IP is the IPv4 address with the CIDR suffix. The suffix is required
 because it specifies the netmask to be used in the DHCPv4 protocol.
 For example, you might specify 192.0.2.42/24 which represents a mask
 of 255.255.255.0 that will be sent.'';
         };
         mac = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Mac is the mac address of the host in lower case and separated with
 colons.'';
         };
         nbp = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''NBP is the network boot program URL. This is used for the tftp server
 name and the boot file name. For example, you might use:
 tftp://192.0.2.13/pxelinux.0 for a common bios, pxe boot setup. Note
@@ -32,14 +32,14 @@ you can use this feature in conjunction with the NBPPath parameter.
 For DHCPv4, the scheme must be "tftp".'';
         };
         nbp_path = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''NBPPath overrides the path that is sent for the nbp protocols. By
 default it is taken from parsing a URL in NBP, but this can override
 that. This is useful if you require a path that doesn'''t start with a
 slash. This is sometimes desirable for legacy tftp setups.'';
         };
         server = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Server is the name of the dhcp server resource to group this into. If
 it is omitted, and there is only a single dhcp resource, then it will
 be grouped into it automatically. If there is more than one main dhcp

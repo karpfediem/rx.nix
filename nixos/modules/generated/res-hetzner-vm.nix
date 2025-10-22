@@ -35,7 +35,7 @@ TODO: build tests for hetzner:vm? But hcloud-go has no mocking package.
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         allowrebuild = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''AllowRebuild provides flexible protection against unexpected server
 rebuilds. Any changes to the "servertype", "datacenter" or "image" params
 require a destructive rebuild, which deletes all data on that server.
@@ -49,7 +49,7 @@ because they are only required for explicit changes to resource fields.
 TODO: add AllowReboot if any indirect poweroffs are ever implemented.'';
         };
         apitoken = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''APIToken specifies the unique API token corresponding to a Hetzner
 project. Keep this token private! It provides full access to this
 project, so a leaked token will be vulnerable to abuse. Read it from
@@ -58,7 +58,7 @@ NOTE: It must be generated manually via https://console.hetzner.cloud/.
 NOTE: This token is usually a 64 character alphanumeric string.'';
         };
         datacenter = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Datacenter determines where the resource is hosted.  A complete and
 up-to-date list of options must be requested from the Hetzner API, but
 hcloud-go-getopts (url) provides a static reference. The datacenter
@@ -66,7 +66,7 @@ options include "nbg1-dc3", "fsn1-dc14", "hel1-dc2" etc.
 https://github.com/JefMasereel/hcloud-go-getopts/'';
         };
         image = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Image determines the operating system to be installed. A complete and
 up-to-date list of options must be requested from the Hetzner API, but
 hcloud-go-getopts (url) provides a static reference. The image type
@@ -74,7 +74,7 @@ options include "centos-7", "ubuntu-18.04", "debian-10" etc.
 https://github.com/JefMasereel/hcloud-go-getopts/'';
         };
         serverrescuekeys = mkOption {
-          type = types.listOf types.str;
+          type = types.nullOr (types.listOf types.str);
           description = ''ServerRescueSSHKeys can be used to select a subset of keys that should be
 enabled for rescue mode operations over SSH. From all SSH keys known to
 the project client, choose a subset of keys by name, as an array of
@@ -85,7 +85,7 @@ are not (yet) detected or applied by CheckApply.
 TODO: improve ssh key handling at checkApplyRescueMode and serverRebuild.'';
         };
         serverrescuemode = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''ServerRescueMode specifies the image type used when enabling rescue mode.
 The supported image types are "linux32", "linux64" and "freebsd64".
 Alternatively, leave this string empty to disable rescue mode (default).
@@ -95,7 +95,7 @@ NOTE: Rescue mode can be used to log into the server over SSH and access
 the disks when the normal OS has trouble booting on its own.'';
         };
         servertype = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''ServerType determines the machine type as defined by Hetzner. A complete
 and up-to-date list of options must be requested from the Hetzner API,
 but hcloud-go-getopts (url) provides a static reference. Basic servertype
@@ -107,7 +107,7 @@ https://github.com/JefMasereel/hcloud-go-getopts/
 TODO: set some kind of cost-based protection policy?'';
         };
         state = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''State specifies the desired state of the server instance. The supported
 options are "" (undefined), "absent", "exists", "off" and "running".
 HetznerStateUndefined ("") leaves the state undefined by default.
@@ -120,12 +120,12 @@ NOTE: setting the state of a live server to "absent" will delete all data
 and services that are located on that instance! Use with caution.'';
         };
         userdata = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''UserData can be used to run commands on the server instance at creation.
 https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html.'';
         };
         waitinterval = mkOption {
-          type = types.int;
+          type = types.nullOr (types.int);
           description = ''WaitInterval is the interval in seconds that is used when waiting for
 transient states to converge between intermediate operations. A zero
 value causes the waiter to run without delays (burst requests). Although
@@ -136,7 +136,7 @@ resources under the same Hetzner project, and the expected rate of param
 updates. This will help to prevent rate limit errors.'';
         };
         waittimeout = mkOption {
-          type = types.int;
+          type = types.nullOr (types.int);
           description = ''WaitTimeout will cancel wait loops if they do not exit cleanly before
 the expected time in seconds, in order to detect defective loops and
 avoid unnecessary consumption of computational resources.'';

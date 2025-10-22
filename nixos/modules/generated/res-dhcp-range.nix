@@ -16,7 +16,7 @@ TODO: Add a setting to determine if we should allocate the last address.'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         from = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''From is the start address in the range inclusive. If it is specified
 in cidr notation, then the `mask` field must not be used. Otherwise
 it must be used. In both situations the cidr or mask must be
@@ -24,7 +24,7 @@ consistent with the `to` field. If this field is used, you must not
 use the `network` field.'';
         };
         mask = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Mask is the cidr or netmask of ip addresses in the specified range.
 This field must only be used if both `from` and `to` are specified,
 and if neither of them specify a cidr suffix. If neither do, then the
@@ -32,7 +32,7 @@ mask here can be in either dotted format or, preferably, in cidr
 format by starting with a slash.'';
         };
         nbp = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''NBP is the network boot program URL. This is used for the tftp server
 name and the boot file name. For example, you might use:
 tftp://192.0.2.13/pxelinux.0 for a common bios, pxe boot setup. Note
@@ -43,14 +43,14 @@ you can use this feature in conjunction with the NBPPath parameter.
 For DHCPv4, the scheme must be "tftp".'';
         };
         nbp_path = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''NBPPath overrides the path that is sent for the nbp protocols. By
 default it is taken from parsing a URL in NBP, but this can override
 that. This is useful if you require a path that doesn'''t start with a
 slash. This is sometimes desirable for legacy tftp setups.'';
         };
         network = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Network is the network number and cidr to determine the range. For
 example, the common network range of 192.168.42.1 to 192.168.42.255
 should have a network field here of 192.168.42.0/24. You can either
@@ -59,7 +59,7 @@ combination. If you don'''t specify any of these fields, then the
 resource name will be parsed as if it was used here.'';
         };
         persist = mkOption {
-          type = types.bool;
+          type = types.nullOr (types.bool);
           description = ''Persist should be true if you want to persist the lease information
 to disk so that a new (or changed) invocation of this resource with
 the same name, will regain that existing initial state at startup.
@@ -72,7 +72,7 @@ the name field alone.
 XXX: This is currently not implemented.'';
         };
         server = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Server is the name of the dhcp server resource to group this into. If
 it is omitted, and there is only a single dhcp resource, then it will
 be grouped into it automatically. If there is more than one main dhcp
@@ -80,12 +80,12 @@ resource being used, then the grouping behaviour is *undefined* when
 this is not specified, and it is not recommended to leave this blank!'';
         };
         skip = mkOption {
-          type = types.listOf types.str;
+          type = types.nullOr (types.listOf types.str);
           description = ''Skip is a list ip'''s in either cidr or standalone representation which
 will be skipped and not allocated.'';
         };
         to = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''To is the end address in the range inclusive. If it is specified in
 cidr notation, then the `mask` field must not be used. Otherwise it
 must be used. In both situations the cidr or mask must be consistent

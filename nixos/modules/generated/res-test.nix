@@ -9,155 +9,155 @@ in
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         alwaysgroup = mkOption {
-          type = types.bool;
+          type = types.nullOr (types.bool);
           description = ''set to true to cause auto grouping'';
         };
         anotherstr = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = "";
         };
         bool = mkOption {
-          type = types.bool;
+          type = types.nullOr (types.bool);
           description = "";
         };
         boolptr = mkOption {
-          type = lib.types.nullOr (types.bool);
+          type = types.nullOr (types.bool);
           description = "";
         };
         byte = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''alias for uint8'';
         };
         comment = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = "";
         };
         comparefail = mkOption {
-          type = types.bool;
+          type = types.nullOr (types.bool);
           description = ''will compare fail?'';
         };
         complex128 = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = "";
         };
         complex64 = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = "";
         };
         expectrecv = mkOption {
-          type = lib.types.nullOr (types.str);
+          type = types.nullOr (types.str);
           description = ''what keys should we expect from send/recv?'';
         };
         float32 = mkOption {
-          type = types.float;
+          type = types.nullOr (types.float);
           description = "";
         };
         float64 = mkOption {
-          type = types.float;
+          type = types.nullOr (types.float);
           description = "";
         };
         func1 = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Func1 passes the value 42 to the input and returns a string.'';
         };
         int = mkOption {
-          type = types.int;
+          type = types.nullOr (types.int);
           description = "";
         };
         int16 = mkOption {
-          type = types.int;
+          type = types.nullOr (types.int);
           description = "";
         };
         int32 = mkOption {
-          type = types.int;
+          type = types.nullOr (types.int);
           description = "";
         };
         int64 = mkOption {
-          type = types.int;
+          type = types.nullOr (types.int);
           description = "";
         };
         int64ptr = mkOption {
-          type = lib.types.nullOr (types.str);
+          type = types.nullOr (types.str);
           description = "";
         };
         int8 = mkOption {
-          type = types.int;
+          type = types.nullOr (types.int);
           description = "";
         };
         int8ptr = mkOption {
-          type = lib.types.nullOr (types.str);
+          type = types.nullOr (types.str);
           description = "";
         };
         int8ptrptrptr = mkOption {
-          type = lib.types.nullOr (types.str);
+          type = types.nullOr (types.str);
           description = ''Int8PtrPtrPtr probably makes no sense, but is legal.'';
         };
         interface = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = "";
         };
         mapintfloat = mkOption {
-          type = types.attrsOf types.str;
+          type = types.nullOr (types.attrsOf types.str);
           description = "";
         };
         mixedstruct = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = "";
         };
         onlyshow = mkOption {
-          type = types.listOf types.str;
+          type = types.nullOr (types.listOf types.str);
           description = ''what values do we show?'';
         };
         rune = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''alias for int32, represents a Unicode code point'';
         };
         sendvalue = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''what value should we send?'';
         };
         slicestring = mkOption {
-          type = types.listOf types.str;
+          type = types.nullOr (types.listOf types.str);
           description = "";
         };
         str = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''can'''t name it String because of String()'';
         };
         stringptr = mkOption {
-          type = lib.types.nullOr (types.str);
+          type = types.nullOr (types.str);
           description = ''TODO: tag name?'';
         };
         uint = mkOption {
-          type = types.int;
+          type = types.nullOr (types.int);
           description = "";
         };
         uint16 = mkOption {
-          type = types.int;
+          type = types.nullOr (types.int);
           description = "";
         };
         uint32 = mkOption {
-          type = types.int;
+          type = types.nullOr (types.int);
           description = "";
         };
         uint64 = mkOption {
-          type = types.int;
+          type = types.nullOr (types.int);
           description = "";
         };
         uint8 = mkOption {
-          type = types.int;
+          type = types.nullOr (types.int);
           description = "";
         };
         uint8ptr = mkOption {
-          type = lib.types.nullOr (types.str);
+          type = types.nullOr (types.str);
           description = "";
         };
         validatebool = mkOption {
-          type = types.bool;
+          type = types.nullOr (types.bool);
           description = ''set to true to cause a validate error'';
         };
         validateerror = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''set to cause a validate error'';
         };
       };

@@ -16,7 +16,7 @@ to the name of another driver an "s" is added or removed to the end.'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         driver = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Driver to use, such as: "gofish" or "rpc". This is a different
 concept than the "bmclib" driver vs provider distinction. Here we
 just statically pick what we'''re using without any magic. If not
@@ -24,30 +24,30 @@ specified, we parse this from the Name scheme. If this ends with an
 extra "s" then we use https instead of http.'';
         };
         hostname = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Hostname to connect to. If not specified, we parse this from the
 Name.'';
         };
         insecure_password = mkOption {
-          type = types.bool;
+          type = types.nullOr (types.bool);
           description = ''InsecurePassword can be set to true to allow a password in the Name.'';
         };
         password = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Password to use to connect. We do NOT parse this from the Name unless
 you set InsecurePassword to true.
 XXX: Use mgmt magic credentials in the future.'';
         };
         port = mkOption {
-          type = types.int;
+          type = types.nullOr (types.int);
           description = ''Port to connect to. If not specified, we parse this from the Name.'';
         };
         state = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''State of machine power. Can be "on" or "off".'';
         };
         username = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Username to use to connect. If not specified, we parse this from the
 Name.
 TODO: If the Username field is not set, should we parse from the

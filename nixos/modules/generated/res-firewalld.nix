@@ -17,22 +17,22 @@ the nftables monitor facility.'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         ports = mkOption {
-          type = types.listOf types.str;
+          type = types.nullOr (types.listOf types.str);
           description = ''Ports are the list of port/protocol combinations to manage to the
 desired state. These are strings of port number (slash) protocol like
 `4280/tcp` and `38/udp`.'';
         };
         services = mkOption {
-          type = types.listOf types.str;
+          type = types.nullOr (types.listOf types.str);
           description = ''Services are the list of services to manage to the desired state.
 These are single lower case strings like `dhcp`, and `tftp`.'';
         };
         state = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''State is the desired state.'';
         };
         zone = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Zone is the name of the zone to manage. If unspecified, we will
 attempt to get the default zone automatically. In this situation, it
 is possible that this default changes over time if it is acted upon

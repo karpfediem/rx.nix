@@ -15,7 +15,7 @@ of this resource for more information.'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         any = mkOption {
-          type = lib.types.nullOr (types.str);
+          type = types.nullOr (types.str);
           description = ''Any is an arbitrary value to store in this resource. It can also be
 sent via send/recv and received by the same mechanism as well. The
 received value overwrites this value for the lifetime of the

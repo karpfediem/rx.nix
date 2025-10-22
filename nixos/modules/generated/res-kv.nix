@@ -16,12 +16,12 @@ it will set the value to be the exact one if they are not identical already.'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         key = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Key represents the key to set. If it is not specified, the Name value
 is used instead.'';
         };
         mapped = mkOption {
-          type = types.bool;
+          type = types.nullOr (types.bool);
           description = ''Mapped specifies that we will store the value in a map with each
 hostname as part of the key. This is very useful for exchanging
 values when running this resource on multiple nodes simultaneously.
@@ -34,16 +34,16 @@ pulling values directly out of the same namespace that is shared by
 all nodes.'';
         };
         skipcmpstyle = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''SkipCmpStyle is the type of compare function used when determining if
 the value is greater when using the SkipLessThan parameter.'';
         };
         skiplessthan = mkOption {
-          type = types.bool;
+          type = types.nullOr (types.bool);
           description = ''SkipLessThan causes the value to be updated as long as it is greater.'';
         };
         value = mkOption {
-          type = lib.types.nullOr (types.str);
+          type = types.nullOr (types.str);
           description = ''Value represents the string value to set. If this value is nil or,
 undefined, then this will delete that key.'';
         };

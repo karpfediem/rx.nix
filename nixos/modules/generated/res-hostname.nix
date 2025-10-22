@@ -12,7 +12,7 @@ the empty string, then those variants are not managed by the resource.'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         hostname = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Hostname specifies the hostname we want to set in all of the places
 that it'''s possible. This is the fallback value for all the three
 fields below. If only this Hostname field is specified, this will set
@@ -20,18 +20,18 @@ all tree fields (PrettyHostname, StaticHostname, TransientHostname)
 to this value.'';
         };
         pretty_hostname = mkOption {
-          type = lib.types.nullOr (types.str);
+          type = types.nullOr (types.str);
           description = ''PrettyHostname is a free-form UTF8 host name for presentation to the
 user.'';
         };
         static_hostname = mkOption {
-          type = lib.types.nullOr (types.str);
+          type = types.nullOr (types.str);
           description = ''StaticHostname is the one configured in /etc/hostname or a similar
 file. It is chosen by the local user. It is not always in sync with
 the current host name as returned by the gethostname() system call.'';
         };
         transient_hostname = mkOption {
-          type = lib.types.nullOr (types.str);
+          type = types.nullOr (types.str);
           description = ''TransientHostname is the one configured via the kernel'''s
 sethostbyname(). It can be different from the static hostname in case
 DHCP or mDNS have been configured to change the name based on network

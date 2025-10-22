@@ -11,43 +11,43 @@ http://docs.aws.amazon.com/cli/latest/userguide/cli-config-files.html'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         erroronmalformedpost = mkOption {
-          type = types.bool;
+          type = types.nullOr (types.bool);
           description = ''ErrorOnMalformedPost controls whether or not malformed HTTP post
 requests, that cause JSON decoder errors, will also make the engine
 shut down. If ErrorOnMalformedPost set to true and an error occurs,
 Watch() will return the error and the engine will shut down.'';
         };
         imageid = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''ImageID to use, and note that it must be available on the chosen
 region.'';
         };
         region = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Region must match one of the AwsRegions. This list is static at the
 moment.'';
         };
         state = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''State must be running, stopped, or terminated.'';
         };
         type = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Type of ec2 instance, eg: t2.micro for example.'';
         };
         userdata = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''UserData is used to run bash and cloud-init commands on first launch.
 See http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html
 for documentation and examples.'';
         };
         watchendpoint = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''WatchEndpoint is the public url of the sns endpoint, eg:
 http://server:12345/ for example.'';
         };
         watchlistenaddr = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''WatchListenAddr is the local address or port that the sns listens on,
 eg: 10.0.0.0:23456 or 23456.'';
         };

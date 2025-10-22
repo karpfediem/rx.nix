@@ -9,23 +9,23 @@ in
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         allownonfree = mkOption {
-          type = types.bool;
+          type = types.nullOr (types.bool);
           description = ''AllowNonFree specifies if we want to allow nonfree packages to be
 found? Please see the PackageKit documentation for more information.'';
         };
         allowunsupported = mkOption {
-          type = types.bool;
+          type = types.nullOr (types.bool);
           description = ''AllowUnsupported specifies if we want to unsupported packages to be
 found? Please see the PackageKit documentation for more information.'';
         };
         allowuntrusted = mkOption {
-          type = types.bool;
+          type = types.nullOr (types.bool);
           description = ''AllowUntrusted specifies if we want to allow untrusted packages to be
 installed. Please see the PackageKit documentation for more
 information.'';
         };
         state = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''State determines if we want to install or uninstall the package, and
 what version we want to pin if any. Valid values include: installed,
 uninstalled, newest, and `version`, where you just put the raw

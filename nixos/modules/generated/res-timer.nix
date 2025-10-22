@@ -10,7 +10,7 @@ interval seconds.'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         interval = mkOption {
-          type = types.int;
+          type = types.nullOr (types.int);
           description = ''Interval between runs in seconds.'';
         };
       };

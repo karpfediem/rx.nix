@@ -11,11 +11,11 @@ automatic grouping.'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         msg = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Msg is the message to display.'';
         };
         refresh_only = mkOption {
-          type = types.bool;
+          type = types.nullOr (types.bool);
           description = ''RefreshOnly is an option that causes the message to be printed only
 when notified by another resource. When set to true, this resource
 cannot be autogrouped.'';

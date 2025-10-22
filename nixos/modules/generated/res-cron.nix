@@ -10,12 +10,12 @@ TODO: If we want to have an actual `crond` resource, name it LegacyCron.'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         accuracysec = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''AccuracySec is the accuracy of the timer in systemd-time time span
 format. It defaults to one minute.'';
         };
         persistent = mkOption {
-          type = types.bool;
+          type = types.nullOr (types.bool);
           description = ''Persistent, if true, means the time when the service unit was last
 triggered is stored on disk. When the timer is activated, the service
 unit is triggered immediately if it would have been triggered at
@@ -23,54 +23,54 @@ least once during the time when the timer was inactive. It defaults
 to false.'';
         };
         randomizeddelaysec = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''RandomizedDelaySec delays the timer by a randomly selected, evenly
 distributed amount of time between 0 and the specified time value.
 The value must be a valid systemd-time time span.'';
         };
         remainafterelapse = mkOption {
-          type = types.bool;
+          type = types.nullOr (types.bool);
           description = ''RemainAfterElapse, if true, means an elapsed timer will stay loaded,
 and its state remains queryable. If false, an elapsed timer unit that
 cannot elapse anymore is unloaded. It defaults to true.'';
         };
         session = mkOption {
-          type = types.bool;
+          type = types.nullOr (types.bool);
           description = ''Session, if true, creates the timer as the current user, rather than
 root. The service it points to must also be a user unit. It defaults
 to false.'';
         };
         startup = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Startup specifies what should happen on startup. Values can be:
 enabled, disabled, and undefined (empty string). We default to
 enabled.'';
         };
         state = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''State must be '''exists''' or '''absent'''.'';
         };
         time = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Time must be used with all triggers. For '''OnCalendar''', it must be in
 the format defined in '''man systemd-time''' under the heading '''Calendar
 Events'''. For all other triggers, time should be a valid time span as
 defined in '''man systemd-time''''';
         };
         trigger = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Trigger is the type of timer. Valid types are '''OnCalendar''',
 '''OnActiveSec'''. '''OnBootSec'''. '''OnStartupSec'''. '''OnUnitActiveSec''', and
 '''OnUnitInactiveSec'''. For more information see '''man systemd.timer'''.'';
         };
         unit = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Unit is the name of the systemd service unit. It is only necessary to
 set if you want to specify a service with a different name than the
 resource.'';
         };
         wakesystem = mkOption {
-          type = types.bool;
+          type = types.nullOr (types.bool);
           description = ''WakeSystem, if true, will cause the system to resume from suspend,
 should it be suspended and if the system supports this. It defaults
 to false.'';

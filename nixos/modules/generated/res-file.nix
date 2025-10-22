@@ -10,28 +10,28 @@ a slash.'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         basename = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Basename is used to override the path basename. (The file portion.)'';
         };
         content = mkOption {
-          type = lib.types.nullOr (types.str);
+          type = types.nullOr (types.str);
           description = ''Content specifies the file contents to use. If this is nil, they are
 left undefined. It cannot be combined with the Source or Fragments
 parameters.'';
         };
         dirname = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Dirname is used to override the path dirname. (The directory
 portion.)'';
         };
         force = mkOption {
-          type = types.bool;
+          type = types.nullOr (types.bool);
           description = ''Force must be set if we want to perform an unusual operation, such as
 changing a file into a directory or vice-versa. This is also required
 when changing a file or directory into a symlink or vice-versa.'';
         };
         fragments = mkOption {
-          type = types.listOf types.str;
+          type = types.nullOr (types.listOf types.str);
           description = ''Fragments specifies that the file is built from a list of individual
 files. If one of the files is a directory, then the list of files in
 that directory are the fragments to combine. Multiple of these can be
@@ -46,35 +46,35 @@ isn'''t recursive in that if a fragment is a directory, this only
 searches one level deep at the moment.'';
         };
         group = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Group specifies the file group. You can specify either the string
 name, or a string representation of the group integer gid.'';
         };
         mode = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Mode is the mode of the file as a string representation of the octal
 form or symbolic form.'';
         };
         owner = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Owner specifies the file owner. You can specify either the string
 name, or a string representation of the owner integer uid.'';
         };
         path = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Path, which defaults to the name if not specified, represents the
 destination path for the file or directory being managed. It must be
 an absolute path, and as a result must start with a slash.'';
         };
         purge = mkOption {
-          type = types.bool;
+          type = types.nullOr (types.bool);
           description = ''Purge specifies that when true, any unmanaged file in this file
 directory will be removed. As a result, this file resource must be a
 directory. This isn'''t particularly meaningful if you don'''t also set
 Recurse to true. This doesn'''t work with Content or Fragments.'';
         };
         recurse = mkOption {
-          type = types.bool;
+          type = types.nullOr (types.bool);
           description = ''Recurse specifies if you want to work recursively on the resource. It
 is used when copying a source directory, or to determine if a watch
 should be recursive or not. When making a directory, this is required
@@ -83,7 +83,7 @@ to the `mkdir -p` option.)
 FIXME: There are some unimplemented cases where we should look at it.'';
         };
         source = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Source specifies the source contents for the file resource. It cannot
 be combined with the Content or Fragments parameters. It must be an
 absolute path, and it can point to a file or a directory. If it
@@ -102,7 +102,7 @@ dir will be removed. Lastly, if the Symlink parameter is true, then
 this specifies the source that the symbolic symlink points to.'';
         };
         state = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''State specifies the desired state of the file. It can be either
 `exists` or `absent`. If you do not specify this, we will not be able
 to create or remove a file if it might be logical for another
@@ -111,7 +111,7 @@ field is not implied by specifying some content or a mode. This is
 also used when determining how we manage a symlink.'';
         };
         symlink = mkOption {
-          type = types.bool;
+          type = types.nullOr (types.bool);
           description = ''Symlink specifies that the file should be a symbolic link to the
 source contents. Those do not have to point to an actual file or
 directory. The source in that case can be either an absolute or

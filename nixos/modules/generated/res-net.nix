@@ -13,23 +13,23 @@ example. It supports flipping the state if you ask for it to be reversible.'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         addrs = mkOption {
-          type = types.listOf types.str;
+          type = types.nullOr (types.listOf types.str);
           description = ''Addrs is the list of addresses to set on the interface. They must
 each be in CIDR notation such as: 192.0.2.42/24 for example.'';
         };
         gateway = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Gateway represents the default route to set for the interface.'';
         };
         ip_forward = mkOption {
-          type = lib.types.nullOr (types.bool);
+          type = types.nullOr (types.bool);
           description = ''IPForward is a boolean that sets whether we should forward incoming
 packets onward when this is set. It default to unspecified, which
 downstream (in the systemd-networkd configuration) defaults to false.
 XXX: this could also be "ipv4" or "ipv6", add those as a second option?'';
         };
         state = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''State is the desired state of the interface. It can be "up", "down",
 or the empty string to leave that unspecified.'';
         };

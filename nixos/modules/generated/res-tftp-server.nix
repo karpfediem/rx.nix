@@ -15,20 +15,20 @@ combined as well.'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         address = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Address is the listen address to use for the tftp server. It is
 common to use `:69` (the standard) to listen on UDP port 69 on all
 addresses.'';
         };
         root = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Root is the root directory that we should serve files from. If it is
 not specified, then it is not used. Any tftp file resources will have
 precedence over anything in here, in case the same path exists twice.
 TODO: should we have a flag to determine the precedence rules here?'';
         };
         timeout = mkOption {
-          type = types.int;
+          type = types.nullOr (types.int);
           description = ''Timeout is the timeout in seconds to use for server connections.'';
         };
       };

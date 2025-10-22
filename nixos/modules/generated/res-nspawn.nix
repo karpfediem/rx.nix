@@ -9,7 +9,7 @@ in
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         state = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''State specifies the desired state for this resource. This must be
 either `running` or `stopped`.'';
         };

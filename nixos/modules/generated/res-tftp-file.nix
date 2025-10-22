@@ -13,23 +13,23 @@ associated with this resource available for serving from that tftp server.'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         data = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Data is the file content that should be used as the source for this
 file resource. It must not be combined with the path field.
 TODO: should this be []byte instead?'';
         };
         filename = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Filename is the name of the file this data should appear as on the
 tftp server.'';
         };
         path = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Path is the absolute path to a file that should be used as the source
 for this file resource. It must not be combined with the data field.'';
         };
         server = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Server is the name of the tftp server resource to group this into. If
 it is omitted, and there is only a single tftp resource, then it will
 be grouped into it automatically. If there is more than one main tftp

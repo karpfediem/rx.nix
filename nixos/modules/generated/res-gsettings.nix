@@ -15,32 +15,32 @@ single space character) or use the parameters.'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         group = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Group is the (optional) group to use to execute the command. It is
 used for any command being run.'';
         };
         key = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Key is the key to set.'';
         };
         schema = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Schema is the schema to use in. This can be schema:path if the schema
 doesn'''t have a fixed path. See the `gsettings` manual for more info.'';
         };
         type = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Type is the type value to set. This can be "bool", "str", "int", or
 "custom".
 XXX: add support for [][]str and so on...'';
         };
         user = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''User is the (optional) user to use to execute the command. It is used
 for any command being run.'';
         };
         value = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Value is the value to set. It is interface{} because it can hold any
 value type.
 XXX: Add resource unification to this key'';

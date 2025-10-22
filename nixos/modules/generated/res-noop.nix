@@ -9,7 +9,7 @@ in
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         comment = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Comment is a useless comment field that you can use however you like.'';
         };
       };

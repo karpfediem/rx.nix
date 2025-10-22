@@ -12,19 +12,19 @@ process that receives resources through a pipe (hence the name).'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         params = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Params is expected to be a hash in YAML format, pairing resource
 parameter names with their respective values, e.g. { ensure: present
 }'';
         };
         title = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Title is used by Puppet as the resource title. Puppet will often
 assign special meaning to the title, e.g. use it as the path for a
 file resource, or the name of a package.'';
         };
         type = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''Type is the exact name of the wrapped Puppet resource type, e.g.
 "file", "mount". This needs not be a core type. It can be a type
 from a module. The Puppet installation local to the mgmt agent

@@ -9,39 +9,39 @@ in
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         allowduplicateuid = mkOption {
-          type = types.bool;
+          type = types.nullOr (types.bool);
           description = ''AllowDuplicateUID is needed for a UID to be non-unique. This is rare
 but happens if you want more than one username to access the
 resources of the same UID. See the --non-unique flag in `useradd`.'';
         };
         gid = mkOption {
-          type = lib.types.nullOr (types.str);
+          type = types.nullOr (types.str);
           description = ''GID of the user'''s primary group.'';
         };
         group = mkOption {
-          type = lib.types.nullOr (types.str);
+          type = types.nullOr (types.str);
           description = ''Group is the name of the user'''s primary group.'';
         };
         groups = mkOption {
-          type = types.listOf types.str;
+          type = types.nullOr (types.listOf types.str);
           description = ''Groups are a list of supplemental groups.'';
         };
         homedir = mkOption {
-          type = lib.types.nullOr (types.str);
+          type = types.nullOr (types.str);
           description = ''HomeDir is the path to the user'''s home directory.'';
         };
         shell = mkOption {
-          type = lib.types.nullOr (types.str);
+          type = types.nullOr (types.str);
           description = ''Shell is the users login shell. Many options may exist in the
 `/etc/shells` file. If you set this, you most likely want to pick
 `/bin/bash` or `/usr/sbin/nologin`.'';
         };
         state = mkOption {
-          type = types.str;
+          type = types.nullOr (types.str);
           description = ''State is either exists or absent.'';
         };
         uid = mkOption {
-          type = lib.types.nullOr (types.str);
+          type = types.nullOr (types.str);
           description = ''UID specifies the usually unique user ID. It must be unique unless
 AllowDuplicateUID is true.'';
         };
