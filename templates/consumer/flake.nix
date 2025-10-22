@@ -5,7 +5,7 @@
     nixpkgs.url = "github:karpfediem/nixpkgs?ref=update-mgmt-1.0.0";
     flake-parts.url = "github:hercules-ci/flake-parts";
 
-    rxnix.url = "github:karpfediem/rx.nix";
+    rxnix.url = "git+file:///home/carp/code/rx.nix";
     rxnix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
@@ -29,12 +29,6 @@
             ({ ... }: {
               rx.enable = true;
 
-              # pick exactly one file
-              #rx.include.files."/etc/hosts".enable = true;
-
-              # (optional) override something so you can see it flow through
-              #rx.include.files."/etc/hosts".mode = "0644";
-
               rx.res.file."/tmp/test" = {
                 source = "/etc/hosts";
                 owner = "carp";
@@ -42,7 +36,7 @@
               };
 
               rx.res.file."/tmp/hello" = {
-                text = "Hello from rx module\n";
+                content = "Hello from rx module\n";
                 owner = "carp";
                 group = "users";
               };
