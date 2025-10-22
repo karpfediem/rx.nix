@@ -10,8 +10,8 @@ let
 
   allHosts = (self.nixosConfigurations or {});
   # Use the consumer's `self` inside ir-for-system
-  irForSystem = import ./lib/ir-for-system.nix { inherit lib self; };
-  buildGens   = import ./lib/build-gens.nix    { inherit lib; };
+  irForSystem = import ./lib/ir/ir-for-system.nix { inherit lib self; };
+  buildGens   = import ./lib/build/build-gens.nix    { inherit lib; };
 in
 {
   # ------------------------- perSystem outputs -------------------------------

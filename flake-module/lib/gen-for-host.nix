@@ -33,8 +33,8 @@ let
     or null;
 
   # Bring in the same helpers you already use
-  irForSystem = import ./ir-for-system.nix { inherit lib self; };
-  buildGens   = import ./build-gens.nix    { inherit lib; };
+  irForSystem = import ./ir/ir-for-system.nix { inherit lib self; };
+  buildGens   = import ./build/build-gens.nix    { inherit lib; };
 
 in
 withSystem hostSystem ({ pkgs, ... }:
