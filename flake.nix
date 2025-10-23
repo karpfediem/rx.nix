@@ -10,8 +10,8 @@
     flake-parts.lib.mkFlake { inherit inputs; } ({ withSystem, flake-parts-lib, ... }: {
       flake = {
         overlays.default = final: prev: {
-          options-generator = final.callPackage ./options-generator/package.nix { };
-          generated-options = final.callPackage ./options-generator/options-package.nix { };
+          codegen = final.callPackage ./pkgs/codegen.nix { };
+          nixos-options = final.callPackage ./pkgs/nixos-options.nix { };
         };
         flakeModules.default = flake-parts-lib.importApply ./flake-module { inherit withSystem; };
         nixosModules.default = import ./nixos;
@@ -27,7 +27,7 @@
         in
         {
           _module.args.pkgs = pkgs;
-          packages = { inherit (pkgs) options-generator generated-options; };
+          packages = { inherit (pkgs) codegen nixos-options; };
         };
 
       systems = [
