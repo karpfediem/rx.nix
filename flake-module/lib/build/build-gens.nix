@@ -28,7 +28,6 @@ pkgs.lib.mapAttrs
 
               # Canonical payload for this generation.
               ln -s "${deployDrv}/deploy" "$out/deploy"
-              ln -s "${deployDrv}/manifest.json" "$out/manifest.json"
 
               # switcher: link profile (nix-env --set), bounce service or run once
               cat > "$out/switch-to-configuration" <<'SH'
