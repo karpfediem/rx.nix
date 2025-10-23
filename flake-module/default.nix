@@ -38,6 +38,7 @@ in
     }) hosts;
   in
   {
+    nixpkgs.overlays = [ self.overlays.default ];
     packages.rx-selected = pkgs.writeText "rx-selected.json" (builtins.toJSON selectedPaths);
     packages.rx-rxview   = pkgs.writeText "rx-rxview.json"   (builtins.toJSON rxView);
     packages.rx-ir       = pkgs.writeText "rx-ir.json"       (builtins.toJSON irByHost);
