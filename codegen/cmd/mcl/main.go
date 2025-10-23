@@ -19,7 +19,6 @@ func main() {
 
 	inPath := flag.String("in", "-", "Input IR JSON file ('-' for stdin)")
 	outDir := flag.String("out", "", "Output directory for generated <host>.mcl files (required)")
-	hostName := flag.String("host-name", "host", "Filename stem to use when input is a single-host IR")
 	flag.Parse()
 
 	if *outDir == "" {
@@ -44,7 +43,7 @@ func main() {
 		if err := json.Unmarshal(raw, &h); err != nil {
 			log.Fatalf("decode single-host IR: %v", err)
 		}
-		writeHost(*outDir, *hostName, h)
+		writeHost(*outDir, "main", h)
 
 	case irShapeMulti:
 		var doc ir.Document
