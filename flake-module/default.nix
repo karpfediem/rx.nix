@@ -71,22 +71,22 @@ in
       })
       systems);
 
-  # A JSON IR per host, accessible like:  nix build .#rxIrForHost.demo
-  flake.rxIrForHost =
+  # A JSON IR per host, accessible like:  nix build .#rxIR.demo
+  flake.rxIR =
     mapAttrs (host: _cfg:
       let r = genForHost { inherit host; };
       in r.irDerivation
     ) allHosts;
 
-  # A generation per host, accessible like:  nix build .#rxGenForHost.demo
-  flake.rxGenForHost =
+  # A generation per host, accessible like:  nix build .#rxHosts.demo
+  flake.rxHosts =
     mapAttrs (host: _cfg:
       let r = genForHost { inherit host; };
       in r.genDerivation
     ) allHosts;
 
-  # A switch app per host, accessible like:  nix run .#rxSwitchForHost.demo
-  flake.apps.rxSwitchForHost =
+  # A switch app per host, accessible like:  nix run .#rxSwitch.demo
+  flake.apps.rxSwitch =
     mapAttrs (host: _cfg:
       let r = genForHost { inherit host; };
       in r.switchApp
