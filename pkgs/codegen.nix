@@ -1,6 +1,6 @@
 { lib, buildGoModule }:
 buildGoModule {
-  pname = "codegen";
+  pname = "rx-codegen";
   version = "0.2.0";
   src = lib.cleanSource ../codegen;
   subPackages = [

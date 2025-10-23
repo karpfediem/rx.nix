@@ -7,7 +7,7 @@ let
     hash = "sha256-71G71GO2cGavDNKc+3lEQmFmTtX2skIjqWZKVl7o4kE=";
   };
 in
-runCommand "rxnix-mgmt-options" { nativeBuildInputs = [ codegen ]; } ''
+runCommand "rx-nixos-options" { nativeBuildInputs = [ codegen ]; } ''
   set -euo pipefail
   mkdir -p "$out"
   export CGO_ENABLED=0 GOOS=linux GOARCH=amd64
