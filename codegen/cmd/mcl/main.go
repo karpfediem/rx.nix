@@ -5,14 +5,13 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
+	"github.com/karpfediem/rx.nix/codegen/internal/ir"
+	"github.com/karpfediem/rx.nix/codegen/internal/mclgen"
 	"io"
 	"log"
 	"os"
 	"path/filepath"
 	"sort"
-
-	"github.com/carp/rx.nix/options-generator/internal/ir"
-	"github.com/carp/rx.nix/options-generator/internal/mclgen"
 )
 
 func main() {

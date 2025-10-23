@@ -3,7 +3,7 @@
 # Build {ir, gen, app} for exactly one host, resolving its own target system.
 #
 # Usage:
-#   (import ./lib/gen-for-host.nix { inherit lib self withSystem; }) {
+#   (import ./lib/outputs-for-host.nix { inherit lib self withSystem; }) {
 #     host   = "demo";
 #   }
 #
@@ -17,7 +17,7 @@
 
 { host }:
 let
-  inherit (lib) assertMsg mapAttrs;
+  inherit (lib) assertMsg;
 
   # Pull the configured host from consumer flake
   allHosts = (self.nixosConfigurations or {});
@@ -34,7 +34,7 @@ let
 
   # Bring in the same helpers you already use
   irForSystem = import ./ir/ir-for-system.nix { inherit lib self; };
-  buildGens   = import ./build/build-gens.nix    { inherit lib; };
+  buildGens   = import ./build/build-gens.nix;
 
 in
 withSystem hostSystem ({ pkgs, ... }:
@@ -46,7 +46,7 @@ withSystem hostSystem ({ pkgs, ... }:
     irDrv     = pkgs.writeText "rx-ir-${host}.json" (builtins.toJSON hostIR);
 
     # Build a single-host generation by wrapping in a singleton attrset
-    gens      = buildGens pkgs { ${host} = hostIR; };
+    gens      = buildGens { inherit pkgs; irByHost = { ${host} = hostIR; };};
     genDrv    = gens.${host};
 
     switchApp = {

@@ -6,19 +6,19 @@ localFlake:
 let
   inherit (lib) mapAttrs;
 
-  genForHost = import ./lib/gen-for-host.nix { inherit lib self withSystem; };
+  genForHost = import ./lib/outputs-for-host.nix { inherit lib self withSystem; };
 
   allHosts = (self.nixosConfigurations or {});
   # Use the consumer's `self` inside ir-for-system
   irForSystem = import ./lib/ir/ir-for-system.nix { inherit lib self; };
-  buildGens   = import ./lib/build/build-gens.nix    { inherit lib; };
+  buildGens   = import ./lib/build/build-gens.nix;
 in
 {
   # ------------------------- perSystem outputs -------------------------------
   perSystem = { pkgs, system, ... }:
   let
     irByHost = irForSystem system;
-    gens     = buildGens pkgs irByHost;
+    gens     = buildGens { inherit irByHost pkgs; };
 
     selectedPaths =
       lib.mapAttrs (_host: ir: map (f: f.path) (ir.files or [])) irByHost;
@@ -38,7 +38,6 @@ in
     }) hosts;
   in
   {
-    nixpkgs.overlays = [ self.overlays.default ];
     packages.rx-selected = pkgs.writeText "rx-selected.json" (builtins.toJSON selectedPaths);
     packages.rx-rxview   = pkgs.writeText "rx-rxview.json"   (builtins.toJSON rxView);
     packages.rx-ir       = pkgs.writeText "rx-ir.json"       (builtins.toJSON irByHost);
@@ -65,8 +64,9 @@ in
       (sys: {
         name = sys;
         value = localFlake.withSystem sys ({ pkgs, ... }:
-          let irByHost' = (import ./lib/ir-for-system.nix { inherit lib self; }) sys;
-          in buildGens pkgs irByHost'
+          let
+            irByHost = (import ./lib/ir/ir-for-system.nix { inherit lib self; }) sys;
+          in buildGens { inherit pkgs irByHost; }
         );
       })
       systems);

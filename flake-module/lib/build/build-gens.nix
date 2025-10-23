@@ -1,38 +1,36 @@
-{ lib }:
-pkgs: irByHost:
+{ irByHost, pkgs }:
+
 let
-  mclFromIr    = import ./codegen/mcl-from-ir.nix { inherit lib; };
-  mkDeploy  = import ./mkDeploy.nix { inherit lib; };
+  mkDeploy = import ./mkDeploy.nix;
   writeSwitch = import ./write-switch.nix { mgmtBin = "${pkgs.mgmt}/bin/mgmt"; };
+  pkgs' = pkgs.extend (final: prev: { rx-codegen = final.callPackage ../../../pkgs/codegen.nix { };} );
 in
-lib.mapAttrs (host: filesIR:
+pkgs.lib.mapAttrs
+  (name: ir:
   let
-    deploy = mkDeploy {
-      inherit pkgs filesIR;
-      name    = host;
-      mclText = mclFromIr filesIR;
-    };
+    deployDrv = pkgs'.callPackage (mkDeploy { inherit ir name; }) {};
   in
   pkgs.stdenvNoCC.mkDerivation {
-    pname = "rxnix-gen-${host}";
+    pname = "rxnix-gen-${name}";
     version = "0.0.1";
     preferLocalBuild = true;
     allowSubstitutes = false;
     buildCommand = ''
-      set -euo pipefail
-      mkdir -p "$out"
+            set -euo pipefail
+            mkdir -p "$out"
 
-      # Mount the deploy as the canonical payload for this generation.
-      ln -s "${deploy}/deploy" "$out/deploy"
+            # Mount the deploy as the canonical payload for this generation.
+            ln -s "${deployDrv}/deploy" "$out/deploy"
 
-      # A manifest (debug) and a convenience symlink:
-      ln -s "${deploy}/manifest.json" "$out/manifest.json"
+            # A manifest (debug) and a convenience symlink:
+            ln -s "${deployDrv}/manifest.json" "$out/manifest.json"
 
-      # switcher: link profile, bounce the service if present, else run once
-      cat > "$out/switch-to-configuration" <<'SH'
-${writeSwitch}
-SH
-      chmod +x "$out/switch-to-configuration"
+            # switcher: link profile, bounce the service if present, else run once
+            cat > "$out/switch-to-configuration" <<'SH'
+      ${writeSwitch}
+      SH
+            chmod +x "$out/switch-to-configuration"
     '';
   }
-) irByHost
+  )
+  irByHost
