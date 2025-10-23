@@ -1,4 +1,4 @@
-{ fetchFromGitHub, runCommand, codegen }:
+{ fetchFromGitHub, runCommand, rx-codegen }:
 let
   mgmtSrc = fetchFromGitHub {
     owner = "purpleidea";
@@ -7,11 +7,11 @@ let
     hash = "sha256-71G71GO2cGavDNKc+3lEQmFmTtX2skIjqWZKVl7o4kE=";
   };
 in
-runCommand "rx-nixos-options" { nativeBuildInputs = [ codegen ]; } ''
+runCommand "rx-nixos-options" { nativeBuildInputs = [ rx-codegen ]; } ''
   set -euo pipefail
   mkdir -p "$out"
   export CGO_ENABLED=0 GOOS=linux GOARCH=amd64
-  ${codegen}/bin/nixos \
+  ${rx-codegen}/bin/nixos \
     -mgmt-dir ${mgmtSrc} \
     -out-dir "$out"
   test -f "$out/default.nix"

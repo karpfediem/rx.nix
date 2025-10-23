@@ -5,10 +5,12 @@ import (
 	"fmt"
 	"github.com/karpfediem/rx.nix/codegen/internal/nixgen"
 	"github.com/karpfediem/rx.nix/codegen/internal/parse"
+	"github.com/karpfediem/rx.nix/codegen/internal/util"
 	"log"
 	"os"
 	"path/filepath"
 	"sort"
+	"strings"
 )
 
 func main() {
@@ -31,7 +33,7 @@ func main() {
 
 	var generated []string
 	for _, r := range resources {
-		fn := filepath.Join(*outDir, "res-"+r.Name+".nix")
+		fn := filepath.Join(*outDir, "res-"+util.SanitizeAttrIdent(strings.ToLower(r.Name))+".nix")
 		if err := nixgen.WriteResourceNix(fn, r); err != nil {
 			log.Fatalf("write %s: %v", fn, err)
 		}

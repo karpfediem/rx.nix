@@ -5,37 +5,49 @@ let
 in
 {
   options.rx.res.consul-kv = mkOption {
-    description = ''ConsulKVRes is a resource that writes a value into a Consul datastore. The
+    description = ''
+ConsulKVRes is a resource that writes a value into a Consul datastore. The
 name of the resource can either be the key name, or the concatenation of the
 server address and the key name: http://127.0.0.1:8500/my-key. If the param
 keys are specified, then those are used. If the Name cannot be properly
-parsed by url.Parse, then it will be considered as the Key'''s value. If the
-Key is specified explicitly, then we won'''t use anything from the Name.'';
+parsed by url.Parse, then it will be considered as the Key's value. If the
+Key is specified explicitly, then we won't use anything from the Name.
+'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         address = mkOption {
           type = types.nullOr (types.str);
-          description = ''Address is the address of the Consul server. Default: 127.0.0.1:8500.'';
+          description = ''
+Address is the address of the Consul server. Default: 127.0.0.1:8500.
+'';
           default = null;
         };
         key = mkOption {
           type = types.nullOr (types.str);
-          description = ''Key is the name of the key. Defaults to the name of the resource.'';
+          description = ''
+Key is the name of the key. Defaults to the name of the resource.
+'';
           default = null;
         };
         scheme = mkOption {
           type = types.nullOr (types.str);
-          description = ''Scheme is the URI scheme for the Consul server. Default: http.'';
+          description = ''
+Scheme is the URI scheme for the Consul server. Default: http.
+'';
           default = null;
         };
         token = mkOption {
           type = types.nullOr (types.str);
-          description = ''Token is used to provide an ACL token to use for this resource.'';
+          description = ''
+Token is used to provide an ACL token to use for this resource.
+'';
           default = null;
         };
         value = mkOption {
           type = types.nullOr (types.str);
-          description = ''Value is the value for the key.'';
+          description = ''
+Value is the value for the key.
+'';
           default = null;
         };
       };

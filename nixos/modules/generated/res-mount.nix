@@ -5,40 +5,54 @@ let
 in
 {
   options.rx.res.mount = mkOption {
-    description = ''MountRes is a systemd mount resource that adds/removes entries from
+    description = ''
+MountRes is a systemd mount resource that adds/removes entries from
 /etc/fstab, and makes sure the defined device is mounted or unmounted
-accordingly. The mount point is set according to the resource'''s name.'';
+accordingly. The mount point is set according to the resource's name.
+'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         device = mkOption {
           type = types.nullOr (types.str);
-          description = ''Device is the location of the device or image.'';
+          description = ''
+Device is the location of the device or image.
+'';
           default = null;
         };
         freq = mkOption {
           type = types.nullOr (types.int);
-          description = ''Freq is the dump frequency.'';
+          description = ''
+Freq is the dump frequency.
+'';
           default = null;
         };
         options = mkOption {
           type = types.nullOr (types.attrsOf types.str);
-          description = ''Options are mount options.'';
+          description = ''
+Options are mount options.
+'';
           default = null;
         };
         passno = mkOption {
           type = types.nullOr (types.int);
-          description = ''PassNo is the verification order.'';
+          description = ''
+PassNo is the verification order.
+'';
           default = null;
         };
         state = mkOption {
           type = types.nullOr (types.str);
-          description = ''State must be exists or absent. If absent, remaining fields are
-ignored.'';
+          description = ''
+State must be exists or absent. If absent, remaining fields are
+ignored.
+'';
           default = null;
         };
         type = mkOption {
           type = types.nullOr (types.str);
-          description = ''Type of the filesystem.'';
+          description = ''
+Type of the filesystem.
+'';
           default = null;
         };
       };

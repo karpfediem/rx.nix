@@ -5,94 +5,128 @@ let
 in
 {
   options.rx.res.virt = mkOption {
-    description = ''VirtRes is a libvirt resource. A transient virt resource, which has its state
+    description = ''
+VirtRes is a libvirt resource. A transient virt resource, which has its state
 set to `shutoff` is one which does not exist. The parallel equivalent is a
 file resource which removes a particular path.
-TODO: some values inside here should be enum'''s!'';
+TODO: some values inside here should be enum's!
+'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         auth = mkOption {
           type = types.nullOr (types.str);
-          description = ''Auth points to the libvirt credentials to use if any are necessary.'';
+          description = ''
+Auth points to the libvirt credentials to use if any are necessary.
+'';
           default = null;
         };
         boot = mkOption {
           type = types.nullOr (types.listOf types.str);
-          description = ''Boot is the boot order. Values are `fd`, `hd`, `cdrom` and `network`.'';
+          description = ''
+Boot is the boot order. Values are `fd`, `hd`, `cdrom` and `network`.
+'';
           default = null;
         };
         cdrom = mkOption {
           type = types.nullOr (types.listOf types.str);
-          description = ''CdRom is the list of cdrom devices to include.'';
+          description = ''
+CdRom is the list of cdrom devices to include.
+'';
           default = null;
         };
         cpus = mkOption {
           type = types.nullOr (types.int);
-          description = ''CPUs is the desired cpu count of the machine.'';
+          description = ''
+CPUs is the desired cpu count of the machine.
+'';
           default = null;
         };
         disk = mkOption {
           type = types.nullOr (types.listOf types.str);
-          description = ''Disk is the list of disk devices to include.'';
+          description = ''
+Disk is the list of disk devices to include.
+'';
           default = null;
         };
         filesystem = mkOption {
           type = types.nullOr (types.listOf types.str);
-          description = ''Filesystem is the list of file system devices to include.'';
+          description = ''
+Filesystem is the list of file system devices to include.
+'';
           default = null;
         };
         hotcpus = mkOption {
           type = types.nullOr (types.bool);
-          description = ''HotCPUs specifies whether we can hot plug and unplug cpus.'';
+          description = ''
+HotCPUs specifies whether we can hot plug and unplug cpus.
+'';
           default = null;
         };
         maxcpus = mkOption {
           type = types.nullOr (types.int);
-          description = ''MaxCPUs is the maximum number of cpus allowed in the machine. You
+          description = ''
+MaxCPUs is the maximum number of cpus allowed in the machine. You
 need to set this so that on boot the `hardware` knows how many cpu
-`slots` it might need to make room for.'';
+`slots` it might need to make room for.
+'';
           default = null;
         };
         memory = mkOption {
           type = types.nullOr (types.int);
-          description = ''Memory is the size in KBytes of memory to include in the machine.'';
+          description = ''
+Memory is the size in KBytes of memory to include in the machine.
+'';
           default = null;
         };
         network = mkOption {
           type = types.nullOr (types.listOf types.str);
-          description = ''Network is the list of network devices to include.'';
+          description = ''
+Network is the list of network devices to include.
+'';
           default = null;
         };
         osinit = mkOption {
           type = types.nullOr (types.str);
-          description = ''OSInit is the init used by lxc.'';
+          description = ''
+OSInit is the init used by lxc.
+'';
           default = null;
         };
         restartondiverge = mkOption {
           type = types.nullOr (types.str);
-          description = ''RestartOnDiverge is the restart policy, and can be: `ignore`,
-`ifneeded` or `error`.'';
+          description = ''
+RestartOnDiverge is the restart policy, and can be: `ignore`,
+`ifneeded` or `error`.
+'';
           default = null;
         };
         restartonrefresh = mkOption {
           type = types.nullOr (types.bool);
-          description = ''RestartOnRefresh specifies if we restart on refresh signal.'';
+          description = ''
+RestartOnRefresh specifies if we restart on refresh signal.
+'';
           default = null;
         };
         state = mkOption {
           type = types.nullOr (types.str);
-          description = ''State is the desired vm state. Possible values include: `running`,
-`paused` and `shutoff`.'';
+          description = ''
+State is the desired vm state. Possible values include: `running`,
+`paused` and `shutoff`.
+'';
           default = null;
         };
         transient = mkOption {
           type = types.nullOr (types.bool);
-          description = ''Transient is whether the vm is defined (false) or undefined (true).'';
+          description = ''
+Transient is whether the vm is defined (false) or undefined (true).
+'';
           default = null;
         };
         uri = mkOption {
           type = types.nullOr (types.str);
-          description = ''URI is the libvirt connection URI, eg: `qemu:///session`.'';
+          description = ''
+URI is the libvirt connection URI, eg: `qemu:///session`.
+'';
           default = null;
         };
       };

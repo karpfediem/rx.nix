@@ -5,34 +5,44 @@ let
 in
 {
   options.rx.res.line = mkOption {
-    description = ''LineRes is a simple resource that adds or removes a line of text from a file.
-For more complicated control over the file, use the regular File resource.'';
+    description = ''
+LineRes is a simple resource that adds or removes a line of text from a file.
+For more complicated control over the file, use the regular File resource.
+'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         content = mkOption {
           type = types.nullOr (types.str);
-          description = ''Content specifies the line contents to add or remove. If this is
-empty, then it does nothing.'';
+          description = ''
+Content specifies the line contents to add or remove. If this is
+empty, then it does nothing.
+'';
           default = null;
         };
         file = mkOption {
           type = types.nullOr (types.str);
-          description = ''File is the absolute path to the file that we are managing.
-TODO: Allow the Name to be something like ''${path}:some-contents ?'';
+          description = ''
+File is the absolute path to the file that we are managing.
+TODO: Allow the Name to be something like ''${path}:some-contents ?
+'';
           default = null;
         };
         state = mkOption {
           type = types.nullOr (types.str);
-          description = ''State specifies the desired state of the line. It can be either
+          description = ''
+State specifies the desired state of the line. It can be either
 `exists` or `absent`. If you do not specify this, we will not be able
-to create or remove a line.'';
+to create or remove a line.
+'';
           default = null;
         };
         trim = mkOption {
           type = types.nullOr (types.bool);
-          description = ''Trim specifies that we will trim any whitespace from the beginning
+          description = ''
+Trim specifies that we will trim any whitespace from the beginning
 and end of the content. This makes it easier to pass in data from a
-file that ends with a newline, and avoid adding an unnecessary blank.'';
+file that ends with a newline, and avoid adding an unnecessary blank.
+'';
           default = null;
         };
       };

@@ -5,60 +5,76 @@ let
 in
 {
   options.rx.res.bmc-power = mkOption {
-    description = ''BmcPowerRes is a resource that manages power state of a BMC. This is usually
+    description = ''
+BmcPowerRes is a resource that manages power state of a BMC. This is usually
 used for turning computers on and off. The name value can be a big URL string
 in the form: `driver://user:pass@hostname:port` for example you may see:
 gofishs://ADMIN:hunter2@127.0.0.1:8800 to use the "https" variant of the
 gofish driver.
 
 NOTE: New drivers should either not end in "s" or at least not be identical
-to the name of another driver an "s" is added or removed to the end.'';
+to the name of another driver an "s" is added or removed to the end.
+'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         driver = mkOption {
           type = types.nullOr (types.str);
-          description = ''Driver to use, such as: "gofish" or "rpc". This is a different
+          description = ''
+Driver to use, such as: "gofish" or "rpc". This is a different
 concept than the "bmclib" driver vs provider distinction. Here we
-just statically pick what we'''re using without any magic. If not
+just statically pick what we're using without any magic. If not
 specified, we parse this from the Name scheme. If this ends with an
-extra "s" then we use https instead of http.'';
+extra "s" then we use https instead of http.
+'';
           default = null;
         };
         hostname = mkOption {
           type = types.nullOr (types.str);
-          description = ''Hostname to connect to. If not specified, we parse this from the
-Name.'';
+          description = ''
+Hostname to connect to. If not specified, we parse this from the
+Name.
+'';
           default = null;
         };
         insecure_password = mkOption {
           type = types.nullOr (types.bool);
-          description = ''InsecurePassword can be set to true to allow a password in the Name.'';
+          description = ''
+InsecurePassword can be set to true to allow a password in the Name.
+'';
           default = null;
         };
         password = mkOption {
           type = types.nullOr (types.str);
-          description = ''Password to use to connect. We do NOT parse this from the Name unless
+          description = ''
+Password to use to connect. We do NOT parse this from the Name unless
 you set InsecurePassword to true.
-XXX: Use mgmt magic credentials in the future.'';
+XXX: Use mgmt magic credentials in the future.
+'';
           default = null;
         };
         port = mkOption {
           type = types.nullOr (types.int);
-          description = ''Port to connect to. If not specified, we parse this from the Name.'';
+          description = ''
+Port to connect to. If not specified, we parse this from the Name.
+'';
           default = null;
         };
         state = mkOption {
           type = types.nullOr (types.str);
-          description = ''State of machine power. Can be "on" or "off".'';
+          description = ''
+State of machine power. Can be "on" or "off".
+'';
           default = null;
         };
         username = mkOption {
           type = types.nullOr (types.str);
-          description = ''Username to use to connect. If not specified, we parse this from the
+          description = ''
+Username to use to connect. If not specified, we parse this from the
 Name.
 TODO: If the Username field is not set, should we parse from the
-Name? It'''s not really part of the BMC unique identifier so maybe we
-shouldn'''t use that.'';
+Name? It's not really part of the BMC unique identifier so maybe we
+shouldn't use that.
+'';
           default = null;
         };
       };

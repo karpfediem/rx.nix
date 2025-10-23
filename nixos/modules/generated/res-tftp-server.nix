@@ -5,33 +5,41 @@ let
 in
 {
   options.rx.res.tftp-server = mkOption {
-    description = ''TFTPServerRes is a tftp server resource. It serves files, but does not
+    description = ''
+TFTPServerRes is a tftp server resource. It serves files, but does not
 actually apply any state. The name is used as the address to listen on,
 unless the Address field is specified, and in that case it is used instead.
 This resource can offer up files for serving that are specified either inline
 in this resource by specifying a tftp root, or as tftp:file resources which
 will get autogrouped into this resource at runtime. The two methods can be
-combined as well.'';
+combined as well.
+'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         address = mkOption {
           type = types.nullOr (types.str);
-          description = ''Address is the listen address to use for the tftp server. It is
+          description = ''
+Address is the listen address to use for the tftp server. It is
 common to use `:69` (the standard) to listen on UDP port 69 on all
-addresses.'';
+addresses.
+'';
           default = null;
         };
         root = mkOption {
           type = types.nullOr (types.str);
-          description = ''Root is the root directory that we should serve files from. If it is
+          description = ''
+Root is the root directory that we should serve files from. If it is
 not specified, then it is not used. Any tftp file resources will have
 precedence over anything in here, in case the same path exists twice.
-TODO: should we have a flag to determine the precedence rules here?'';
+TODO: should we have a flag to determine the precedence rules here?
+'';
           default = null;
         };
         timeout = mkOption {
           type = types.nullOr (types.int);
-          description = ''Timeout is the timeout in seconds to use for server connections.'';
+          description = ''
+Timeout is the timeout in seconds to use for server connections.
+'';
           default = null;
         };
       };

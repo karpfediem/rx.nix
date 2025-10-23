@@ -5,154 +5,198 @@ let
 in
 {
   options.rx.res.virt-builder = mkOption {
-    description = ''VirtBuilderRes is a resource for building virtual machine images. It is based
+    description = ''
+VirtBuilderRes is a resource for building virtual machine images. It is based
 on the amazing virt-builder tool which is part of the guestfs suite of tools.
-TODO: Add autoedges with the virt resource disk path!'';
+TODO: Add autoedges with the virt resource disk path!
+'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         arch = mkOption {
           type = types.nullOr (types.str);
-          description = ''Arch specifies the CPU architecture to use for this machine. You will
+          description = ''
+Arch specifies the CPU architecture to use for this machine. You will
 need to pick from the output of `virt-builder --list`. Note that not
-all OSVersion+Arch combinations may exist.'';
+all OSVersion+Arch combinations may exist.
+'';
           default = null;
         };
         bootstrap = mkOption {
           type = types.nullOr (types.bool);
-          description = ''Bootstrap can be set to false to disable any automatic bootstrapping
+          description = ''
+Bootstrap can be set to false to disable any automatic bootstrapping
 of running the mgmt binary on first boot. If this is set, we will
 attempt to copy the mgmt binary in, and then run it. This also adds
 additional packages to install which are needed to bootstrap mgmt.
 This defaults to true.
-TODO: This does not yet support multi or cross arch.'';
+TODO: This does not yet support multi or cross arch.
+'';
           default = null;
         };
         copy_in = mkOption {
           type = types.nullOr (types.listOf types.str);
-          description = ''CopyIn is a list of local paths to copy into the machine dest. The
+          description = ''
+CopyIn is a list of local paths to copy into the machine dest. The
 dest directory must exist for this to work. Use Mkdir if you need to
 make a directory, since that step happens earlier. All paths must be
 absolute, and directories must end with a slash. This happens before
 the RunCmd stage in case you want to create something to be used
-there.'';
+there.
+'';
           default = null;
         };
         firstboot_cmd = mkOption {
           type = types.nullOr (types.listOf types.str);
-          description = ''FirstbootCmd is a sequence of commands + args (one set per list item)
+          description = ''
+FirstbootCmd is a sequence of commands + args (one set per list item)
 to run once on first boot.
 TODO: Consider replacing this with the mgmt firstboot mechanism for
 consistency between this platform and other platforms that might not
 support the excellent libguestfs version of those scripts. (Make the
-logs look more homogeneous.)'';
+logs look more homogeneous.)
+'';
           default = null;
         };
         format = mkOption {
           type = types.nullOr (types.str);
-          description = ''Format is the disk image format. You likely want "raw" or "qcow2".'';
+          description = ''
+Format is the disk image format. You likely want "raw" or "qcow2".
+'';
           default = null;
         };
         hostname = mkOption {
           type = types.nullOr (types.str);
-          description = ''Hostname for the new machine.'';
+          description = ''
+Hostname for the new machine.
+'';
           default = null;
         };
         log_output = mkOption {
           type = types.nullOr (types.bool);
-          description = ''LogOutput logs the output of running this command to a file in the
+          description = ''
+LogOutput logs the output of running this command to a file in the
 special $vardir directory. It defaults to true. Keep in mind that if
 you let virt-builder choose the password randomly, it will be output
-in these logs in cleartext!'';
+in these logs in cleartext!
+'';
           default = null;
         };
         mkdir = mkOption {
           type = types.nullOr (types.listOf types.str);
-          description = ''Mkdir creates these directories in the guests. This happens before
+          description = ''
+Mkdir creates these directories in the guests. This happens before
 CopyIn runs. Directories must be absolute and end with a slash. Any
 intermediate directories are created, similar to how `mkdir -p`
-works.'';
+works.
+'';
           default = null;
         };
         no_setup = mkOption {
           type = types.nullOr (types.bool);
-          description = ''NoSetup can be set to true to disable trying to install the package
-for the virt-builder binary.'';
+          description = ''
+NoSetup can be set to true to disable trying to install the package
+for the virt-builder binary.
+'';
           default = null;
         };
         os_version = mkOption {
           type = types.nullOr (types.str);
-          description = ''OSVersion specifies which distro and version to use for installation.
-You will need to pick from the output of `virt-builder --list`.'';
+          description = ''
+OSVersion specifies which distro and version to use for installation.
+You will need to pick from the output of `virt-builder --list`.
+'';
           default = null;
         };
         output = mkOption {
           type = types.nullOr (types.str);
-          description = ''Output is the full absolute file path where the image will be
+          description = ''
+Output is the full absolute file path where the image will be
 created. If this file exists, then no action will be performed.
 TODO: Consider adding a "overwrite" type mechanism in the future,
-when we can find a safe way to do so.'';
+when we can find a safe way to do so.
+'';
           default = null;
         };
         packages = mkOption {
           type = types.nullOr (types.listOf types.str);
-          description = ''Packages is the list of packages to install. If Bootstrap is true,
-then it will add additional packages that we install if needed.'';
+          description = ''
+Packages is the list of packages to install. If Bootstrap is true,
+then it will add additional packages that we install if needed.
+'';
           default = null;
         };
         root_password_selector = mkOption {
           type = types.nullOr (types.str);
-          description = ''RootPasswordSelector is a string in the virt-builder format. See the
-manual page "USERS AND PASSWORDS" section for more information.'';
+          description = ''
+RootPasswordSelector is a string in the virt-builder format. See the
+manual page "USERS AND PASSWORDS" section for more information.
+'';
           default = null;
         };
         root_ssh_inject = mkOption {
           type = types.nullOr (types.bool);
-          description = ''RootSSHInject disables installing the root ssh key into the new vm.
-If one is not present, then nothing is done.	This defaults to true.'';
+          description = ''
+RootSSHInject disables installing the root ssh key into the new vm.
+If one is not present, then nothing is done.	This defaults to true.
+'';
           default = null;
         };
         run_cmd = mkOption {
           type = types.nullOr (types.listOf types.str);
-          description = ''RunCmd is a sequence of commands + args (one set per list item) to
-run in the build environment. These happen after the CopyIn stage.'';
+          description = ''
+RunCmd is a sequence of commands + args (one set per list item) to
+run in the build environment. These happen after the CopyIn stage.
+'';
           default = null;
         };
         seeds = mkOption {
           type = types.nullOr (types.listOf types.str);
-          description = ''Seeds is a list of default etcd client endpoints to connect to. If
+          description = ''
+Seeds is a list of default etcd client endpoints to connect to. If
 you specify this, you must also set Bootstrap to true. These should
-likely be http URL'''s like: http://127.0.0.1:2379 or similar.'';
+likely be http URL's like: http://127.0.0.1:2379 or similar.
+'';
           default = null;
         };
         selinux_relabel = mkOption {
           type = types.nullOr (types.bool);
-          description = ''SelinuxRelabel specifies that we should do an selinux relabel on the
-final image. This defaults to true.'';
+          description = ''
+SelinuxRelabel specifies that we should do an selinux relabel on the
+final image. This defaults to true.
+'';
           default = null;
         };
         size = mkOption {
           type = types.nullOr (types.int);
-          description = ''Size is the disk size of the new virtual machine in bytes.'';
+          description = ''
+Size is the disk size of the new virtual machine in bytes.
+'';
           default = null;
         };
         ssh_keys = mkOption {
           type = types.nullOr (types.listOf types.str);
-          description = ''SSHKeys is a list of additional keys to add to the machine. This is
+          description = ''
+SSHKeys is a list of additional keys to add to the machine. This is
 not a map because you may wish to add more than one to that user
-account.'';
+account.
+'';
           default = null;
         };
         tweaks = mkOption {
           type = types.nullOr (types.bool);
-          description = ''Tweaks adds some random tweaks to work around common bugs. This
+          description = ''
+Tweaks adds some random tweaks to work around common bugs. This
 defaults to true. It also does some useful things that most may find
-desirable.'';
+desirable.
+'';
           default = null;
         };
         update = mkOption {
           type = types.nullOr (types.bool);
-          description = ''Update specifies that we should update the installed packages during
-image build. This defaults to true.'';
+          description = ''
+Update specifies that we should update the installed packages during
+image build. This defaults to true.
+'';
           default = null;
         };
       };

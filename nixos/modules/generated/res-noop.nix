@@ -5,12 +5,16 @@ let
 in
 {
   options.rx.res.noop = mkOption {
-    description = ''NoopRes is a no-op resource that does nothing.'';
+    description = ''
+NoopRes is a no-op resource that does nothing.
+'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         comment = mkOption {
           type = types.nullOr (types.str);
-          description = ''Comment is a useless comment field that you can use however you like.'';
+          description = ''
+Comment is a useless comment field that you can use however you like.
+'';
           default = null;
         };
       };

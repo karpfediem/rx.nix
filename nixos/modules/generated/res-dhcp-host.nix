@@ -5,50 +5,62 @@ let
 in
 {
   options.rx.res.dhcp-host = mkOption {
-    description = ''DHCPHostRes is a representation of a static host assignment in DHCP.'';
+    description = ''
+DHCPHostRes is a representation of a static host assignment in DHCP.
+'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         ip = mkOption {
           type = types.nullOr (types.str);
-          description = ''IP is the IPv4 address with the CIDR suffix. The suffix is required
+          description = ''
+IP is the IPv4 address with the CIDR suffix. The suffix is required
 because it specifies the netmask to be used in the DHCPv4 protocol.
 For example, you might specify 192.0.2.42/24 which represents a mask
-of 255.255.255.0 that will be sent.'';
+of 255.255.255.0 that will be sent.
+'';
           default = null;
         };
         mac = mkOption {
           type = types.nullOr (types.str);
-          description = ''Mac is the mac address of the host in lower case and separated with
-colons.'';
+          description = ''
+Mac is the mac address of the host in lower case and separated with
+colons.
+'';
           default = null;
         };
         nbp = mkOption {
           type = types.nullOr (types.str);
-          description = ''NBP is the network boot program URL. This is used for the tftp server
+          description = ''
+NBP is the network boot program URL. This is used for the tftp server
 name and the boot file name. For example, you might use:
 tftp://192.0.2.13/pxelinux.0 for a common bios, pxe boot setup. Note
-that the "scheme" prefix is required, and that it'''s impossible to
-specify a file that doesn'''t begin with a leading slash. If you wish
+that the "scheme" prefix is required, and that it's impossible to
+specify a file that doesn't begin with a leading slash. If you wish
 to specify a "root less" file (common for legacy tftp setups) then
 you can use this feature in conjunction with the NBPPath parameter.
-For DHCPv4, the scheme must be "tftp".'';
+For DHCPv4, the scheme must be "tftp".
+'';
           default = null;
         };
         nbp_path = mkOption {
           type = types.nullOr (types.str);
-          description = ''NBPPath overrides the path that is sent for the nbp protocols. By
+          description = ''
+NBPPath overrides the path that is sent for the nbp protocols. By
 default it is taken from parsing a URL in NBP, but this can override
-that. This is useful if you require a path that doesn'''t start with a
-slash. This is sometimes desirable for legacy tftp setups.'';
+that. This is useful if you require a path that doesn't start with a
+slash. This is sometimes desirable for legacy tftp setups.
+'';
           default = null;
         };
         server = mkOption {
           type = types.nullOr (types.str);
-          description = ''Server is the name of the dhcp server resource to group this into. If
+          description = ''
+Server is the name of the dhcp server resource to group this into. If
 it is omitted, and there is only a single dhcp resource, then it will
 be grouped into it automatically. If there is more than one main dhcp
 resource being used, then the grouping behaviour is *undefined* when
-this is not specified, and it is not recommended to leave this blank!'';
+this is not specified, and it is not recommended to leave this blank!
+'';
           default = null;
         };
       };

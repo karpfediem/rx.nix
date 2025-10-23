@@ -5,52 +5,70 @@ let
 in
 {
   options.rx.res.user = mkOption {
-    description = ''UserRes is a user account resource.'';
+    description = ''
+UserRes is a user account resource.
+'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         allowduplicateuid = mkOption {
           type = types.nullOr (types.bool);
-          description = ''AllowDuplicateUID is needed for a UID to be non-unique. This is rare
+          description = ''
+AllowDuplicateUID is needed for a UID to be non-unique. This is rare
 but happens if you want more than one username to access the
-resources of the same UID. See the --non-unique flag in `useradd`.'';
+resources of the same UID. See the --non-unique flag in `useradd`.
+'';
           default = null;
         };
         gid = mkOption {
           type = types.nullOr (types.str);
-          description = ''GID of the user'''s primary group.'';
+          description = ''
+GID of the user's primary group.
+'';
           default = null;
         };
         group = mkOption {
           type = types.nullOr (types.str);
-          description = ''Group is the name of the user'''s primary group.'';
+          description = ''
+Group is the name of the user's primary group.
+'';
           default = null;
         };
         groups = mkOption {
           type = types.nullOr (types.listOf types.str);
-          description = ''Groups are a list of supplemental groups.'';
+          description = ''
+Groups are a list of supplemental groups.
+'';
           default = null;
         };
         homedir = mkOption {
           type = types.nullOr (types.str);
-          description = ''HomeDir is the path to the user'''s home directory.'';
+          description = ''
+HomeDir is the path to the user's home directory.
+'';
           default = null;
         };
         shell = mkOption {
           type = types.nullOr (types.str);
-          description = ''Shell is the users login shell. Many options may exist in the
+          description = ''
+Shell is the users login shell. Many options may exist in the
 `/etc/shells` file. If you set this, you most likely want to pick
-`/bin/bash` or `/usr/sbin/nologin`.'';
+`/bin/bash` or `/usr/sbin/nologin`.
+'';
           default = null;
         };
         state = mkOption {
           type = types.nullOr (types.str);
-          description = ''State is either exists or absent.'';
+          description = ''
+State is either exists or absent.
+'';
           default = null;
         };
         uid = mkOption {
           type = types.nullOr (types.str);
-          description = ''UID specifies the usually unique user ID. It must be unique unless
-AllowDuplicateUID is true.'';
+          description = ''
+UID specifies the usually unique user ID. It must be unique unless
+AllowDuplicateUID is true.
+'';
           default = null;
         };
       };

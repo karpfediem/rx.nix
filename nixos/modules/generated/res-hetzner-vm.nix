@@ -5,13 +5,14 @@ let
 in
 {
   options.rx.res.hetzner-vm = mkOption {
-    description = ''HetznerVMRes is a Hetzner cloud resource (1). It connects with the cloud API
+    description = ''
+HetznerVMRes is a Hetzner cloud resource (1). It connects with the cloud API
 using the hcloud-go package provided by Hetzner. The API token for a new
 project must be generated manually, via the cloud console (2), before this
 resource can establish a connection with the API. One Hetzner resource
 represents one server instance, and multiple instances can be registered
 under the same project. A resource in the "absent" state only exists as a
-local mcl struct, and does not exist as server instance on Hetzner'''s side.
+local mcl struct, and does not exist as server instance on Hetzner's side.
 NOTE: the Hetzner cloud console must be used to create a new project,
 generate the corresponding API token, and initialize the desired SSH keys.
 All registered SSH keys are used when creating a server, and a subset of
@@ -31,12 +32,14 @@ cause unexpected behavior in the API or the resource state. Use with care.
 TODO: build tests for hetzner:vm? But hcloud-go has no mocking package.
 1) https://docs.hetzner.cloud/
 2) https://console.hetzner.cloud/
-3) https://github.com/jefmasereel/hcloud-go-getopts'';
+3) https://github.com/jefmasereel/hcloud-go-getopts
+'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         allowrebuild = mkOption {
           type = types.nullOr (types.str);
-          description = ''AllowRebuild provides flexible protection against unexpected server
+          description = ''
+AllowRebuild provides flexible protection against unexpected server
 rebuilds. Any changes to the "servertype", "datacenter" or "image" params
 require a destructive rebuild, which deletes all data on that server.
 The user must explicitly allow these operations with AllowRebuild.
@@ -46,63 +49,75 @@ rebuilds, but continues without error. The default option ("") disables
 always returns an error when CheckApply requests a rebuild.
 NOTE: Soft updates related to power and rescue mode are always allowed,
 because they are only required for explicit changes to resource fields.
-TODO: add AllowReboot if any indirect poweroffs are ever implemented.'';
+TODO: add AllowReboot if any indirect poweroffs are ever implemented.
+'';
           default = null;
         };
         apitoken = mkOption {
           type = types.nullOr (types.str);
-          description = ''APIToken specifies the unique API token corresponding to a Hetzner
+          description = ''
+APIToken specifies the unique API token corresponding to a Hetzner
 project. Keep this token private! It provides full access to this
 project, so a leaked token will be vulnerable to abuse. Read it from
 a local file or the mgmt deploy, or provide it directly as a string.
 NOTE: It must be generated manually via https://console.hetzner.cloud/.
-NOTE: This token is usually a 64 character alphanumeric string.'';
+NOTE: This token is usually a 64 character alphanumeric string.
+'';
           default = null;
         };
         datacenter = mkOption {
           type = types.nullOr (types.str);
-          description = ''Datacenter determines where the resource is hosted.  A complete and
+          description = ''
+Datacenter determines where the resource is hosted.  A complete and
 up-to-date list of options must be requested from the Hetzner API, but
 hcloud-go-getopts (url) provides a static reference. The datacenter
 options include "nbg1-dc3", "fsn1-dc14", "hel1-dc2" etc.
-https://github.com/JefMasereel/hcloud-go-getopts/'';
+https://github.com/JefMasereel/hcloud-go-getopts/
+'';
           default = null;
         };
         image = mkOption {
           type = types.nullOr (types.str);
-          description = ''Image determines the operating system to be installed. A complete and
+          description = ''
+Image determines the operating system to be installed. A complete and
 up-to-date list of options must be requested from the Hetzner API, but
 hcloud-go-getopts (url) provides a static reference. The image type
 options include "centos-7", "ubuntu-18.04", "debian-10" etc.
-https://github.com/JefMasereel/hcloud-go-getopts/'';
+https://github.com/JefMasereel/hcloud-go-getopts/
+'';
           default = null;
         };
         serverrescuekeys = mkOption {
           type = types.nullOr (types.listOf types.str);
-          description = ''ServerRescueSSHKeys can be used to select a subset of keys that should be
+          description = ''
+ServerRescueSSHKeys can be used to select a subset of keys that should be
 enabled for rescue mode operations over SSH. From all SSH keys known to
 the project client, choose a subset of keys by name, as an array of
 strings. New keys must first be added manually via the cloud console.
 An error is thrown if a given keyname is not recognized by the client.
 NOTE: live changes to this keylist while rescue mode is already enabled
 are not (yet) detected or applied by CheckApply.
-TODO: improve ssh key handling at checkApplyRescueMode and serverRebuild.'';
+TODO: improve ssh key handling at checkApplyRescueMode and serverRebuild.
+'';
           default = null;
         };
         serverrescuemode = mkOption {
           type = types.nullOr (types.str);
-          description = ''ServerRescueMode specifies the image type used when enabling rescue mode.
+          description = ''
+ServerRescueMode specifies the image type used when enabling rescue mode.
 The supported image types are "linux32", "linux64" and "freebsd64".
 Alternatively, leave this string empty to disable rescue mode (default).
 Other input values will not pass Validate and result in an error.
 NOTE: rescue mode can not be enabled if the server is absent.
 NOTE: Rescue mode can be used to log into the server over SSH and access
-the disks when the normal OS has trouble booting on its own.'';
+the disks when the normal OS has trouble booting on its own.
+'';
           default = null;
         };
         servertype = mkOption {
           type = types.nullOr (types.str);
-          description = ''ServerType determines the machine type as defined by Hetzner. A complete
+          description = ''
+ServerType determines the machine type as defined by Hetzner. A complete
 and up-to-date list of options must be requested from the Hetzner API,
 but hcloud-go-getopts (url) provides a static reference. Basic servertype
 options include "cx11", "cx21", "cx31" etc.
@@ -110,12 +125,14 @@ NOTE: make sure to check the price of the selected servertype! The listed
 examples are usually very cheap, but never free. Price and availability
 can also be dependent on the selected datacenter.
 https://github.com/JefMasereel/hcloud-go-getopts/
-TODO: set some kind of cost-based protection policy?'';
+TODO: set some kind of cost-based protection policy?
+'';
           default = null;
         };
         state = mkOption {
           type = types.nullOr (types.str);
-          description = ''State specifies the desired state of the server instance. The supported
+          description = ''
+State specifies the desired state of the server instance. The supported
 options are "" (undefined), "absent", "exists", "off" and "running".
 HetznerStateUndefined ("") leaves the state undefined by default.
 HetznerStateExists ("exists") indicates that the server must exist.
@@ -124,32 +141,39 @@ HetznerStateRunning ("running") tells the server it must be powered on.
 HetznerStateOff ("off") tells the server it must be powered off.
 NOTE: any other inputs will not pass Validate and result in an error.
 NOTE: setting the state of a live server to "absent" will delete all data
-and services that are located on that instance! Use with caution.'';
+and services that are located on that instance! Use with caution.
+'';
           default = null;
         };
         userdata = mkOption {
           type = types.nullOr (types.str);
-          description = ''UserData can be used to run commands on the server instance at creation.
-https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html.'';
+          description = ''
+UserData can be used to run commands on the server instance at creation.
+https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html.
+'';
           default = null;
         };
         waitinterval = mkOption {
           type = types.nullOr (types.int);
-          description = ''WaitInterval is the interval in seconds that is used when waiting for
+          description = ''
+WaitInterval is the interval in seconds that is used when waiting for
 transient states to converge between intermediate operations. A zero
 value causes the waiter to run without delays (burst requests). Although
 such burst requests are allowed, it is recommended to use a wait interval
 that keeps the total request rate under 3600 requests per hour. Take
 these factors into account: polling rate "Meta:poll", number of active
 resources under the same Hetzner project, and the expected rate of param
-updates. This will help to prevent rate limit errors.'';
+updates. This will help to prevent rate limit errors.
+'';
           default = null;
         };
         waittimeout = mkOption {
           type = types.nullOr (types.int);
-          description = ''WaitTimeout will cancel wait loops if they do not exit cleanly before
+          description = ''
+WaitTimeout will cancel wait loops if they do not exit cleanly before
 the expected time in seconds, in order to detect defective loops and
-avoid unnecessary consumption of computational resources.'';
+avoid unnecessary consumption of computational resources.
+'';
           default = null;
         };
       };

@@ -2,6 +2,7 @@ package parse
 
 import (
 	"errors"
+	"fmt"
 	"go/ast"
 	"go/parser"
 	"go/token"
@@ -35,22 +36,45 @@ type parsedPkg struct {
 func ParseResources(mgmtRoot string) (resources []ResourceInfo, err error) {
 	resDir := filepath.Join(mgmtRoot, "engine", "resources")
 	if st, e := os.Stat(resDir); e != nil || !st.IsDir() {
-		return nil, errors.New("mgmt resources dir not found: " + resDir)
+		if e == nil {
+			e = errors.New("not a directory")
+		}
+		return nil, fmt.Errorf("required mgmt resources dir not found or invalid: %s (%w)", resDir, e)
+	}
+
+	engDir := filepath.Join(mgmtRoot, "engine")
+	if st, e := os.Stat(engDir); e != nil || !st.IsDir() {
+		if e == nil {
+			e = errors.New("not a directory")
+		}
+		return nil, fmt.Errorf("required mgmt engine dir not found or invalid: %s (%w)", engDir, e)
 	}
 
 	fset := token.NewFileSet()
+
+	// Parse packages
 	resPkg, err := parsePkgDir(fset, resDir)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to parse %s: %w", resDir, err)
+	}
+	if resPkg == nil || len(resPkg.files) == 0 {
+		return nil, fmt.Errorf("no parseable Go files found in %s", resDir)
 	}
 
-	ifaceDir := filepath.Join(mgmtRoot, "engine", "interfaces")
-	ifacePkg, _ := parsePkgDir(fset, ifaceDir) // ok if missing
+	engPkg, err := parsePkgDir(fset, engDir)
+	if err != nil {
+		return nil, fmt.Errorf("failed to parse %s: %w", engDir, err)
+	}
+	if engPkg == nil || len(engPkg.files) == 0 {
+		return nil, fmt.Errorf("no parseable Go files found in %s", engDir)
+	}
 
+	// Collect
 	structMap := collectStructs(resPkg.files)
-	localConsts := collectStringConsts(resPkg.files)
-	ifaceConsts := collectStringConsts(ifacePkg.files)
-	regMap := collectRegistrations(resPkg, localConsts, ifaceConsts)
+	localConsts := collectStringConsts(resPkg.files)  // resource-local consts
+	engineConsts := collectStringConsts(engPkg.files) // package engine consts
+
+	regMap := collectRegistrations(resPkg, localConsts, engineConsts)
 
 	for resName, structName := range regMap {
 		if si, ok := structMap[structName]; ok {
@@ -62,8 +86,11 @@ func ParseResources(mgmtRoot string) (resources []ResourceInfo, err error) {
 			})
 		}
 	}
-
 	sort.Slice(resources, func(i, j int) bool { return resources[i].Name < resources[j].Name })
+
+	if len(resources) == 0 {
+		return nil, fmt.Errorf("no resources discovered (registrations not found or kinds unresolved)")
+	}
 	return resources, nil
 }
 

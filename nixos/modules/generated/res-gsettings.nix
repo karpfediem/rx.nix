@@ -5,50 +5,64 @@ let
 in
 {
   options.rx.res.gsettings = mkOption {
-    description = ''GsettingsRes is a resource for setting dconf values through gsettings. The
+    description = ''
+GsettingsRes is a resource for setting dconf values through gsettings. The
 ideal scenario is that this runs as the same user that wants settings set.
 This should be done by a local user-specific mgmt daemon. As a special case,
 we can run as root (or anyone with permission) which launches a subprocess
-which setuid/setgid'''s to that user to run the needed operations. To specify
+which setuid/setgid's to that user to run the needed operations. To specify
 the schema and key, set the resource name as "schema key" (separated by a
-single space character) or use the parameters.'';
+single space character) or use the parameters.
+'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         group = mkOption {
           type = types.nullOr (types.str);
-          description = ''Group is the (optional) group to use to execute the command. It is
-used for any command being run.'';
+          description = ''
+Group is the (optional) group to use to execute the command. It is
+used for any command being run.
+'';
           default = null;
         };
         key = mkOption {
           type = types.nullOr (types.str);
-          description = ''Key is the key to set.'';
+          description = ''
+Key is the key to set.
+'';
           default = null;
         };
         schema = mkOption {
           type = types.nullOr (types.str);
-          description = ''Schema is the schema to use in. This can be schema:path if the schema
-doesn'''t have a fixed path. See the `gsettings` manual for more info.'';
+          description = ''
+Schema is the schema to use in. This can be schema:path if the schema
+doesn't have a fixed path. See the `gsettings` manual for more info.
+'';
           default = null;
         };
         type = mkOption {
           type = types.nullOr (types.str);
-          description = ''Type is the type value to set. This can be "bool", "str", "int", or
+          description = ''
+Type is the type value to set. This can be "bool", "str", "int", or
 "custom".
-XXX: add support for [][]str and so on...'';
+XXX: add support for [][]str and so on...
+'';
           default = null;
         };
         user = mkOption {
           type = types.nullOr (types.str);
-          description = ''User is the (optional) user to use to execute the command. It is used
-for any command being run.'';
+          description = ''
+User is the (optional) user to use to execute the command. It is used
+for any command being run.
+'';
           default = null;
         };
         value = mkOption {
           type = types.nullOr (types.str);
-          description = ''Value is the value to set. It is interface{} because it can hold any
+          description = ''
+Value is the value to set. It is interface{} because it can hold any
 value type.
-XXX: Add resource unification to this key'';
+XXX: Add resource unification to this key
+'';
           default = null;
         };
       };

@@ -5,7 +5,8 @@ let
 in
 {
   options.rx.res.deploy-tar = mkOption {
-    description = ''DeployTar is a resource that archives a deploy filesystem using tar, thus
+    description = ''
+DeployTar is a resource that archives a deploy filesystem using tar, thus
 combining them into a single file. The name of the resource is the path to
 the resultant archive file. The input comes from the current deploy. This
 uses hashes to determine if something was changed, so as a result, this may
@@ -14,25 +15,30 @@ TODO: support send/recv to send the output instead of writing to a file?
 TODO: This resource is very similar to the tar resource. Update that one if
 this changes, or consider porting this to use that as a composite resource.
 TODO: consider using a `deploy.get_archive()` function to make a .tar, and a
-file resource to store those contents on disk with whatever mode we want...'';
+file resource to store those contents on disk with whatever mode we want...
+'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         format = mkOption {
           type = types.nullOr (types.int);
-          description = ''Format is the header format to use. If you change this, then the
+          description = ''
+Format is the header format to use. If you change this, then the
 file will get rearchived. The strange thing is that it seems the
 header format is stored for each individual file. The available
 values are: const.res.tar.format.unknown, const.res.tar.format.ustar,
 const.res.tar.format.pax, and const.res.tar.format.gnu which have
-values of 0, 2, 4, and 8 respectively.'';
+values of 0, 2, 4, and 8 respectively.
+'';
           default = null;
         };
         path = mkOption {
           type = types.nullOr (types.str);
-          description = ''Path, which defaults to the name if not specified, represents the
+          description = ''
+Path, which defaults to the name if not specified, represents the
 destination path for the compressed file being created. It must be an
 absolute path, and as a result must start with a slash. Since it is a
-file, it must not end with a slash.'';
+file, it must not end with a slash.
+'';
           default = null;
         };
       };

@@ -5,34 +5,44 @@ let
 in
 {
   options.rx.res.pkg = mkOption {
-    description = ''PkgRes is a package resource for packagekit.'';
+    description = ''
+PkgRes is a package resource for packagekit.
+'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         allownonfree = mkOption {
           type = types.nullOr (types.bool);
-          description = ''AllowNonFree specifies if we want to allow nonfree packages to be
-found? Please see the PackageKit documentation for more information.'';
+          description = ''
+AllowNonFree specifies if we want to allow nonfree packages to be
+found? Please see the PackageKit documentation for more information.
+'';
           default = null;
         };
         allowunsupported = mkOption {
           type = types.nullOr (types.bool);
-          description = ''AllowUnsupported specifies if we want to unsupported packages to be
-found? Please see the PackageKit documentation for more information.'';
+          description = ''
+AllowUnsupported specifies if we want to unsupported packages to be
+found? Please see the PackageKit documentation for more information.
+'';
           default = null;
         };
         allowuntrusted = mkOption {
           type = types.nullOr (types.bool);
-          description = ''AllowUntrusted specifies if we want to allow untrusted packages to be
+          description = ''
+AllowUntrusted specifies if we want to allow untrusted packages to be
 installed. Please see the PackageKit documentation for more
-information.'';
+information.
+'';
           default = null;
         };
         state = mkOption {
           type = types.nullOr (types.str);
-          description = ''State determines if we want to install or uninstall the package, and
+          description = ''
+State determines if we want to install or uninstall the package, and
 what version we want to pin if any. Valid values include: installed,
 uninstalled, newest, and `version`, where you just put the raw
-version string desired.'';
+version string desired.
+'';
           default = null;
         };
       };

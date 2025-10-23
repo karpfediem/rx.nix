@@ -5,46 +5,58 @@ let
 in
 {
   options.rx.res.schedule = mkOption {
-    description = ''ScheduleRes is a resource which starts up a "distributed scheduler". All
+    description = ''
+ScheduleRes is a resource which starts up a "distributed scheduler". All
 nodes of the same namespace will be part of the same scheduling pool. The
 scheduling result can be determined by using the "schedule" function. If the
 options specified are different among peers in the same namespace, then it is
-undefined which options if any will get chosen.'';
+undefined which options if any will get chosen.
+'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         max = mkOption {
           type = types.nullOr (types.str);
-          description = ''Max is the max number of hosts to elect. If this is unspecified, then
-a default of 1 is used.'';
+          description = ''
+Max is the max number of hosts to elect. If this is unspecified, then
+a default of 1 is used.
+'';
           default = null;
         };
         namespace = mkOption {
           type = types.nullOr (types.str);
-          description = ''Namespace represents the namespace key to use. If it is not
-specified, the Name value is used instead.'';
+          description = ''
+Namespace represents the namespace key to use. If it is not
+specified, the Name value is used instead.
+'';
           default = null;
         };
         reuse = mkOption {
           type = types.nullOr (types.bool);
-          description = ''Reuse specifies that we reuse the client lease on reconnect. If reuse
+          description = ''
+Reuse specifies that we reuse the client lease on reconnect. If reuse
 is false, then on host disconnect, that hosts entry will immediately
 expire, and the scheduler will react instantly and remove that host
 entry from the list. If this is true, or if the host closes without a
 clean shutdown, it will take the TTL number of seconds to remove the
-entry.'';
+entry.
+'';
           default = null;
         };
         strategy = mkOption {
           type = types.nullOr (types.str);
-          description = ''Strategy is the scheduling strategy to use. If this value is nil or,
-undefined, then a default will be chosen automatically.'';
+          description = ''
+Strategy is the scheduling strategy to use. If this value is nil or,
+undefined, then a default will be chosen automatically.
+'';
           default = null;
         };
         ttl = mkOption {
           type = types.nullOr (types.str);
-          description = ''TTL is the time to live for added scheduling "votes". If this value
+          description = ''
+TTL is the time to live for added scheduling "votes". If this value
 is nil or, undefined, then a default value is used. See the `Reuse`
-entry for more information.'';
+entry for more information.
+'';
           default = null;
         };
       };

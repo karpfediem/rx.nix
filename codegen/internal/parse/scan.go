@@ -70,7 +70,7 @@ func collectStringConsts(files []*ast.File) map[string]string {
 	return out
 }
 
-func collectRegistrations(resPkg *parsedPkg, localConsts, ifaceConsts map[string]string) map[string]string {
+func collectRegistrations(resPkg *parsedPkg, localConsts, engineConsts map[string]string) map[string]string {
 	out := make(map[string]string)
 	for _, f := range resPkg.files {
 		imports := resPkg.importAlias[f]
@@ -100,12 +100,13 @@ func collectRegistrations(resPkg *parsedPkg, localConsts, ifaceConsts map[string
 					}
 				}
 			case *ast.Ident:
+				// constant in the same package (resources)
 				resName = localConsts[a.Name]
 			case *ast.SelectorExpr:
+				// Qualified const: engine.SomeResKind (older trees) or alias.SomeResKind.
 				if pkgIdent, ok := a.X.(*ast.Ident); ok {
-					pkgPath := imports[pkgIdent.Name]
-					if strings.HasSuffix(pkgPath, "/engine/interfaces") {
-						resName = ifaceConsts[a.Sel.Name]
+					if pkgPath := imports[pkgIdent.Name]; strings.HasSuffix(pkgPath, "/engine") {
+						resName = engineConsts[a.Sel.Name]
 					}
 				}
 			}

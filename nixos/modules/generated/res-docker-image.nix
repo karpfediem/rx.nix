@@ -5,19 +5,25 @@ let
 in
 {
   options.rx.res.docker-image = mkOption {
-    description = ''DockerImageRes is a docker image resource. The resource'''s name must be a
-docker image in any supported format (url, image, or image:tag).'';
+    description = ''
+DockerImageRes is a docker image resource. The resource's name must be a
+docker image in any supported format (url, image, or image:tag).
+'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         apiversion = mkOption {
           type = types.nullOr (types.str);
-          description = ''APIVersion allows you to override the host'''s default client API
-version.'';
+          description = ''
+APIVersion allows you to override the host's default client API
+version.
+'';
           default = null;
         };
         state = mkOption {
           type = types.nullOr (types.str);
-          description = ''State of the image must be exists or absent.'';
+          description = ''
+State of the image must be exists or absent.
+'';
           default = null;
         };
       };

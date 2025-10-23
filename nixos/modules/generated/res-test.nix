@@ -5,12 +5,16 @@ let
 in
 {
   options.rx.res.test = mkOption {
-    description = ''TestRes is a resource that is mostly harmless and is used for internal tests.'';
+    description = ''
+TestRes is a resource that is mostly harmless and is used for internal tests.
+'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         alwaysgroup = mkOption {
           type = types.nullOr (types.bool);
-          description = ''set to true to cause auto grouping'';
+          description = ''
+set to true to cause auto grouping
+'';
           default = null;
         };
         anotherstr = mkOption {
@@ -30,7 +34,9 @@ in
         };
         byte = mkOption {
           type = types.nullOr (types.str);
-          description = ''alias for uint8'';
+          description = ''
+alias for uint8
+'';
           default = null;
         };
         comment = mkOption {
@@ -40,7 +46,9 @@ in
         };
         comparefail = mkOption {
           type = types.nullOr (types.bool);
-          description = ''will compare fail?'';
+          description = ''
+will compare fail?
+'';
           default = null;
         };
         complex128 = mkOption {
@@ -55,7 +63,9 @@ in
         };
         expectrecv = mkOption {
           type = types.nullOr (types.str);
-          description = ''what keys should we expect from send/recv?'';
+          description = ''
+what keys should we expect from send/recv?
+'';
           default = null;
         };
         float32 = mkOption {
@@ -70,7 +80,9 @@ in
         };
         func1 = mkOption {
           type = types.nullOr (types.str);
-          description = ''Func1 passes the value 42 to the input and returns a string.'';
+          description = ''
+Func1 passes the value 42 to the input and returns a string.
+'';
           default = null;
         };
         int = mkOption {
@@ -110,7 +122,9 @@ in
         };
         int8ptrptrptr = mkOption {
           type = types.nullOr (types.str);
-          description = ''Int8PtrPtrPtr probably makes no sense, but is legal.'';
+          description = ''
+Int8PtrPtrPtr probably makes no sense, but is legal.
+'';
           default = null;
         };
         interface = mkOption {
@@ -130,17 +144,23 @@ in
         };
         onlyshow = mkOption {
           type = types.nullOr (types.listOf types.str);
-          description = ''what values do we show?'';
+          description = ''
+what values do we show?
+'';
           default = null;
         };
         rune = mkOption {
           type = types.nullOr (types.str);
-          description = ''alias for int32, represents a Unicode code point'';
+          description = ''
+alias for int32, represents a Unicode code point
+'';
           default = null;
         };
         sendvalue = mkOption {
           type = types.nullOr (types.str);
-          description = ''what value should we send?'';
+          description = ''
+what value should we send?
+'';
           default = null;
         };
         slicestring = mkOption {
@@ -150,12 +170,16 @@ in
         };
         str = mkOption {
           type = types.nullOr (types.str);
-          description = ''can'''t name it String because of String()'';
+          description = ''
+can't name it String because of String()
+'';
           default = null;
         };
         stringptr = mkOption {
           type = types.nullOr (types.str);
-          description = ''TODO: tag name?'';
+          description = ''
+TODO: tag name?
+'';
           default = null;
         };
         uint = mkOption {
@@ -190,12 +214,16 @@ in
         };
         validatebool = mkOption {
           type = types.nullOr (types.bool);
-          description = ''set to true to cause a validate error'';
+          description = ''
+set to true to cause a validate error
+'';
           default = null;
         };
         validateerror = mkOption {
           type = types.nullOr (types.str);
-          description = ''set to cause a validate error'';
+          description = ''
+set to cause a validate error
+'';
           default = null;
         };
       };

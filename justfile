@@ -1,4 +1,4 @@
 generate-nix-module-options:
-    rm -rf nixos/modules/generated && \
-    cp -r "$(nix build .#rxnix-nixos-options --no-link --print-out-paths)" nixos/modules/generated/
-    chmod +w -R nixos/modules/generated/
+    out_path="$(nix build .#rx-nixos-options --no-link --print-out-paths)" && \
+    mkdir -p nixos/modules/generated && \
+    rsync -a --delete --chmod=Du+w,Fu+w "$out_path"/ nixos/modules/generated/

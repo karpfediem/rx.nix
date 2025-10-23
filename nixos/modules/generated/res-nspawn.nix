@@ -5,13 +5,17 @@ let
 in
 {
   options.rx.res.nspawn = mkOption {
-    description = ''NspawnRes is an nspawn container resource.'';
+    description = ''
+NspawnRes is an nspawn container resource.
+'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         state = mkOption {
           type = types.nullOr (types.str);
-          description = ''State specifies the desired state for this resource. This must be
-either `running` or `stopped`.'';
+          description = ''
+State specifies the desired state for this resource. This must be
+either `running` or `stopped`.
+'';
           default = null;
         };
       };

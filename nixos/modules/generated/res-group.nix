@@ -5,17 +5,23 @@ let
 in
 {
   options.rx.res.group = mkOption {
-    description = ''GroupRes is a user group resource.'';
+    description = ''
+GroupRes is a user group resource.
+'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         gid = mkOption {
           type = types.nullOr (types.str);
-          description = ''GID is the group'''s gid.'';
+          description = ''
+GID is the group's gid.
+'';
           default = null;
         };
         state = mkOption {
           type = types.nullOr (types.str);
-          description = ''State is `exists` or `absent`.'';
+          description = ''
+State is `exists` or `absent`.
+'';
           default = null;
         };
       };

@@ -5,22 +5,26 @@ let
 in
 {
   options.rx.res.value = mkOption {
-    description = ''ValueRes is a no-op resource that accepts a value normally or via send/recv
+    description = ''
+ValueRes is a no-op resource that accepts a value normally or via send/recv
 and it sends it via send/recv as well.
 
 XXX: intermediate chained values being used for send/recv must have a
-temporary placeholder value set or we'''ll get an invalid value error. This can
+temporary placeholder value set or we'll get an invalid value error. This can
 be fixed eventually when we expand the resource API. See the Default method
-of this resource for more information.'';
+of this resource for more information.
+'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         any = mkOption {
           type = types.nullOr (types.str);
-          description = ''Any is an arbitrary value to store in this resource. It can also be
+          description = ''
+Any is an arbitrary value to store in this resource. It can also be
 sent via send/recv and received by the same mechanism as well. The
 received value overwrites this value for the lifetime of the
 resource. It is interface{} because it can hold any type. It has
-pointer because it is only set if an actual value exists.'';
+pointer because it is only set if an actual value exists.
+'';
           default = null;
         };
       };

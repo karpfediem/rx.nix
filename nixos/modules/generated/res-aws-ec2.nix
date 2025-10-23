@@ -5,58 +5,76 @@ let
 in
 {
   options.rx.res.aws-ec2 = mkOption {
-    description = ''AwsEc2Res is an AWS EC2 resource. In order to create a client session, your
+    description = ''
+AwsEc2Res is an AWS EC2 resource. In order to create a client session, your
 AWS credentials must be present in ~/.aws - For detailed instructions see
-http://docs.aws.amazon.com/cli/latest/userguide/cli-config-files.html'';
+http://docs.aws.amazon.com/cli/latest/userguide/cli-config-files.html
+'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         erroronmalformedpost = mkOption {
           type = types.nullOr (types.bool);
-          description = ''ErrorOnMalformedPost controls whether or not malformed HTTP post
+          description = ''
+ErrorOnMalformedPost controls whether or not malformed HTTP post
 requests, that cause JSON decoder errors, will also make the engine
 shut down. If ErrorOnMalformedPost set to true and an error occurs,
-Watch() will return the error and the engine will shut down.'';
+Watch() will return the error and the engine will shut down.
+'';
           default = null;
         };
         imageid = mkOption {
           type = types.nullOr (types.str);
-          description = ''ImageID to use, and note that it must be available on the chosen
-region.'';
+          description = ''
+ImageID to use, and note that it must be available on the chosen
+region.
+'';
           default = null;
         };
         region = mkOption {
           type = types.nullOr (types.str);
-          description = ''Region must match one of the AwsRegions. This list is static at the
-moment.'';
+          description = ''
+Region must match one of the AwsRegions. This list is static at the
+moment.
+'';
           default = null;
         };
         state = mkOption {
           type = types.nullOr (types.str);
-          description = ''State must be running, stopped, or terminated.'';
+          description = ''
+State must be running, stopped, or terminated.
+'';
           default = null;
         };
         type = mkOption {
           type = types.nullOr (types.str);
-          description = ''Type of ec2 instance, eg: t2.micro for example.'';
+          description = ''
+Type of ec2 instance, eg: t2.micro for example.
+'';
           default = null;
         };
         userdata = mkOption {
           type = types.nullOr (types.str);
-          description = ''UserData is used to run bash and cloud-init commands on first launch.
+          description = ''
+UserData is used to run bash and cloud-init commands on first launch.
 See http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html
-for documentation and examples.'';
+for documentation and examples.
+'';
           default = null;
         };
         watchendpoint = mkOption {
           type = types.nullOr (types.str);
-          description = ''WatchEndpoint is the public url of the sns endpoint, eg:
-http://server:12345/ for example.'';
+          description = ''
+WatchEndpoint is the public url of the sns endpoint, eg:
+http://server:12345/ for example.
+'';
           default = null;
         };
         watchlistenaddr = mkOption {
           type = types.nullOr (types.str);
-          description = ''WatchListenAddr is the local address or port that the sns listens on,
-eg: 10.0.0.0:23456 or 23456.'';
+          description = ''
+WatchListenAddr is the local address or port that the sns listens on,
+eg: 10.0.0.0:23456 or 23456.
+'';
           default = null;
         };
       };

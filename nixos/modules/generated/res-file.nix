@@ -5,38 +5,49 @@ let
 in
 {
   options.rx.res.file = mkOption {
-    description = ''FileRes is a file and directory resource. Dirs are defined by names ending in
-a slash.'';
+    description = ''
+FileRes is a file and directory resource. Dirs are defined by names ending in
+a slash.
+'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         basename = mkOption {
           type = types.nullOr (types.str);
-          description = ''Basename is used to override the path basename. (The file portion.)'';
+          description = ''
+Basename is used to override the path basename. (The file portion.)
+'';
           default = null;
         };
         content = mkOption {
           type = types.nullOr (types.str);
-          description = ''Content specifies the file contents to use. If this is nil, they are
+          description = ''
+Content specifies the file contents to use. If this is nil, they are
 left undefined. It cannot be combined with the Source or Fragments
-parameters.'';
+parameters.
+'';
           default = null;
         };
         dirname = mkOption {
           type = types.nullOr (types.str);
-          description = ''Dirname is used to override the path dirname. (The directory
-portion.)'';
+          description = ''
+Dirname is used to override the path dirname. (The directory
+portion.)
+'';
           default = null;
         };
         force = mkOption {
           type = types.nullOr (types.bool);
-          description = ''Force must be set if we want to perform an unusual operation, such as
+          description = ''
+Force must be set if we want to perform an unusual operation, such as
 changing a file into a directory or vice-versa. This is also required
-when changing a file or directory into a symlink or vice-versa.'';
+when changing a file or directory into a symlink or vice-versa.
+'';
           default = null;
         };
         fragments = mkOption {
           type = types.nullOr (types.listOf types.str);
-          description = ''Fragments specifies that the file is built from a list of individual
+          description = ''
+Fragments specifies that the file is built from a list of individual
 files. If one of the files is a directory, then the list of files in
 that directory are the fragments to combine. Multiple of these can be
 used together, although most simple cases will probably only either
@@ -46,56 +57,70 @@ directories (if any) must end with a slash as well. This cannot be
 combined with the Content or Source parameters. If a file with param
 is reversed, the reversed file is one that has `Content` set instead.
 Automatic edges will be added from these fragments. This currently
-isn'''t recursive in that if a fragment is a directory, this only
-searches one level deep at the moment.'';
+isn't recursive in that if a fragment is a directory, this only
+searches one level deep at the moment.
+'';
           default = null;
         };
         group = mkOption {
           type = types.nullOr (types.str);
-          description = ''Group specifies the file group. You can specify either the string
-name, or a string representation of the group integer gid.'';
+          description = ''
+Group specifies the file group. You can specify either the string
+name, or a string representation of the group integer gid.
+'';
           default = null;
         };
         mode = mkOption {
           type = types.nullOr (types.str);
-          description = ''Mode is the mode of the file as a string representation of the octal
-form or symbolic form.'';
+          description = ''
+Mode is the mode of the file as a string representation of the octal
+form or symbolic form.
+'';
           default = null;
         };
         owner = mkOption {
           type = types.nullOr (types.str);
-          description = ''Owner specifies the file owner. You can specify either the string
-name, or a string representation of the owner integer uid.'';
+          description = ''
+Owner specifies the file owner. You can specify either the string
+name, or a string representation of the owner integer uid.
+'';
           default = null;
         };
         path = mkOption {
           type = types.nullOr (types.str);
-          description = ''Path, which defaults to the name if not specified, represents the
+          description = ''
+Path, which defaults to the name if not specified, represents the
 destination path for the file or directory being managed. It must be
-an absolute path, and as a result must start with a slash.'';
+an absolute path, and as a result must start with a slash.
+'';
           default = null;
         };
         purge = mkOption {
           type = types.nullOr (types.bool);
-          description = ''Purge specifies that when true, any unmanaged file in this file
+          description = ''
+Purge specifies that when true, any unmanaged file in this file
 directory will be removed. As a result, this file resource must be a
-directory. This isn'''t particularly meaningful if you don'''t also set
-Recurse to true. This doesn'''t work with Content or Fragments.'';
+directory. This isn't particularly meaningful if you don't also set
+Recurse to true. This doesn't work with Content or Fragments.
+'';
           default = null;
         };
         recurse = mkOption {
           type = types.nullOr (types.bool);
-          description = ''Recurse specifies if you want to work recursively on the resource. It
+          description = ''
+Recurse specifies if you want to work recursively on the resource. It
 is used when copying a source directory, or to determine if a watch
 should be recursive or not. When making a directory, this is required
-if you'''d need the parent directories to be made as well. (Analogous
+if you'd need the parent directories to be made as well. (Analogous
 to the `mkdir -p` option.)
-FIXME: There are some unimplemented cases where we should look at it.'';
+FIXME: There are some unimplemented cases where we should look at it.
+'';
           default = null;
         };
         source = mkOption {
           type = types.nullOr (types.str);
-          description = ''Source specifies the source contents for the file resource. It cannot
+          description = ''
+Source specifies the source contents for the file resource. It cannot
 be combined with the Content or Fragments parameters. It must be an
 absolute path, and it can point to a file or a directory. If it
 points to a file, then that will will be copied through directly. If
@@ -105,30 +130,35 @@ then the main file res must be a file, and if it is a directory, then
 this must be a directory. To meaningfully copy a full directory, you
 also need to specify the Recurse parameter, which is currently
 required. If you want an existing dir to be turned into a file (or
-vice-versa) instead of erroring, then you'''ll also need to specify the
+vice-versa) instead of erroring, then you'll also need to specify the
 Force parameter. If source is undefined and the file path is a
 directory, then a directory will be created. If left undefined, and
 combined with the Purge option too, then any unmanaged file in this
 dir will be removed. Lastly, if the Symlink parameter is true, then
-this specifies the source that the symbolic symlink points to.'';
+this specifies the source that the symbolic symlink points to.
+'';
           default = null;
         };
         state = mkOption {
           type = types.nullOr (types.str);
-          description = ''State specifies the desired state of the file. It can be either
+          description = ''
+State specifies the desired state of the file. It can be either
 `exists` or `absent`. If you do not specify this, we will not be able
 to create or remove a file if it might be logical for another
 param to require that. Instead it will error. This means that this
 field is not implied by specifying some content or a mode. This is
-also used when determining how we manage a symlink.'';
+also used when determining how we manage a symlink.
+'';
           default = null;
         };
         symlink = mkOption {
           type = types.nullOr (types.bool);
-          description = ''Symlink specifies that the file should be a symbolic link to the
+          description = ''
+Symlink specifies that the file should be a symbolic link to the
 source contents. Those do not have to point to an actual file or
 directory. The source in that case can be either an absolute or
-relative path.'';
+relative path.
+'';
           default = null;
         };
       };

@@ -5,21 +5,27 @@ let
 in
 {
   options.rx.res.print = mkOption {
-    description = ''PrintRes is a resource that is useful for printing a message to the screen.
+    description = ''
+PrintRes is a resource that is useful for printing a message to the screen.
 It will also display a message when it receives a notification. It supports
-automatic grouping.'';
+automatic grouping.
+'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         msg = mkOption {
           type = types.nullOr (types.str);
-          description = ''Msg is the message to display.'';
+          description = ''
+Msg is the message to display.
+'';
           default = null;
         };
         refresh_only = mkOption {
           type = types.nullOr (types.bool);
-          description = ''RefreshOnly is an option that causes the message to be printed only
+          description = ''
+RefreshOnly is an option that causes the message to be printed only
 when notified by another resource. When set to true, this resource
-cannot be autogrouped.'';
+cannot be autogrouped.
+'';
           default = null;
         };
       };

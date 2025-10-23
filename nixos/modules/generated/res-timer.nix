@@ -5,13 +5,17 @@ let
 in
 {
   options.rx.res.timer = mkOption {
-    description = ''TimerRes is a timer resource for time based events. It outputs an event every
-interval seconds.'';
+    description = ''
+TimerRes is a timer resource for time based events. It outputs an event every
+interval seconds.
+'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         interval = mkOption {
           type = types.nullOr (types.int);
-          description = ''Interval between runs in seconds.'';
+          description = ''
+Interval between runs in seconds.
+'';
           default = null;
         };
       };

@@ -5,34 +5,46 @@ let
 in
 {
   options.rx.res.msg = mkOption {
-    description = ''MsgRes is a resource that writes messages to logs.'';
+    description = ''
+MsgRes is a resource that writes messages to logs.
+'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         body = mkOption {
           type = types.nullOr (types.str);
-          description = ''Body is the body of the message to send.'';
+          description = ''
+Body is the body of the message to send.
+'';
           default = null;
         };
         fields = mkOption {
           type = types.nullOr (types.attrsOf types.str);
-          description = ''Fields are the key/value pairs set in the journal if we are using it.'';
+          description = ''
+Fields are the key/value pairs set in the journal if we are using it.
+'';
           default = null;
         };
         journal = mkOption {
           type = types.nullOr (types.bool);
-          description = ''Journal should be true to enable systemd journaled (journald) output.'';
+          description = ''
+Journal should be true to enable systemd journaled (journald) output.
+'';
           default = null;
         };
         priority = mkOption {
           type = types.nullOr (types.str);
-          description = ''Priority is the priority of the message. Currently this is one of:
-Emerg, Alert, Crit, Err, Warning, Notice, Info, Debug.'';
+          description = ''
+Priority is the priority of the message. Currently this is one of:
+Emerg, Alert, Crit, Err, Warning, Notice, Info, Debug.
+'';
           default = null;
         };
         syslog = mkOption {
           type = types.nullOr (types.bool);
-          description = ''Syslog should be true to enable traditional syslog output. This is
-probably going to somewhere in `/var/log/` on your filesystem.'';
+          description = ''
+Syslog should be true to enable traditional syslog output. This is
+probably going to somewhere in `/var/log/` on your filesystem.
+'';
           default = null;
         };
       };

@@ -5,7 +5,8 @@ let
 in
 {
   options.rx.res.firewalld = mkOption {
-    description = ''FirewalldRes is a simple resource to interact with the firewalld service. It
+    description = ''
+FirewalldRes is a simple resource to interact with the firewalld service. It
 is not a replacement for a modern, robust tool like `shorewall`, but it has
 its uses such as for small, desktop use cases. The API of this resource might
 change to either add new features, split this into multiple resources, or to
@@ -13,33 +14,42 @@ optimize the execution if it turns out to be too expensive to run large
 amounts of these as-is. The name variable currently has no useful purpose.
 Keep in mind that this resource requires root permissions to be able change
 the firewall settings and to monitor for changes. The change detection uses
-the nftables monitor facility.'';
+the nftables monitor facility.
+'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         ports = mkOption {
           type = types.nullOr (types.listOf types.str);
-          description = ''Ports are the list of port/protocol combinations to manage to the
+          description = ''
+Ports are the list of port/protocol combinations to manage to the
 desired state. These are strings of port number (slash) protocol like
-`4280/tcp` and `38/udp`.'';
+`4280/tcp` and `38/udp`.
+'';
           default = null;
         };
         services = mkOption {
           type = types.nullOr (types.listOf types.str);
-          description = ''Services are the list of services to manage to the desired state.
-These are single lower case strings like `dhcp`, and `tftp`.'';
+          description = ''
+Services are the list of services to manage to the desired state.
+These are single lower case strings like `dhcp`, and `tftp`.
+'';
           default = null;
         };
         state = mkOption {
           type = types.nullOr (types.str);
-          description = ''State is the desired state.'';
+          description = ''
+State is the desired state.
+'';
           default = null;
         };
         zone = mkOption {
           type = types.nullOr (types.str);
-          description = ''Zone is the name of the zone to manage. If unspecified, we will
+          description = ''
+Zone is the name of the zone to manage. If unspecified, we will
 attempt to get the default zone automatically. In this situation, it
 is possible that this default changes over time if it is acted upon
-by external tools that use firewalld.'';
+by external tools that use firewalld.
+'';
           default = null;
         };
       };

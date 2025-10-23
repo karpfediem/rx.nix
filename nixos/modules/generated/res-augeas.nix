@@ -5,26 +5,34 @@ let
 in
 {
   options.rx.res.augeas = mkOption {
-    description = ''AugeasRes is a resource that enables you to use the augeas resource.
-Currently only allows you to change simple files (e.g sshd_config).'';
+    description = ''
+AugeasRes is a resource that enables you to use the augeas resource.
+Currently only allows you to change simple files (e.g sshd_config).
+'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         file = mkOption {
           type = types.nullOr (types.str);
-          description = ''File is the path to the file targeted by this resource.'';
+          description = ''
+File is the path to the file targeted by this resource.
+'';
           default = null;
         };
         lens = mkOption {
           type = types.nullOr (types.str);
-          description = ''Lens is the lens used by this resource. If specified, mgmt
-will lower the augeas overhead by only loading that lens.'';
+          description = ''
+Lens is the lens used by this resource. If specified, mgmt
+will lower the augeas overhead by only loading that lens.
+'';
           default = null;
         };
         sets = mkOption {
           type = types.nullOr (types.listOf types.str);
-          description = ''Sets is a list of changes that will be applied to the file, in the
+          description = ''
+Sets is a list of changes that will be applied to the file, in the
 form of ["path", "value"]. mgmt will run augeas.Get() before
-augeas.Set(), to prevent changing the file when it is not needed.'';
+augeas.Set(), to prevent changing the file when it is not needed.
+'';
           default = null;
         };
       };

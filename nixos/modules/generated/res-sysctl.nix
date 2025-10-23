@@ -5,45 +5,55 @@ let
 in
 {
   options.rx.res.sysctl = mkOption {
-    description = ''SysctlRes is a resource for setting kernel parameters.
+    description = ''
+SysctlRes is a resource for setting kernel parameters.
 TODO: Add a sysctl:clean resource that removes any unmanaged files from
-/etc/sysctl.d/ and optionally blanks out the stock /etc/sysctl.conf file too.'';
+/etc/sysctl.d/ and optionally blanks out the stock /etc/sysctl.conf file too.
+'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         path = mkOption {
           type = types.nullOr (types.str);
-          description = ''Filename is the full path for the persistence file which is usually
+          description = ''
+Filename is the full path for the persistence file which is usually
 read on boot. We usually use entries in the /etc/sysctl.d/ directory.
 By convention, they end in .conf and start with a numeric prefix and
 a dash. For example: /etc/sysctl.d/10-dmesg.conf for example. If this
-is omitted, the filename will be chosen automatically.'';
+is omitted, the filename will be chosen automatically.
+'';
           default = null;
         };
         persist = mkOption {
           type = types.nullOr (types.bool);
-          description = ''Persist specifies whether this value should be stored on disk where
+          description = ''
+Persist specifies whether this value should be stored on disk where
 it will persist across reboots. It defaults to true. Keep in mind,
 that if this is not used, but `Runtime` is true, then the value will
 be restored anyways if `mgmt` runs on boot, which may be what you
-want anyways.'';
+want anyways.
+'';
           default = null;
         };
         runtime = mkOption {
           type = types.nullOr (types.bool);
-          description = ''Runtime specifies whether this value should be set immediately. It
+          description = ''
+Runtime specifies whether this value should be set immediately. It
 defaults to true. If this is not set, then the value must be set in a
 file and the machine will have to reboot for the setting to take
-effect.'';
+effect.
+'';
           default = null;
         };
         value = mkOption {
           type = types.nullOr (types.str);
-          description = ''Value is the string value to set. Make sure you specify it in the
+          description = ''
+Value is the string value to set. Make sure you specify it in the
 same format that the kernel parses it as to avoid automation
 "flapping". You can test this by writing a value to the correct
 /proc/sys/ path entry with `echo foo >` and then reading it back out
 and seeing what the "parsed" correct format is. You must not include
-the trailing newline which is present in the readback for all values.'';
+the trailing newline which is present in the readback for all values.
+'';
           default = null;
         };
       };

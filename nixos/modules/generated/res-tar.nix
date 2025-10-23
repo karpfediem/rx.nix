@@ -5,42 +5,50 @@ let
 in
 {
   options.rx.res.tar = mkOption {
-    description = ''TarRes is a resource that archives a number of paths using tar, thus
+    description = ''
+TarRes is a resource that archives a number of paths using tar, thus
 combining them into a single file. The name of the resource is the path to
 the resultant archive file. The input comes from a list of paths which can be
 either files or directories or both. Directories are added recursively of
 course. This uses hashes to determine if something was changed, so as a
 result, this may not be suitable if you can create a sha256 hash collision.
-TODO: support send/recv to send the output instead of writing to a file?'';
+TODO: support send/recv to send the output instead of writing to a file?
+'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         format = mkOption {
           type = types.nullOr (types.int);
-          description = ''Format is the header format to use. If you change this, then the
+          description = ''
+Format is the header format to use. If you change this, then the
 file will get rearchived. The strange thing is that it seems the
 header format is stored for each individual file. The available
 values are: const.res.tar.format.unknown, const.res.tar.format.ustar,
 const.res.tar.format.pax, and const.res.tar.format.gnu which have
-values of 0, 2, 4, and 8 respectively.'';
+values of 0, 2, 4, and 8 respectively.
+'';
           default = null;
         };
         inputs = mkOption {
           type = types.nullOr (types.listOf types.str);
-          description = ''Inputs represents the list of files to be compressed. They must each
+          description = ''
+Inputs represents the list of files to be compressed. They must each
 be absolute paths of either single files or directories, and as a
 result, each must start with a slash. Directories must end with a
 slash and files must not for standard behaviour. As a special
 exception, if you omit the trailing slash on a directory path, then
 this will include that directory name as a prefix. This is similar to
-how rsync chooses if it copies in the base directory or not.'';
+how rsync chooses if it copies in the base directory or not.
+'';
           default = null;
         };
         path = mkOption {
           type = types.nullOr (types.str);
-          description = ''Path, which defaults to the name if not specified, represents the
+          description = ''
+Path, which defaults to the name if not specified, represents the
 destination path for the compressed file being created. It must be an
 absolute path, and as a result must start with a slash. Since it is a
-file, it must not end with a slash.'';
+file, it must not end with a slash.
+'';
           default = null;
         };
       };

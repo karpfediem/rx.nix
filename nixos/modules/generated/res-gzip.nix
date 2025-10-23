@@ -5,48 +5,58 @@ let
 in
 {
   options.rx.res.gzip = mkOption {
-    description = ''GzipRes is a resource that compresses a path or some raw data using gzip. The
+    description = ''
+GzipRes is a resource that compresses a path or some raw data using gzip. The
 name of the resource is the path to the resultant compressed file. The input
 can either come from a file path if specified with Input or it looks at the
 Content field for raw data. It uses hashes to determine if something was
 changed, so as a result, this may not be suitable if you can create a sha256
 hash collision.
-TODO: support send/recv to send the output instead of writing to a file?'';
+TODO: support send/recv to send the output instead of writing to a file?
+'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         content = mkOption {
           type = types.nullOr (types.str);
-          description = ''Content is the raw data to compress. If Input is not specified, then
+          description = ''
+Content is the raw data to compress. If Input is not specified, then
 we use this parameter. If you forget to specify both of these, then
 you will compress zero-length data!
 TODO: If this is also empty should we just error at Validate?
-FIXME: Do we need []byte here? Do we need a binary type?'';
+FIXME: Do we need []byte here? Do we need a binary type?
+'';
           default = null;
         };
         input = mkOption {
           type = types.nullOr (types.str);
-          description = ''Input represents the input file to be compressed. It must be an
+          description = ''
+Input represents the input file to be compressed. It must be an
 absolute path, and as a result must start with a slash. Since it is a
 file, it must not end with a slash. If this is specified, we use it,
-otherwise we use the Content parameter.'';
+otherwise we use the Content parameter.
+'';
           default = null;
         };
         level = mkOption {
           type = types.nullOr (types.int);
-          description = ''Level is the compression level to use. If you change this, then the
+          description = ''
+Level is the compression level to use. If you change this, then the
 file will get recompressed. The available values are:
 const.res.gzip.level.no_compression, const.res.gzip.level.best_speed,
 const.res.gzip.level.best_compression,
 const.res.gzip.level.default_compression, and
-const.res.gzip.level.huffman_only.'';
+const.res.gzip.level.huffman_only.
+'';
           default = null;
         };
         path = mkOption {
           type = types.nullOr (types.str);
-          description = ''Path, which defaults to the name if not specified, represents the
+          description = ''
+Path, which defaults to the name if not specified, represents the
 destination path for the compressed file being created. It must be an
 absolute path, and as a result must start with a slash. Since it is a
-file, it must not end with a slash.'';
+file, it must not end with a slash.
+'';
           default = null;
         };
       };

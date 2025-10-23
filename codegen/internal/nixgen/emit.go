@@ -21,7 +21,7 @@ func WriteResourceNix(path string, r parse.ResourceInfo) error {
 	if desc == "" {
 		desc = fmt.Sprintf("mgmt resource: %s (struct %s).", r.Name, r.StructName)
 	}
-	fmt.Fprintf(&b, "    description = ''%s'';\n", util.EscapeIndentedNix(desc))
+	fmt.Fprintf(&b, "    description = ''\n%s\n'';\n", util.EscapeIndentedNix(desc))
 	fmt.Fprintf(&b, "    type = types.attrsOf (types.submodule ({ name, ... }: {\n")
 	fmt.Fprintf(&b, "      options = {\n")
 
@@ -30,7 +30,7 @@ func WriteResourceNix(path string, r parse.ResourceInfo) error {
 		fmt.Fprintf(&b, "        %s = mkOption {\n", util.SanitizeAttrIdent(f.LangName))
 		fmt.Fprintf(&b, "          type = %s;\n", nixType)
 		if f.Doc != "" {
-			fmt.Fprintf(&b, "          description = ''%s'';\n", util.EscapeIndentedNix(f.Doc))
+			fmt.Fprintf(&b, "          description = ''\n%s\n'';\n", util.EscapeIndentedNix(f.Doc))
 		} else {
 			fmt.Fprintf(&b, "          description = \"\";\n")
 		}

@@ -5,39 +5,49 @@ let
 in
 {
   options.rx.res.tftp-file = mkOption {
-    description = ''TFTPFileRes is a file that exists within a tftp server. The name is used as
+    description = ''
+TFTPFileRes is a file that exists within a tftp server. The name is used as
 the public path of the file, unless the filename field is specified, and in
 that case it is used instead. The way this works is that it autogroups at
 runtime with an existing tftp resource, and in doing so makes the file
-associated with this resource available for serving from that tftp server.'';
+associated with this resource available for serving from that tftp server.
+'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         data = mkOption {
           type = types.nullOr (types.str);
-          description = ''Data is the file content that should be used as the source for this
+          description = ''
+Data is the file content that should be used as the source for this
 file resource. It must not be combined with the path field.
-TODO: should this be []byte instead?'';
+TODO: should this be []byte instead?
+'';
           default = null;
         };
         filename = mkOption {
           type = types.nullOr (types.str);
-          description = ''Filename is the name of the file this data should appear as on the
-tftp server.'';
+          description = ''
+Filename is the name of the file this data should appear as on the
+tftp server.
+'';
           default = null;
         };
         path = mkOption {
           type = types.nullOr (types.str);
-          description = ''Path is the absolute path to a file that should be used as the source
-for this file resource. It must not be combined with the data field.'';
+          description = ''
+Path is the absolute path to a file that should be used as the source
+for this file resource. It must not be combined with the data field.
+'';
           default = null;
         };
         server = mkOption {
           type = types.nullOr (types.str);
-          description = ''Server is the name of the tftp server resource to group this into. If
+          description = ''
+Server is the name of the tftp server resource to group this into. If
 it is omitted, and there is only a single tftp resource, then it will
 be grouped into it automatically. If there is more than one main tftp
 resource being used, then the grouping behaviour is *undefined* when
-this is not specified, and it is not recommended to leave this blank!'';
+this is not specified, and it is not recommended to leave this blank!
+'';
           default = null;
         };
       };

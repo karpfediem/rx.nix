@@ -5,40 +5,50 @@ let
 in
 {
   options.rx.res.hostname = mkOption {
-    description = ''HostnameRes is a resource that allows setting and watching the hostname. If
-you don'''t specify any parameters, the Name is used. The Hostname field is
+    description = ''
+HostnameRes is a resource that allows setting and watching the hostname. If
+you don't specify any parameters, the Name is used. The Hostname field is
 used if none of the other parameters are used. If the parameters are set to
-the empty string, then those variants are not managed by the resource.'';
+the empty string, then those variants are not managed by the resource.
+'';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
         hostname = mkOption {
           type = types.nullOr (types.str);
-          description = ''Hostname specifies the hostname we want to set in all of the places
-that it'''s possible. This is the fallback value for all the three
+          description = ''
+Hostname specifies the hostname we want to set in all of the places
+that it's possible. This is the fallback value for all the three
 fields below. If only this Hostname field is specified, this will set
 all tree fields (PrettyHostname, StaticHostname, TransientHostname)
-to this value.'';
+to this value.
+'';
           default = null;
         };
         pretty_hostname = mkOption {
           type = types.nullOr (types.str);
-          description = ''PrettyHostname is a free-form UTF8 host name for presentation to the
-user.'';
+          description = ''
+PrettyHostname is a free-form UTF8 host name for presentation to the
+user.
+'';
           default = null;
         };
         static_hostname = mkOption {
           type = types.nullOr (types.str);
-          description = ''StaticHostname is the one configured in /etc/hostname or a similar
+          description = ''
+StaticHostname is the one configured in /etc/hostname or a similar
 file. It is chosen by the local user. It is not always in sync with
-the current host name as returned by the gethostname() system call.'';
+the current host name as returned by the gethostname() system call.
+'';
           default = null;
         };
         transient_hostname = mkOption {
           type = types.nullOr (types.str);
-          description = ''TransientHostname is the one configured via the kernel'''s
+          description = ''
+TransientHostname is the one configured via the kernel's
 sethostbyname(). It can be different from the static hostname in case
 DHCP or mDNS have been configured to change the name based on network
-information.'';
+information.
+'';
           default = null;
         };
       };
