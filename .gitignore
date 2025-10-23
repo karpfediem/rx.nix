@@ -2,3 +2,4 @@
 .jj
 
 result
+templates/default/flake.lock

@@ -5,7 +5,7 @@
     nixpkgs.url = "github:karpfediem/nixpkgs?ref=update-mgmt-1.0.0";
     flake-parts.url = "github:hercules-ci/flake-parts";
 
-    rxnix.url = "git+file:///home/carp/code/rx.nix";
+    rxnix.url = "github:karpfediem/rx.nix";
     rxnix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
