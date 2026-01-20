@@ -69,33 +69,45 @@ Traditional Nix evaluation is blind to runtime state. mgmt introduces live feedb
 
 ## How It Works
 
-`rx.nix` is a **flake module** that augments regular Nix flakes with reactive outputs.
+`rx.nix` is a **nixos module** that lets users define reactive configuration inside regular nixosConfigurations.
+It also provides additional outputs via a flake module.
 
 ### Example
 
 ```nix
 {
-  imports = [ rxnix.flakeModules.default ];
+  imports = [ rx.flakeModules.default ];
 
   nixosConfigurations.demo = lib.nixosSystem {
     system = "x86_64-linux";
     modules = [
-      rxnix.nixosModules.default
+      rx.nixosModules.default
       ({ ... }: {
-        rx.enable = true;
+        rx.enable = true; # enable module
+        rx.mgmt.enable = true; # enable mgmt systemd service
 
-        # Whitelist system resources
-        rx.include.files."/etc/hosts".enable = true;
+        rx.mcl.imports = [ "datetime" "golang" ]; # set up required imports (either here or in MCL code)
+        rx.mcl.vars.d = "datetime.now()"; # reactive variables
 
-        # Define your own reactive files
-        rx.files."/tmp/hello".text = "Hello from rx.nix\n";
+        # Write raw MCL code
+        # Define your own reactive files (try to `watch -n 0.1 cat /tmp/now`)
+        rx.mcl.raw = [
+          ''
+            file "/tmp/now" {
+              state => $const.res.file.state.exists,
+              content => golang.template("Hello! It is now: {{ datetime_print . }}\n", $d),
+            }
+          ''
+        ];
       })
     ];
   };
 }
 ```
+The nixosModule will generate a bundled up MCL module and set it as your current profile on system activation.
+The included systemd service will ensure your configuration is applied continuously during runtime of your system.
 
-This gives your flake new outputs:
+Additionally, the flake module provides these new outputs:
 
 | Output                        | Description                             |
 | ----------------------------- | --------------------------------------- |
@@ -147,13 +159,13 @@ The questions driving this project are:
 
 ## Rough Roadmap
 
-| Phase | Feature / Exploration                                  | Status             |
-| ----- | ------------------------------------------------------ | ------------------ |
-| I     | File resources (`rx.files`, `rx.include.files`)        | ✅ Implemented     |
-| II    | Per-host evaluation (`rxGenForHost`, `rxIrForHost`)    | ✅ Implemented     |
-| III   | Systemd services (`svc`) resources                     | 🔄 In progress     |
-| IV    | External secrets integration (Vault, 1Password, SOPS)  | 🔄 Planned         |
-| V     | Live mgmt evaluation backend (MCL codegen refactor)    | 🔄 Planned         |
-| VI    | Full dynamic dependencies (signals between hosts)      | 🚧 Research        |
-| VII   | Cross-platform expansion (macOS via nix-darwin)        | 🚧 Research        |
-| VIII  | Conceptual FRP primitives in Nix (mkSignal, mkDynamic) | 🚧 Research        |
+| Phase | Feature / Exploration                                  | Status        |
+|-------|--------------------------------------------------------|---------------|
+| I     | File resources (`rx.files`, `rx.include.files`)        | ✅ Implemented |
+| II    | Per-host evaluation (`rxGenForHost`, `rxIrForHost`)    | ✅ Implemented |
+| III   | Full MCL resource mapping (via codegen)                | ✅ Implemented |
+| IV    | External secrets integration (Vault, 1Password, SOPS)  | 🔄 Planned    |
+| V     | Live mgmt evaluation backend (MCL codegen refactor)    | 🔄 Planned    |
+| VI    | Full dynamic dependencies (signals between hosts)      | 🚧 Research   |
+| VII   | Cross-platform expansion (macOS via nix-darwin)        | 🚧 Research   |
+| VIII  | Conceptual FRP primitives in Nix (mkSignal, mkDynamic) | 🚧 Research   |
