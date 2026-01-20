@@ -5,18 +5,18 @@
     nixpkgs.url = "github:karpfediem/nixpkgs?ref=update-mgmt-1.0.0";
     flake-parts.url = "github:hercules-ci/flake-parts";
 
-    rxnix.url = "github:karpfediem/rx.nix";
-    rxnix.inputs.nixpkgs.follows = "nixpkgs";
+    rx.url = "github:karpfediem/rx.nix";
+    rx.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ self, nixpkgs, flake-parts, rxnix, ... }:
+  outputs = inputs@{ self, nixpkgs, flake-parts, rx, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } ({
       # Import the provider's flake module
       # Include a separate config file that sets rx.files (to show how users would do it)
       # The flake-parts way to add more module code is via imports, but inside the consumer
       # we can just include it here too:
       imports = [
-        rxnix.flakeModules.default
+        rx.flakeModules.default
       ];
       systems = [ "x86_64-linux" ];
 
@@ -24,18 +24,21 @@
         demo = lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
-            rxnix.nixosModules.default # import the rxnix nixos module
+            rx.nixosModules.default # import the rx.nix nixos module
             # You can now use rx module options inside your modules
             ({ ... }: {
               rx.enable = true;
+              rx.mgmt.enable = true;
 
               rx.res.file."/tmp/test" = {
+                state = "exists";
                 source = "/etc/hosts";
                 owner = "carp";
                 group = "users";
               };
 
               rx.res.file."/tmp/hello" = {
+                state = "exists";
                 content = "Hello from rx module\n";
                 owner = "carp";
                 group = "users";

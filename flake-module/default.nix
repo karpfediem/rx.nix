@@ -6,15 +6,19 @@ localFlake:
 let
   inherit (lib) mapAttrs;
 
-  genForHost = import ./lib/outputs-for-host.nix { inherit lib self withSystem; };
+  allHosts = self.nixosConfigurations or {};
 
-  allHosts = (self.nixosConfigurations or {});
-  # Use the consumer's `self` inside ir-for-system
-  irForSystem = import ./lib/ir/ir-for-system.nix { inherit lib self; };
-  buildGens   = import ./lib/build/build-gens.nix;
+  genForHost = import ../lib/outputs-for-host.nix {
+    inherit lib self withSystem allHosts;
+  };
+
+  irForSystem = import ../lib/ir/ir-for-system.nix {
+    inherit lib self allHosts;
+  };
+
+  buildGens = import ../lib/build/build-gens.nix;
 in
 {
-  # ------------------------- perSystem outputs -------------------------------
   perSystem = { pkgs, system, ... }:
   let
     irByHost = irForSystem system;
@@ -23,19 +27,22 @@ in
     selectedPaths =
       lib.mapAttrs (_host: ir: map (f: f.path) (ir.files or [])) irByHost;
 
-    # pull the evaluated nixosConfigurations for this system so we can inspect rx.*
-    hosts =
-      let all = (self.nixosConfigurations or {});
-      in lib.filterAttrs (_: cfg:
-        let sys = (cfg.pkgs.stdenv.hostPlatform.system or cfg.pkgs.system or null);
-        in sys == system
-      ) all;
+    hostsForSystem =
+      lib.filterAttrs (_: nixosCfg:
+        let
+          hostSys =
+            nixosCfg.pkgs.stdenv.hostPlatform.system
+              or nixosCfg.pkgs.system
+              or null;
+        in
+        hostSys == system
+      ) allHosts;
 
     rxView = lib.mapAttrs (_: nixosCfg: {
-      enable = nixosCfg.config.rx.enable or false;
+      enable        = nixosCfg.config.rx.enable or false;
       include_files = nixosCfg.config.rx.include.files or {};
       exclude_files = nixosCfg.config.rx.exclude.files or {};
-    }) hosts;
+    }) hostsForSystem;
   in
   {
     packages.rx-selected = pkgs.writeText "rx-selected.json" (builtins.toJSON selectedPaths);
@@ -55,17 +62,15 @@ in
     }) gens;
   };
 
-  # ------------------------- top-level aggregation ---------------------------
-
-  # flake.rxSystems.${system}.${host} = derivation
   flake.rxSystems =
     let systems = config.systems or [ "x86_64-linux" ];
     in builtins.listToAttrs (map
       (sys: {
         name = sys;
         value = localFlake.withSystem sys ({ pkgs, ... }:
-          let
-            irByHost = (import ./lib/ir/ir-for-system.nix { inherit lib self; }) sys;
+          let irByHost = (import ../lib/ir/ir-for-system.nix {
+                inherit lib self allHosts;
+              }) sys;
           in buildGens { inherit pkgs irByHost; }
         );
       })

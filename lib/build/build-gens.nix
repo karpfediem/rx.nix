@@ -9,7 +9,7 @@ let
   writeRollback = import ./write-rollback.nix { profilePath = "/nix/var/nix/profiles/mgmt/current"; };
 
   pkgs' = pkgs.extend (final: prev: {
-    rx-codegen = final.callPackage ../../../pkgs/codegen.nix { };
+    rx-codegen = final.callPackage ../../pkgs/codegen.nix { };
   });
 in
 pkgs.lib.mapAttrs

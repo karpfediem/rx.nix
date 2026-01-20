@@ -1,4 +1,4 @@
-{ lib, self }:
+{ lib, self, allHosts }:
 
 # Build the intermediate representation (IR) map for a single CPU system:
 #   system -> { host = { files = [ ... ] ; } ; ... }
@@ -6,9 +6,7 @@
 let
   inherit (lib) mapAttrs filterAttrs;
 
-  discoverHosts = system:
-    let all = (self.nixosConfigurations or { });
-    in filterAttrs
+  discoverHosts = system: filterAttrs
       (_: cfg:
         let
           hostSys =
@@ -18,7 +16,7 @@ let
         in
         hostSys == system
       )
-      all;
+      allHosts;
 
 in
 system:

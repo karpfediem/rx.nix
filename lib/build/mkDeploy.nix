@@ -1,6 +1,6 @@
 # Build deploy dir from IR; the codegen decides shape and filenames.
 { name, ir }:
-{ stdenvNoCC, rx-codegen }:
+{ stdenvNoCC, callPackage, rx-codegen ? callPackage ../../pkgs/codegen.nix {} }:
 
 stdenvNoCC.mkDerivation {
   pname = "rxnix-deploy-${name}";
