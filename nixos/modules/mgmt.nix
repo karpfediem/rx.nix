@@ -100,7 +100,10 @@ in
 
     # Activation: set mgmt profile to the generation produced by this config
     (mkIf (cfg.user == null) {
-      system.activationScripts.rxSwitch = "rx-switch";
+      system.activationScripts.rxSwitch = {
+        deps = [ "etc" "usrbinenv" ];
+        text = "rx-switch";
+      };
     })
 
     # Systemd system service
