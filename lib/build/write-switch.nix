@@ -1,10 +1,6 @@
-{ mgmtBin ? "mgmt"
-, profilePath ? "/nix/var/nix/profiles/mgmt/current"
-, bash ? "/bin/sh"
-}:
-
+{ profilePath ? "/nix/var/nix/profiles/mgmt/current" }:
 ''
-  #!${bash}
+  #!/usr/bin/env bash
   set -euo pipefail
 
   # ----------------------------------------------------------------------------

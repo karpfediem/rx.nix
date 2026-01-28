@@ -2,10 +2,7 @@
 
 let
   mkDeploy = import ./mkDeploy.nix;
-  writeSwitch = import ./write-switch.nix {
-    mgmtBin = "${pkgs.mgmt}/bin/mgmt";
-    profilePath = "/nix/var/nix/profiles/mgmt/current";
-  };
+  writeSwitch = import ./write-switch.nix { profilePath = "/nix/var/nix/profiles/mgmt/current"; };
   writeRollback = import ./write-rollback.nix { profilePath = "/nix/var/nix/profiles/mgmt/current"; };
 
   pkgs' = pkgs.extend (final: prev: {
@@ -22,6 +19,12 @@ pkgs.lib.mapAttrs
     version = "0.0.1";
     preferLocalBuild = true;
     allowSubstitutes = false;
+    propagatedBuildInputs = with pkgs; [
+      bash
+      nixVersions.latest
+      systemdMinimal
+      coreutils-full
+    ];
     buildCommand = ''
               set -euo pipefail
               mkdir -p "$out"
