@@ -16,7 +16,7 @@
         flakeModules.default = flake-parts-lib.importApply ./flake-module { inherit withSystem; };
         nixosModules.default = import ./nixos;
         templates.default = {
-          path = ./templates/default/flake.nix;
+          path = ./templates/default;
           description = "Consumer showcase";
         };
       };
