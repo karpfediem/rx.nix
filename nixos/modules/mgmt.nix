@@ -17,14 +17,14 @@ let
   # ---- 1) Construct per-host IR directly from this host's NixOS config ----
   hostIR =
     let
-      rx = config.rx or {};
-      mcl = rx.mcl or {};
+      rx = config.rx or { };
+      mcl = rx.mcl or { };
     in
     {
-      imports = lib.lists.unique ([ "deploy" ] ++ (mcl.imports or []));
-      vars    = mcl.vars or {};
-      raw     = mcl.raw or [];
-      res     = (rx.res or {});
+      imports = lib.lists.unique ([ "deploy" ] ++ (mcl.imports or [ ]));
+      vars = mcl.vars or { };
+      raw = mcl.raw or [ ];
+      res = (rx.res or { });
     };
 
   # ---- 2) Build deploy derivation for this host ----
@@ -97,6 +97,18 @@ in
 
     # Provide rx-switch command
     { environment.systemPackages = [ rxSwitchPkg ]; }
+    # Provide packages in system closure (prevent download during no-network activation scripts)
+    # These need to include the runtime deps of the switcher scripts
+    {
+      system.extraDependencies = with pkgs; [
+        rxDeploy
+        rxSwitchPkg
+        bash
+        nixVersions.latest
+        systemdMinimal
+        coreutils-full
+      ];
+    }
 
     # Activation: set mgmt profile to the generation produced by this config
     (mkIf (cfg.user == null) {
@@ -120,7 +132,7 @@ in
 
           # mgmt is a configuration management tool. It will very likely need to read and modify the real filesystem.
           PrivateTmp = false;
-          ProtectSystem = "off";  # equivalent to not setting it; explicit for clarity
+          ProtectSystem = "off"; # equivalent to not setting it; explicit for clarity
           ProtectHome = false;
           # TODO restrict permissions if possible (PoC for now)
           User = "root";
