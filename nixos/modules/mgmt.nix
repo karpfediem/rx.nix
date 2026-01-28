@@ -102,7 +102,7 @@ in
     (mkIf (cfg.user == null) {
       system.activationScripts.rxSwitch = {
         deps = [ "etc" "usrbinenv" ];
-        text = "rx-switch";
+        text = "${rxSwitchPkg}/bin/rx-switch";
       };
     })
 
