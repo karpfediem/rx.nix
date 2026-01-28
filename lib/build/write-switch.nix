@@ -40,7 +40,7 @@
   # ----------------------------------------------------------------------------
   GEN="''${1:-}"
   if [ -z "$GEN" ]; then
-    die "usage: $0 /nix/store/...-rxnix-gen-<host>"
+    die "usage: $0 /nix/store/...-rx-deploy-<host>"
   fi
   if [[ "$GEN" != /* ]]; then
     die "invalid GEN (must be absolute): $GEN"

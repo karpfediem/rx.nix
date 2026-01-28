@@ -32,7 +32,7 @@ let
   deployDrv = pkgs.callPackage (import ../../lib/build/mkDeploy.nix { ir = hostIR; inherit deployName; }) { };
 
   # ---- 3) Scripts embedded into the generation output ----
-  genPkg = pkgs.callPackage ../../pkgs/switchers.nix { inherit deployName deployDrv; };
+  rxDeploy = pkgs.callPackage ../../pkgs/deploy.nix { inherit deployName deployDrv; };
 
   rxSwitchPkg = pkgs.writeShellApplication {
     name = "rx-switch";
@@ -44,7 +44,7 @@ let
     ];
     text = ''
       set -euo pipefail
-      GEN=${escapeShellArg genPkg}
+      GEN=${escapeShellArg rxDeploy}
       exec "$GEN/switch-to-configuration" "$GEN"
     '';
   };
@@ -89,9 +89,9 @@ in
   };
 
   config = mkIf cfg.enable (mkMerge [
-    # Expose the generation package under build for debugging/introspection
+    # Expose the generation and switch package under build for debugging/introspection
     {
-      system.build.rxMgmtGen = genPkg;
+      system.build.rxDeploy = rxDeploy;
       system.build.rxSwitchPkg = rxSwitchPkg;
     }
 

@@ -11,6 +11,6 @@ pkgs.lib.mapAttrs
   let
     deployDrv = pkgs'.callPackage (mkDeploy { inherit ir deployName; }) { };
   in
-  pkgs.callPackage ../../pkgs/switchers.nix { inherit deployName deployDrv; }
+  pkgs.callPackage ../../pkgs/deploy.nix { inherit deployName deployDrv; }
   )
   irByHost

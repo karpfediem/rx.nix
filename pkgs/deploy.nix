@@ -12,7 +12,7 @@ let
   writeRollback = import ../lib/build/write-rollback.nix { inherit profilePath; };
 in
 stdenvNoCC.mkDerivation {
-  pname = "rxnix-gen-${deployName}";
+  pname = "rx-deploy-${deployName}";
   version = "0.0.1";
   preferLocalBuild = true;
   allowSubstitutes = false;
