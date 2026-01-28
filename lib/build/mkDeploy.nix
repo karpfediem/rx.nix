@@ -1,9 +1,9 @@
 # Build deploy dir from IR; the codegen decides shape and filenames.
-{ name, ir }:
+{ deployName, ir }:
 { stdenvNoCC, callPackage, rx-codegen ? callPackage ../../pkgs/codegen.nix {} }:
 
 stdenvNoCC.mkDerivation {
-  pname = "rxnix-deploy-${name}";
+  pname = "rxnix-deploy-${deployName}";
   version = "0.0.4";
   nativeBuildInputs = [ rx-codegen ];
   preferLocalBuild = true;

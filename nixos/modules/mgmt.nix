@@ -28,41 +28,11 @@ let
     };
 
   # ---- 2) Build deploy derivation for this host ----
-  mkDeploy = import ../../lib/build/mkDeploy.nix;
-  deployDrv = pkgs.callPackage (mkDeploy { ir = hostIR; name = config.networking.hostName or "host"; }) {};
+  deployName = config.networking.hostName or "host";
+  deployDrv = pkgs.callPackage (import ../../lib/build/mkDeploy.nix { ir = hostIR; inherit deployName; }) { };
 
   # ---- 3) Scripts embedded into the generation output ----
-  writeSwitch = import ../../lib/build/write-switch.nix {
-    mgmtBin = "${cfg.package}/bin/mgmt";
-    profilePath = cfg.profilePath;
-    bash = "${pkgs.bash}/bin/bash";
-  };
-
-  writeRollback = import ../../lib/build/write-rollback.nix { profilePath = cfg.profilePath; };
-
-  genPkg = pkgs.stdenvNoCC.mkDerivation {
-    pname = "rxnix-gen-${config.networking.hostName or "host"}";
-    version = "0.0.1";
-    preferLocalBuild = true;
-    allowSubstitutes = false;
-
-    buildCommand = ''
-      set -euo pipefail
-      mkdir -p "$out"
-
-      ln -s "${deployDrv}/deploy" "$out/deploy"
-
-      cat > "$out/switch-to-configuration" <<'SH'
-${writeSwitch}
-SH
-      chmod +x "$out/switch-to-configuration"
-
-      cat > "$out/rollback" <<'SH'
-${writeRollback}
-SH
-      chmod +x "$out/rollback"
-    '';
-  };
+  genPkg = pkgs.callPackage ../../pkgs/switchers.nix { inherit deployName deployDrv; };
 
   rxSwitchPkg = pkgs.writeShellApplication {
     name = "rx-switch";
