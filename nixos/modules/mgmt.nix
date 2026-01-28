@@ -36,7 +36,12 @@ let
 
   rxSwitchPkg = pkgs.writeShellApplication {
     name = "rx-switch";
-    runtimeInputs = with pkgs; [ coreutils systemd nix bash ];
+    runtimeInputs = with pkgs; [
+      bash
+      nixVersions.latest
+      systemdMinimal
+      coreutils-full
+    ];
     text = ''
       set -euo pipefail
       GEN=${escapeShellArg genPkg}
@@ -85,19 +90,17 @@ in
 
   config = mkIf cfg.enable (mkMerge [
     # Expose the generation package under build for debugging/introspection
-    { system.build.rxMgmtGen = genPkg; }
+    {
+      system.build.rxMgmtGen = genPkg;
+      system.build.rxSwitchPkg = rxSwitchPkg;
+    }
 
     # Provide rx-switch command
     { environment.systemPackages = [ rxSwitchPkg ]; }
 
     # Activation: set mgmt profile to the generation produced by this config
     (mkIf (cfg.user == null) {
-      system.activationScripts.rxSwitch = ''
-        set -euo pipefail
-        GEN=${escapeShellArg genPkg}
-        echo "rx.mgmt: invoking switch-to-configuration for $GEN" >&2
-        "$GEN/switch-to-configuration" "$GEN"
-      '';
+      system.activationScripts.rxSwitch = "rx-switch";
     })
 
     # Systemd system service
