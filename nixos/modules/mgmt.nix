@@ -119,6 +119,9 @@ in
           PrivateTmp = false;
           ProtectSystem = "off";  # equivalent to not setting it; explicit for clarity
           ProtectHome = false;
+          # TODO restrict permissions if possible (PoC for now)
+          User = "root";
+          Group = "root";
 
           # Keep a dedicated state dir for mgmt runtime data (etcd, caches, etc.)
           WorkingDirectory = dataDir;
