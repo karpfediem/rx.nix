@@ -91,24 +91,24 @@
 
     unit_exists_system() {
       local systemctl_bin="$1"
-      "$systemctl_bin" --system cat mgmt-apply.service >/dev/null 2>&1
+      "$systemctl_bin" --system cat mgmt.service >/dev/null 2>&1
     }
 
     unit_exists_user() {
       local systemctl_bin="$1"
-      "$systemctl_bin" --user cat mgmt-apply.service >/dev/null 2>&1
+      "$systemctl_bin" --user cat mgmt.service >/dev/null 2>&1
     }
 
     restart_system_unit() {
       local systemctl_bin="$1"
       as_root "$systemctl_bin" --system daemon-reload || true
-      as_root "$systemctl_bin" --system restart mgmt-apply.service
+      as_root "$systemctl_bin" --system restart mgmt.service
     }
 
     restart_user_unit() {
       local systemctl_bin="$1"
       "$systemctl_bin" --user daemon-reload || true
-      "$systemctl_bin" --user restart mgmt-apply.service
+      "$systemctl_bin" --user restart mgmt.service
     }
 
     # ----------------------------------------------------------------------------
@@ -156,21 +156,21 @@
       fi
 
       if unit_exists_system "$SYSTEMCTL"; then
-        log "action: restart mgmt-apply.service (system)"
+        log "action: restart mgmt.service (system)"
         restart_system_unit "$SYSTEMCTL"
         log "result: UPDATED+RESTARTED (system)"
         exit 0
       fi
 
       if unit_exists_user "$SYSTEMCTL"; then
-        log "action: restart mgmt-apply.service (user)"
+        log "action: restart mgmt.service (user)"
         restart_user_unit "$SYSTEMCTL"
         log "result: UPDATED+RESTARTED (user)"
         exit 0
       fi
     fi
 
-    log "result: UPDATED (mgmt-apply.service not found; restart skipped)"
+    log "result: UPDATED (mgmt.service not found; restart skipped)"
     exit 0
   '';
 }

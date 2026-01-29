@@ -5,7 +5,7 @@ let
 
   cfg = config.rx.mgmt;
 
-  defaultStateName = "mgmt-apply";
+  defaultStateName = "mgmt";
 
   defaultDataDir =
     if cfg.user == null
@@ -60,7 +60,7 @@ in
     package = mkOption {
       type = types.package;
       default = pkgs.mgmt;
-      description = "mgmt package to use for the mgmt-apply service";
+      description = "mgmt package to use for the mgmt service";
     };
 
     user = mkOption {
@@ -120,7 +120,7 @@ in
 
     # Systemd system service
     (mkIf (cfg.user == null) {
-      systemd.services.mgmt-apply = {
+      systemd.services.mgmt = {
         description = "mgmt reactive apply (rx.nix)";
         after = [ "network-online.target" ];
         wants = [ "network-online.target" ];
@@ -155,7 +155,7 @@ in
     # Systemd user service
     # Activation switching is not yet implemented.
     (mkIf (cfg.user != null) {
-      systemd.user.services.mgmt-apply = {
+      systemd.user.services.mgmt = {
         description = "mgmt reactive apply (rx.nix, user)";
         wantedBy = [ "default.target" ];
         serviceConfig = {
