@@ -29,10 +29,10 @@ let
 
   # ---- 2) Build deploy derivation for this host ----
   deployName = config.networking.hostName or "host";
-  deployDrv = pkgs.callPackage (import ../../lib/build/mkDeploy.nix { ir = hostIR; inherit deployName; }) { };
+  moduleDrv = pkgs.callPackage (import ../../pkgs/module.nix { inherit deployName; ir = hostIR; }) { };
 
   # ---- 3) Scripts embedded into the generation output ----
-  rxDeploy = pkgs.callPackage ../../pkgs/deploy.nix { inherit deployName deployDrv; };
+  rxGeneration = pkgs.callPackage ../../pkgs/generation.nix { inherit deployName moduleDrv; };
 
   rxSwitchPkg = pkgs.writeShellApplication {
     name = "rx-switch";
@@ -44,7 +44,7 @@ let
     ];
     text = ''
       set -euo pipefail
-      GEN=${escapeShellArg rxDeploy}
+      GEN=${escapeShellArg rxGeneration}
       exec "$GEN/switch-to-configuration" "$GEN"
     '';
   };
@@ -91,7 +91,7 @@ in
   config = mkIf cfg.enable (mkMerge [
     # Expose the generation and switch package under build for debugging/introspection
     {
-      system.build.rxDeploy = rxDeploy;
+      system.build.rxGeneration = rxGeneration;
       system.build.rxSwitchPkg = rxSwitchPkg;
     }
 
@@ -101,7 +101,7 @@ in
     # These need to include the runtime deps of the switcher scripts
     {
       system.extraDependencies = with pkgs; [
-        rxDeploy
+        rxGeneration
         rxSwitchPkg
         bash
         nixVersions.latest

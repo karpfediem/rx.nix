@@ -1,10 +1,10 @@
-# Build deploy dir from IR; the codegen decides shape and filenames.
+# Build mgmt module (deploy dir) from IR; the codegen decides shape and filenames.
 { deployName, ir }:
-{ stdenvNoCC, callPackage, rx-codegen ? callPackage ../../pkgs/codegen.nix {} }:
+{ stdenvNoCC, callPackage, rx-codegen ? callPackage ./codegen.nix {} }:
 
 stdenvNoCC.mkDerivation {
-  pname = "rxnix-deploy-${deployName}";
-  version = "0.0.4";
+  pname = "rx-module-${deployName}";
+  version = "0.1.0";
   nativeBuildInputs = [ rx-codegen ];
   preferLocalBuild = true;
   allowSubstitutes = false;

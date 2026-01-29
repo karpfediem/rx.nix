@@ -16,7 +16,7 @@ let
     inherit lib self allHosts;
   };
 
-  buildGens = import ../lib/build/build-gens.nix;
+  buildGens = import ../lib/build/build-per-host-deploys.nix;
 in
 {
   perSystem = { pkgs, system, ... }:
