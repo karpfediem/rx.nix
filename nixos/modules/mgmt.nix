@@ -1,7 +1,10 @@
 { lib, pkgs, config, ... }:
 
 let
-  inherit (lib) mkIf mkMerge mkEnableOption mkOption mkDefault types escapeShellArg stringAfter;
+  inherit (lib)
+    mkIf mkMerge mkEnableOption mkOption mkDefault
+    types escapeShellArg optionalString concatStringsSep
+    makeBinPath makeSearchPath escapeShellArgs;
 
   cfg = config.rx.mgmt;
 
@@ -49,27 +52,33 @@ let
     '';
   };
 
-  # Build Service ExecStart command
   # PATH pieces from user-provided packages.
-  extraBinPath = lib.makeBinPath cfg.path;
-  extraSbinPath = lib.makeSearchPath "sbin" cfg.path;
+  extraBinPath = makeBinPath cfg.path;
+  extraSbinPath = makeSearchPath "sbin" cfg.path;
 
-  # Compose the extra PATH suffix only if non-empty (prevents trailing "::").
   extraPkgPath =
-    lib.concatStringsSep ":" (lib.filter (s: s != "") [ extraBinPath extraSbinPath ]);
+    concatStringsSep ":" (lib.filter (s: s != "") [ extraBinPath extraSbinPath ]);
 
-  execStartCmd =
-    "${cfg.package}/bin/mgmt run lang ${cfg.profilePath}/deploy/metadata.yaml --no-network --prefix ${dataDir}";
+  # mgmt invocation:
+  # Put mgmt "run" flags BEFORE the "lang" subcommand; this matches documented examples.
+  mgmtArgs =
+    [ "run" ]
+    ++ cfg.runArgs
+    ++ [
+      "lang"
+      "${cfg.profilePath}/deploy/metadata.yaml"
+      "--no-network"
+      "--prefix"
+      dataDir
+    ];
+
   mgmtExec = pkgs.writeShellScript "mgmt-exec" ''
     set -euo pipefail
 
     # Keep systemd’s default PATH, but ensure common NixOS “profiles” are visible.
-    # - /run/current-system/sw/* : “installed” system profile
-    # - /run/wrappers/bin        : setuid wrappers
-    # - cfg.profilePath/*        : your mgmt profile symlink
-    export PATH="/run/current-system/sw/bin:/run/current-system/sw/sbin:/run/wrappers/bin:$PATH${lib.optionalString (extraPkgPath != "") ":${extraPkgPath}"}"
+    export PATH="/run/current-system/sw/bin:/run/current-system/sw/sbin:/run/wrappers/bin:$PATH${optionalString (extraPkgPath != "") ":${extraPkgPath}"}"
 
-    exec ${execStartCmd}
+    exec ${cfg.package}/bin/mgmt ${escapeShellArgs mgmtArgs}
   '';
 
 in
@@ -96,6 +105,27 @@ in
       '';
     };
 
+    # extra flags for "mgmt run ..."
+    runArgs = mkOption {
+      type = types.listOf types.str;
+      default = [ ];
+      description = ''
+        Extra command-line arguments inserted after `mgmt run` and before `lang ...`.
+
+        Use this to configure etcd/seeds/ssh tunnelling/etc, e.g.:
+          [ "--no-server" "--seeds=http://10.0.2.2:2379" ].
+      '';
+    };
+
+    # extra environment variables for the unit
+    env = mkOption {
+      type = types.attrsOf types.str;
+      default = { };
+      description = ''
+        Extra environment variables to pass to the mgmt systemd unit.
+        This is merged into the unit's `environment` attribute.
+      '';
+    };
 
     user = mkOption {
       type = types.nullOr types.str;
@@ -160,6 +190,8 @@ in
         wants = [ "network-online.target" ];
         wantedBy = [ "multi-user.target" ];
 
+        environment = cfg.env;
+
         serviceConfig = {
           Type = "simple";
           ExecStart = mgmtExec;
@@ -192,6 +224,9 @@ in
       systemd.user.services.mgmt = {
         description = "mgmt reactive apply (rx.nix, user)";
         wantedBy = [ "default.target" ];
+
+        environment = cfg.env;
+
         serviceConfig = {
           Type = "simple";
           ExecStartPre = "${pkgs.coreutils}/bin/mkdir -p -- ${dataDir}";
