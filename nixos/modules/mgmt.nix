@@ -49,8 +49,28 @@ let
     '';
   };
 
+  # Build Service ExecStart command
+  # PATH pieces from user-provided packages.
+  extraBinPath = lib.makeBinPath cfg.path;
+  extraSbinPath = lib.makeSearchPath "sbin" cfg.path;
+
+  # Compose the extra PATH suffix only if non-empty (prevents trailing "::").
+  extraPkgPath =
+    lib.concatStringsSep ":" (lib.filter (s: s != "") [ extraBinPath extraSbinPath ]);
+
   execStartCmd =
     "${cfg.package}/bin/mgmt run lang ${cfg.profilePath}/deploy/metadata.yaml --no-network --prefix ${dataDir}";
+  mgmtExec = pkgs.writeShellScript "mgmt-exec" ''
+    set -euo pipefail
+
+    # Keep systemd’s default PATH, but ensure common NixOS “profiles” are visible.
+    # - /run/current-system/sw/* : “installed” system profile
+    # - /run/wrappers/bin        : setuid wrappers
+    # - cfg.profilePath/*        : your mgmt profile symlink
+    export PATH="/run/current-system/sw/bin:/run/current-system/sw/sbin:/run/wrappers/bin:$PATH${lib.optionalString (extraPkgPath != "") ":${extraPkgPath}"}"
+
+    exec ${execStartCmd}
+  '';
 
 in
 {
@@ -62,6 +82,20 @@ in
       default = pkgs.mgmt;
       description = "mgmt package to use for the mgmt service";
     };
+
+    path = mkOption {
+      type = types.listOf types.package;
+      default = [ ];
+      description = ''
+        Extra packages to add to the PATH of the mgmt systemd unit.
+
+        This is appended at runtime (in a wrapper script) using lib.makeBinPath
+        (and also /sbin via lib.makeSearchPath "sbin"), so mgmt can find
+        external tools it execs (eg groupadd/useradd/etc) without overriding
+        the default systemd PATH option.
+      '';
+    };
+
 
     user = mkOption {
       type = types.nullOr types.str;
@@ -128,7 +162,7 @@ in
 
         serviceConfig = {
           Type = "simple";
-          ExecStart = execStartCmd;
+          ExecStart = mgmtExec;
 
           # mgmt is a configuration management tool. It will very likely need to read and modify the real filesystem.
           PrivateTmp = false;
@@ -161,7 +195,7 @@ in
         serviceConfig = {
           Type = "simple";
           ExecStartPre = "${pkgs.coreutils}/bin/mkdir -p -- ${dataDir}";
-          ExecStart = execStartCmd;
+          ExecStart = mgmtExec;
 
           Restart = "always";
           RestartSec = 2;
