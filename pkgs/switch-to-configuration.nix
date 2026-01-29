@@ -128,72 +128,46 @@
 
     as_root mkdir -p "$(dirname "$PROFILE")"
 
-    NIX_ENV="${nixVersions.latest}/bin/nix-env"
-    if [ -z "$NIX_ENV" ]; then
-      die "result: FAIL (nix-env not found)"
-    fi
-
-    NIX_BIN="${nixVersions.latest}/bin"
-    NIX_STORE="$NIX_BIN/nix-store"
-    NIX_ENV="$NIX_BIN/nix-env"
-    log "debug: mounts involving /nix and /var"
-    cat /proc/self/mountinfo | grep -E ' /nix($|/)| /var($|/)' || true
-
-    log "debug: nix state dir contents (pre)"
-    ls -la /nix/var/nix 2>&1 || true
-    ls -la /nix/var/nix/db 2>&1 || true
-    ls -la /nix/var/nix/db/db.sqlite 2>&1 || true
-
-
+    # Update the profile symlink
     if [ ! -e /nix/var/nix/db/db.sqlite ]; then
+      # We are in likely booting right now in Stage 2
       log "nix DB not available yet; falling back to symlink update"
-      as_root mkdir -p "$(dirname "$PROFILE")"
       as_root ln -sfn "$GEN" "$PROFILE"
       exit 0
     else
+      NIX_ENV="${nixVersions.latest}/bin/nix-env"
+      if [ -z "$NIX_ENV" ]; then
+        die "result: FAIL (nix-env not found)"
+      fi
       as_root "$NIX_ENV" --profile "$PROFILE" --set "$GEN"
     fi
-
-    log "debug: nix-env: $("$NIX_ENV" --version 2>&1 || true)"
-    log "debug: nix-store: $("$NIX_STORE" --version 2>&1 || true)"
-
-    log "debug: verify-path (local)"
-    if env NIX_REMOTE=local "$NIX_STORE" --verify-path "$GEN"; then
-      log "debug: verify-path OK"
-    else
-      log "debug: verify-path FAIL (rc=$?)"
-      env NIX_REMOTE=local "$NIX_STORE" --verify-path "$GEN" || true
-      exit 1
-    fi
-
-    log "debug: query deriver/refs (local)"
-    env NIX_REMOTE=local "$NIX_STORE" --query --deriver "$GEN" 2>&1 | sed 's/^/  /' >&2 || :
-    env NIX_REMOTE=local "$NIX_STORE" --query --references "$GEN" 2>&1 | head -n 20 | sed 's/^/  /' >&2 || :
-
 
     NEW_TARGET="$(resolve_link "$PROFILE")"
     if [ "$NEW_TARGET" != "$GEN" ]; then
       die "result: FAIL (profile update did not take effect; got: $(fmt_target "$NEW_TARGET"))"
     fi
 
-    SYSTEMCTL="${systemdMinimal}/bin/systemctl"
-    if [ -z "$SYSTEMCTL" ]; then
-      log "result: UPDATED (no systemctl; restart skipped)"
-      exit 0
-    fi
+    if [ ! -e /nix/var/nix/db/db.sqlite ]; then
+      # Also gatekeep systemd while booting
+      SYSTEMCTL="${systemdMinimal}/bin/systemctl"
+      if [ -z "$SYSTEMCTL" ]; then
+        log "result: UPDATED (no systemctl; restart skipped)"
+        exit 0
+      fi
 
-    if unit_exists_system "$SYSTEMCTL"; then
-      log "action: restart mgmt-apply.service (system)"
-      restart_system_unit "$SYSTEMCTL"
-      log "result: UPDATED+RESTARTED (system)"
-      exit 0
-    fi
+      if unit_exists_system "$SYSTEMCTL"; then
+        log "action: restart mgmt-apply.service (system)"
+        restart_system_unit "$SYSTEMCTL"
+        log "result: UPDATED+RESTARTED (system)"
+        exit 0
+      fi
 
-    if unit_exists_user "$SYSTEMCTL"; then
-      log "action: restart mgmt-apply.service (user)"
-      restart_user_unit "$SYSTEMCTL"
-      log "result: UPDATED+RESTARTED (user)"
-      exit 0
+      if unit_exists_user "$SYSTEMCTL"; then
+        log "action: restart mgmt-apply.service (user)"
+        restart_user_unit "$SYSTEMCTL"
+        log "result: UPDATED+RESTARTED (user)"
+        exit 0
+      fi
     fi
 
     log "result: UPDATED (mgmt-apply.service not found; restart skipped)"
