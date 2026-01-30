@@ -60,16 +60,14 @@ let
     concatStringsSep ":" (lib.filter (s: s != "") [ extraBinPath extraSbinPath ]);
 
   # mgmt invocation:
-  # Put mgmt "run" flags BEFORE the "lang" subcommand; this matches documented examples.
+  # Keep "run" flags before the "lang" subcommand.
   mgmtArgs =
     [ "run" ]
+    ++ lib.optionals cfg.noNetwork [ "--no-network" ]
     ++ cfg.runArgs
     ++ [
       "lang"
       "${cfg.profilePath}/deploy/metadata.yaml"
-    ]
-    ++ lib.optionals cfg.noNetwork [ "--no-network" ]
-    ++ [
       "--prefix"
       dataDir
     ];
@@ -82,12 +80,6 @@ let
 
     exec ${cfg.package}/bin/mgmt ${escapeShellArgs mgmtArgs}
   '';
-
-  # Helper used for assertions.
-  hasSeedOrURLsFlag = a:
-    a == "--seeds" || lib.hasPrefix "--seeds=" a ||
-    a == "--client-urls" || lib.hasPrefix "--client-urls=" a ||
-    a == "--server-urls" || lib.hasPrefix "--server-urls=" a;
 
 in
 {
@@ -175,27 +167,29 @@ in
   };
 
   config = mkIf cfg.enable (mkMerge [
-    # Fail early at eval time for known-bad combinations.
+    # Hard error if user requests a contradictory flag combination.
     {
-      assertions = [
-        {
-          assertion =
-            !(cfg.noNetwork && (lib.any hasSeedOrURLsFlag cfg.runArgs));
-          message = ''
-            rx.mgmt.noNetwork=true is incompatible with --seeds/--client-urls/--server-urls.
-            Set rx.mgmt.noNetwork = false when using external etcd seeds or explicit listen URLs.
-          '';
-        }
-        {
-          # Also catch the common env-var path if users follow mgmt docs and set MGMT_SEEDS.
-          assertion =
-            !(cfg.noNetwork && (cfg.env ? MGMT_SEEDS));
-          message = ''
-            rx.mgmt.noNetwork=true is incompatible with MGMT_SEEDS.
-            Set rx.mgmt.noNetwork = false when setting MGMT_SEEDS.
-          '';
-        }
-      ];
+      assertions =
+        let
+          hasPrefix = lib.strings.hasPrefix;
+          usesNetworkArgs = lib.any
+            (s:
+              hasPrefix "--seeds" s
+              || hasPrefix "--client-urls" s
+              || hasPrefix "--server-urls" s
+            )
+            cfg.runArgs;
+        in
+        [
+          {
+            assertion = !(cfg.noNetwork && usesNetworkArgs);
+            message = ''
+              rx.mgmt.noNetwork=true cannot be combined with runArgs that include
+              --seeds/--client-urls/--server-urls (mgmt rejects this).
+              Set rx.mgmt.noNetwork = false when using external etcd/seeding.
+            '';
+          }
+        ];
     }
 
     # Expose the generation and switch package under build for debugging/introspection
