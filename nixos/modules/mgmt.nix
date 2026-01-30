@@ -67,7 +67,9 @@ let
     ++ [
       "lang"
       "${cfg.profilePath}/deploy/metadata.yaml"
-      "--no-network"
+    ]
+    ++ lib.optionals cfg.noNetwork [ "--no-network" ]
+    ++ [
       "--prefix"
       dataDir
     ];
@@ -80,6 +82,12 @@ let
 
     exec ${cfg.package}/bin/mgmt ${escapeShellArgs mgmtArgs}
   '';
+
+  # Helper used for assertions.
+  hasSeedOrURLsFlag = a:
+    a == "--seeds" || lib.hasPrefix "--seeds=" a ||
+    a == "--client-urls" || lib.hasPrefix "--client-urls=" a ||
+    a == "--server-urls" || lib.hasPrefix "--server-urls=" a;
 
 in
 {
@@ -114,6 +122,20 @@ in
 
         Use this to configure etcd/seeds/ssh tunnelling/etc, e.g.:
           [ "--no-server" "--seeds=http://10.0.2.2:2379" ].
+      '';
+    };
+
+    # Control whether we pass --no-network (must be false when using seeds/urls).
+    noNetwork = mkOption {
+      type = types.bool;
+      default = false;
+      description = ''
+        If true, pass `--no-network` to mgmt.
+
+        Note: mgmt treats `--no-network` as mutually exclusive with
+        `--seeds`, `--client-urls`, and `--server-urls`. Set this to false
+        when you want mgmt to connect to external etcd seeds or listen on
+        explicit client/server URLs.
       '';
     };
 
@@ -153,6 +175,29 @@ in
   };
 
   config = mkIf cfg.enable (mkMerge [
+    # Fail early at eval time for known-bad combinations.
+    {
+      assertions = [
+        {
+          assertion =
+            !(cfg.noNetwork && (lib.any hasSeedOrURLsFlag cfg.runArgs));
+          message = ''
+            rx.mgmt.noNetwork=true is incompatible with --seeds/--client-urls/--server-urls.
+            Set rx.mgmt.noNetwork = false when using external etcd seeds or explicit listen URLs.
+          '';
+        }
+        {
+          # Also catch the common env-var path if users follow mgmt docs and set MGMT_SEEDS.
+          assertion =
+            !(cfg.noNetwork && (cfg.env ? MGMT_SEEDS));
+          message = ''
+            rx.mgmt.noNetwork=true is incompatible with MGMT_SEEDS.
+            Set rx.mgmt.noNetwork = false when setting MGMT_SEEDS.
+          '';
+        }
+      ];
+    }
+
     # Expose the generation and switch package under build for debugging/introspection
     {
       system.build.rxGeneration = rxGeneration;
